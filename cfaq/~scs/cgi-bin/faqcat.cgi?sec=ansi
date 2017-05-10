@@ -1,0 +1,2299 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file ansi.sgml dated Wed Aug 11 00:43:45 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/ansi/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>ANSI/ISO Standard C</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>11. ANSI/ISO Standard C</H1>
+<a name="ansi1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/ansi1.html"><!-- qtag -->Question 11.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What is the ``ANSI C Standard?''
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In 1983,
+the American National Standards Institute
+(ANSI)
+commissioned a
+committee, X3J11,
+to standardize the C language.
+After a long, arduous
+
+process,
+including several widespread public reviews,
+the committee's
+work
+was
+finally
+ratified as
+ANS
+X3.159-1989
+on December 14, 1989,
+and published
+in the spring of 1990.
+For the most part, ANSI C standardized existing practice,
+with a few additions from C++
+(most notably
+function prototypes) and
+support for multinational character sets (including the
+controversial
+trigraph sequences).
+The ANSI C standard also formalized the C run-time library
+support routines.
+
+</p><p>A year or so later,
+the Standard was
+adopted as
+an international standard,
+ISO/IEC&nbsp;9899:1990,
+and this ISO Standard replaced the earlier X3.159
+even within the United States
+(where it was known as
+
+
+
+
+ANSI/ISO 9899-1990 [1992]).
+As an ISO Standard,
+it is
+subject to ongoing revision
+through the release of Technical Corrigenda and Normative Addenda.
+</p><p>
+
+
+In 1994,
+Technical Corrigendum 1
+(TC1)
+amended the Standard
+in about 40 places,
+most of them minor corrections or clarifications,
+and
+Normative Addendum 1
+(NA1)
+added about 50 pages of new material,
+mostly specifying new library functions for internationalization.
+In 1995, TC2 added a few more minor corrections.
+</p><p>Most recently,
+a major revision of the Standard,
+``C99'',
+has been completed and adopted.
+</p><p>Several versions of the Standard,
+including C99 and
+the original ANSI Standard,
+have
+included a ``Rationale,''
+
+explaining many of its decisions,
+
+and discussing
+
+a number of subtle points,
+including several of those covered here.
+<hr><hr><hr>
+<a name="avail">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/avail.html"><!-- qtag -->Question 11.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I get a copy of the Standard?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+An electronic (PDF) copy is available on-line,
+for US$18,
+from <a href="http://www.ansi.org/"><TT>www.ansi.org</TT></a>.
+
+Paper copies
+are available
+in the United States
+from
+<blockquote><pre>
+American National Standards Institute
+11 W. 42nd St., 13th floor
+New York, NY  10036  USA
+(+1) 212 642 4900
+</pre>
+
+
+</blockquote>and
+<blockquote><pre>
+Global Engineering Documents
+15 Inverness Way E
+Englewood, CO  80112  USA
+(+1) 303 397 2715
+(800) 854 7179  (U.S. &amp; Canada)
+</pre>
+</blockquote>
+In other countries, contact the appropriate national standards body,
+or ISO in Geneva at:
+<blockquote>
+
+
+<pre>
+ISO Sales
+Case Postale 56
+CH-1211 Geneve 20
+Switzerland
+</pre>
+</blockquote><br>
+<br>
+(or
+see URL
+<a href="http://www.iso.ch"><TT>http://www.iso.ch</TT></a>
+or
+check
+the comp.std.internat FAQ list,
+Standards.Faq).
+</p><p>The
+
+
+
+mistitled
+<I>Annotated ANSI C Standard</I>,
+with annotations by Herbert Schildt,
+contains
+most of the
+text
+of ISO&nbsp;9899;
+it is published by Osborne/McGraw-Hill,
+ISBN 0-07-881952-0,
+and sells in the U.S. for approximately $40.
+It has been suggested
+that the price differential between this work and
+the official standard reflects the value of the annotations:
+they
+are plagued by numerous
+errors and omissions,
+and a few pages of the Standard itself are missing.
+Many people on the net recommend ignoring the annotations
+entirely.
+A review of the annotations
+(``annotated annotations'')
+by Clive Feather can be found
+on the web at
+
+
+
+
+<a href="http://www.lysator.liu.se/c/schildt.html"><TT>http://www.lysator.liu.se/c/schildt.html</TT></a>
+.
+</p><p>The text of the
+original ANSI Rationale
+can be obtained by
+anonymous ftp
+from ftp.uu.net
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>)
+in directory
+doc/standards/ansi/X3.159-1989,
+
+and is also available on the web at
+<a href="http://www.lysator.liu.se/c/rat/title.html"><TT>http://www.lysator.liu.se/c/rat/title.html</TT></a>
+
+.
+That Rationale
+
+has
+also
+been printed by Silicon Press,
+ISBN 0-929306-07-4.
+
+</p><p>Public review drafts of C9X were available from
+<a href="http://www.dkuug.dk/JTC1/SC22/WG14/"><TT>ISO/IEC JTC1/SC22/WG14's
+web site</TT></a>.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#updates">11.2b</a>.
+<hr><hr><hr>
+<a name="updates">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/updates.html"><!-- qtag -->Question 11.2b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get information about updates to the Standard?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can find information
+(including C9X drafts)
+at
+the web sites
+<a href="http://www.lysator.liu.se/c/index.html"><TT>http://www.lysator.liu.se/c/index.html</TT></a>,
+<a href="http://www.dkuug.dk/JTC1/SC22/WG14/"><TT>http://www.dkuug.dk/JTC1/SC22/WG14/</TT></a>,
+and
+<a href="http://www.dmk.com/"><TT>http://www.dmk.com/</TT></a>
+.
+<hr><hr><hr>
+<a name="argpromos">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/argpromos.html"><!-- qtag -->Question 11.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My ANSI compiler
+complains about a mismatch when it sees
+<pre>
+	extern int func(float);
+
+	int func(x)
+	float x;
+	{ ...
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You have mixed the new-style
+prototype
+declaration ``<TT>extern&nbsp;int&nbsp;func(float);</TT>''
+with the old-style definition ``<TT>int&nbsp;func(x) float&nbsp;x;</TT>''.
+It is usually
+possible
+to mix the
+two
+styles
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#mixoldandnew">11.4</a>),
+but not in this case.
+</p><p>Old C
+(and ANSI C, in the absence of prototypes,
+and in
+
+variable-length argument lists;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#promos">15.2</a>)
+``widens'' certain arguments when they are passed to functions.
+<TT>float</TT>s
+are
+
+promoted to <TT>double</TT>,
+and
+
+characters and
+short integers
+are promoted to <TT>int</TT>.
+(For old-style function definitions,
+the values are automatically converted back
+to the corresponding narrower types
+within the body of the called function,
+if they are declared that way there.)
+
+Therefore,
+the old-style definition above
+actually says that <TT>func</TT> takes a <TT>double</TT>
+(which will be converted to <TT>float</TT> inside the function).
+</p><p>This problem can be fixed either by using new-style syntax
+consistently in the definition:
+<pre>
+	int func(float x) { ... }
+</pre>
+</p><p>or by changing the new-style prototype declaration to match the old-style
+definition:
+<pre>
+	extern int func(double);
+</pre>
+(In this case, it would be clearest to change the old-style
+definition to use <TT>double</TT> as well.
+<a href="fn49.html" rel=subdocument>[footnote]</a>
+)
+</p><p>It
+is arguably much
+safer
+
+
+to avoid ``narrow''
+(<TT>char</TT>, <TT>short&nbsp;int</TT>, and <TT>float</TT>)
+
+function arguments and return
+types
+
+altogether.
+
+</p><p>See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#implfdecl">1.25</a>.
+</p>
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. A7.1 p. 186
+<br>
+K&amp;R2 Sec. A7.3.2 p. 202
+<br>
+ISO Sec. 6.3.2.2, Sec. 6.5.4.3
+<br>
+Rationale Sec. 3.3.2.2, Sec. 3.5.4.3
+<br>
+H&amp;S Sec. 9.2 pp. 265-7, Sec. 9.4 pp. 272-3
+<hr><hr><hr>
+<a name="mixoldandnew">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/mixoldandnew.html"><!-- qtag -->Question 11.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Can you mix old-style and new-style
+function syntax?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Doing so is
+legal
+(and can be useful for backwards compatibility),
+but requires a certain amount of care
+(see
+especially
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>).
+Modern practice,
+however,
+is to
+use the prototyped form in both declarations and 
+definitions.
+(The
+old-style syntax is marked as obsolescent,
+so official support for it may be removed some day.)
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 6.7.1, Sec. 6.9.5
+<br>
+H&amp;S Sec. 9.2.2 pp. 265-7, Sec. 9.2.5 pp. 269-70
+<hr><hr><hr>
+<a name="structinproto">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/structinproto.html"><!-- qtag -->Question 11.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does the declaration
+<pre>
+extern int f(struct x *p);</pre>
+
+give me
+an obscure
+warning message
+about
+``struct x declared inside parameter list''?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In a quirk of C's normal block scoping rules,
+a
+structure declared
+(or even mentioned)
+for the first time
+within a prototype
+cannot be compatible with other structures
+declared in the same source file.
+(The problem is that the structure and the tag go
+out of scope at the end of the prototype;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#namespace">1.29</a>.)
+</p><p>To resolve the problem,
+you should probably rearrange things so that
+the actual declaration of the structure
+precedes the function prototype(s) using it.
+(Usually,
+both
+the prototype
+and
+the structure declaration
+will end up in the same header file,
+so that the one can reference the other.)
+If you must mention a hitherto-unseen structure
+in a prototype,
+precede the prototype with the
+vacuous-looking declaration
+<pre>
+	struct x;
+</pre>
+which
+places an
+(incomplete)
+declaration of <TT>struct&nbsp;x</TT> at file scope,
+so that all following declarations involving <TT>struct&nbsp;x</TT>
+can at least be sure they're referring to the same <TT>struct&nbsp;x</TT>.
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 6.1.2.1, Sec. 6.1.2.6, Sec. 6.5.2.3
+<hr><hr><hr>
+<a name="varargproto">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/varargproto.html"><!-- qtag -->Question 11.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I had a frustrating problem which turned out to be caused by the line
+<pre>
+	printf("%d", n);
+</pre>
+where <TT>n</TT> was actually a <TT>long&nbsp;int</TT>.
+I thought that ANSI function prototypes
+were supposed to guard against argument type mismatches like this.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#proto2">15.3</a>.
+<hr><hr><hr>
+<a name="varargproto2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/varargproto2.html"><!-- qtag -->Question 11.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I heard that you have to <TT>#include</TT> <TT>&lt;stdio.h&gt;</TT>
+before calling <TT>printf</TT>.
+Why?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#protos">15.1</a>.
+<hr><hr><hr>
+<a name="constasconst">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/constasconst.html"><!-- qtag -->Question 11.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I don't understand why I can't
+use <TT>const</TT> values in initializers and array
+dimensions,
+as in
+<pre>
+	const int n = 5;
+	int a[n];
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The <TT>const</TT> qualifier really means ``read-only'';
+an object so qualified is a
+run-time object
+which
+
+cannot (normally) be assigned to.
+The value of a <TT>const</TT>-qualified object is
+therefore
+<em>not</em>
+a constant expression
+in the full sense of the term,
+and cannot be used for array dimensions, case labels, and the like.
+
+(C is unlike C++ in this regard.)
+When you need a true compile-time constant,
+use a preprocessor <TT>#define</TT>
+(or perhaps an <TT>enum</TT>).
+</p>
+
+<p>References:
+
+ISO Sec. 6.4
+<br>
+H&amp;S Secs. 7.11.2,7.11.3 pp. 226-7
+<hr><hr><hr>
+<a name="strlitnotconst">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/strlitnotconst.html"><!-- qtag -->Question 11.8b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If you can't modify string literals,
+why aren't they defined as being
+arrays of <TT>const</TT> characters?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+One reason is that so very much code contains lines like
+<pre>
+	char *p = "Hello, world!";
+</pre>
+which are not necessarily incorrect.
+These lines would
+suffer
+the diagnostic messages,
+but it's really any later attempt to modify what <TT>p</TT> 
+points to
+which would be problems.
+
+<br></p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>.
+<hr><hr><hr>
+<a name="constptrconst">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/constptrconst.html"><!-- qtag -->Question 11.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<TT>const&nbsp;char&nbsp;*p</TT>,
+<TT>char&nbsp;const&nbsp;*p</TT>,
+and <TT>char&nbsp;*&nbsp;const&nbsp;p</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The first two
+
+are interchangeable;
+they
+declare
+a pointer to a constant character
+(you can't change
+any pointed-to characters).
+<TT>char&nbsp;*&nbsp;const&nbsp;p</TT>
+declares a constant pointer to a
+(variable)
+character
+(i.e. you can't change the pointer).
+</p><p>Read these
+declarations
+``inside out'' to understand them;
+see
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#cdecl1">1.21</a>.
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 6.5.4.1
+<br>
+Rationale Sec. 3.5.4.1
+<br>
+H&amp;S Sec. 4.4.4 p. 81
+<hr><hr><hr>
+<a name="constmismatch">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/constmismatch.html"><!-- qtag -->Question 11.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+
+
+Why can't I pass a <TT>char&nbsp;**</TT> to a function which expects a
+<TT>const&nbsp;char&nbsp;**</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can use a pointer-to-T (for any type T) where a
+pointer-to-const-T is expected.
+However,
+the
+rule
+(an explicit exception)
+which permits slight mismatches
+in qualified pointer
+types
+is not applied recursively,
+but only at the top level.
+(<TT>const&nbsp;char&nbsp;**</TT> is
+pointer-to-pointer-to-const-char,
+and the exception
+
+therefore does not apply.)
+</p><p>The reason that you cannot assign a
+<TT>char&nbsp;**</TT> value to a <TT>const&nbsp;char&nbsp;**</TT>
+pointer is somewhat obscure.
+Given that the <TT>const</TT> qualifier exists at all,
+the compiler would like to help you keep your promises not to 
+modify <TT>const</TT> values.
+That's why you can assign
+a <TT>char&nbsp;*</TT> to a <TT>const&nbsp;char&nbsp;*</TT>,
+but not the other way around:
+it's clearly safe to ``add'' <TT>const</TT>-ness to a simple pointer,
+but it would be dangerous to take it away.
+However, suppose you performed the following
+
+more complicated
+series of
+assignments:
+<pre>
+	const char c = 'x';		/* 1 */
+	char *p1;			/* 2 */
+	const char **p2 = &amp;p1;		/* 3 */
+	*p2 = &amp;c;			/* 4 */
+	*p1 = 'X';			/* 5 */
+</pre>
+In line 3,
+we assign a <TT>char&nbsp;**</TT> to a <TT>const&nbsp;char&nbsp;**</TT>.
+(The compiler should complain.)
+In line 4,
+we assign a <TT>const&nbsp;char&nbsp;*</TT> to a <TT>const&nbsp;char&nbsp;*</TT>;
+this is clearly legal.
+In line 5,
+we modify what a <TT>char&nbsp;*</TT> points to--this is supposed to be legal.
+However, <TT>p1</TT> ends up pointing to <TT>c</TT>,
+which is <TT>const</TT>.
+This came about in line 4,
+because <TT>*p2</TT> was really <TT>p1</TT>.
+This was set up in line 3,
+which is an assignment of a form that is disallowed,
+and this is exactly <em>why</em> line 3 is disallowed.
+</p><p>Assigning a <TT>char&nbsp;**</TT> to a <TT>const&nbsp;char&nbsp;**</TT>
+(as in line 3, and in the original question)
+is not immediately dangerous.
+But it sets up a situation in which <TT>p2</TT>'s promise--that
+the ultimately-pointed-to value won't be modified--cannot
+be kept.
+</p><p>(C++
+has more complicated rules
+for assigning <TT>const</TT>-qualified pointers
+which let you make more kinds of assignments
+without incurring warnings,
+but still protect against inadvertent attempts
+to modify <TT>const</TT> values.
+C++ would still not allow
+assigning a <TT>char&nbsp;**</TT> to a <TT>const&nbsp;char&nbsp;**</TT>,
+but it would let you get away with
+assigning a <TT>char&nbsp;**</TT>
+to a <TT>const&nbsp;char&nbsp;*&nbsp;const&nbsp;*</TT>.)
+</p><p>In C,
+if
+you must
+assign or pass
+pointers which have qualifier mismatches at
+other than the first level of indirection,
+you
+must use explicit casts
+(e.g. <TT>(const&nbsp;char&nbsp;**)</TT> in this case),
+although as always,
+the need for such a cast may indicate a deeper problem
+which the cast doesn't really fix.
+
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 6.1.2.6, Sec. 6.3.16.1, Sec. 6.5.3
+<br>
+H&amp;S Sec. 7.9.1 pp. 221-2
+<hr><hr><hr>
+<a name="typedefconst">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/typedefconst.html"><!-- qtag -->Question 11.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've got
+the declarations
+<pre>
+	typedef char *charp;
+	const charp p;
+</pre>
+Why is <TT>p</TT> turning out <TT>const</TT>,
+instead of the characters pointed to?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>typedef</TT> substitutions are not purely textual.
+(This is one of the advantages of <TT>typedef</TT>s;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#typedefvsdefine">1.13</a>.)
+In the declaration
+<pre>
+	const charp p;
+</pre>
+<TT>p</TT> is <TT>const</TT>
+for the same reason that <TT>const&nbsp;int&nbsp;i</TT>
+declares <TT>i</TT> as <TT>const</TT>.
+The <TT>typedef</TT>'ed declaration of <TT>p</TT>
+does not ``look inside'' the <TT>typedef</TT> to see that
+there is a pointer involved.
+</p><p>Additional links:
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#typedefconst2">further reading</a>
+</p>
+<p>References:
+
+H&amp;S Sec. 4.4.4 pp. 81-2
+<hr><hr><hr>
+<a name="constvsdefine2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/constvsdefine2.html"><!-- qtag -->Question 11.11b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<pre>
+	const MAXSIZE = 100;
+</pre>
+<pre>
+and
+</pre>
+<pre>
+	#define MAXSIZE 100
+</pre>
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#constvsdefine">10.5b</a>.
+<hr><hr><hr>
+<a name="maindecl">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/maindecl.html"><!-- qtag -->Question 11.12a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the correct declaration of <TT>main()</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are
+two valid declarations:
+<pre>
+	int main(void)
+	int main(int argc, char **argv)
+</pre>
+although they
+can
+be written in a variety of ways.
+The second parameter may be declared <TT>char *argv[]</TT>
+(see
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrparam">6.4</a>),
+you can use any names for the two parameters,
+and
+you can use
+old-style syntax:
+<pre>
+	int main()
+
+	int main(argc, argv)
+	int argc; char **argv;
+</pre>
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#voidmain">11.12b</a>
+to
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#voidmainbooks">11.15</a>.
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 5.1.2.2.1, Sec. G.5.1
+<br>
+H&amp;S Sec. 20.1 p. 416
+<br>
+CT&amp;P Sec. 3.10 pp. 50-51
+<hr><hr><hr>
+<a name="voidmain">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/voidmain.html"><!-- qtag -->Question 11.12b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+Can I declare <TT>main</TT> as <TT>void</TT>,
+to shut off these annoying
+``main returns no value'' messages?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+<TT>main</TT> must be declared as returning an <TT>int</TT>,
+and as
+taking either zero or two arguments,
+of the appropriate types.
+If you're calling <TT>exit()</TT> but still getting warnings,
+you may have to insert a redundant <TT>return</TT> statement
+(or use some kind
+of ``not reached'' directive,
+if available).
+</p><p>Declaring a function as <TT>void</TT> does not merely
+shut off or rearrange
+warnings:
+it may also result in a different
+
+function call/return sequence,
+
+incompatible with what the caller
+(in <TT>main</TT>'s case, the C run-time startup code)
+expects.
+
+That is,
+if the calling sequences for <TT>void</TT>-
+and <TT>int</TT>-valued functions differ,
+
+the startup code is going to be calling <TT>main</TT>
+using
+specifically the
+<TT>int</TT>-valued conventions,
+and if <TT>main</TT> has been improperly declared as <TT>void</TT>,
+it may not
+work.
+
+(See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#retcrash">2.18</a>.)
+</p><p>(Note that
+this discussion of <TT>main</TT>
+pertains only to ``hosted'' implementations;
+none of it applies to ``freestanding'' implementations,
+which may not even have <TT>main</TT>.
+However,
+freestanding implementations are comparatively rare,
+and if you're using one,
+you probably know it.
+If you've never heard of the distinction,
+you're probably using a hosted implementation,
+and the above rules apply.)
+</p><p>Additional links:
+<a href="sd11.html" rel=subdocument>further reading</a>
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 5.1.2.2.1, Sec. G.5.1
+<br>
+H&amp;S Sec. 20.1 p. 416
+<br>
+CT&amp;P Sec. 3.10 pp. 50-51
+<hr><hr><hr>
+<a name="envp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/envp.html"><!-- qtag -->Question 11.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+But what about <TT>main</TT>'s third argument,
+<TT>envp</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's a non-standard
+(though common)
+extension.
+If you really need to access the environment
+in ways beyond what the standard
+<TT>getenv</TT> function provides,
+though,
+the global variable <TT>environ</TT> is probably
+a better avenue
+(though it's equally non-standard).
+</p>
+
+<p>References:
+
+ISO Sec. G.5.1
+<br>
+H&amp;S Sec. 20.1 pp. 416-7
+<hr><hr><hr>
+<a name="voidmain3">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/voidmain3.html"><!-- qtag -->Question 11.14a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I believe that declaring <TT>void&nbsp;main()</TT> can't fail,
+since I'm calling <TT>exit</TT> instead of returning,
+and anyway my operating system ignores a program's exit/return status.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It doesn't matter whether <TT>main</TT> returns or not,
+or whether anyone looks at the status;
+the problem is that
+when <TT>main</TT> is misdeclared,
+its caller
+(the runtime startup code)
+may not even be able to <em>call</em> it correctly
+(due to the potential clash of calling conventions;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#voidmain">11.12b</a>).
+</p><p>Your
+operating system may ignore the exit status,
+and <TT>void&nbsp;main()</TT> may work for you,
+but it is not portable and not correct.
+
+</p><p>Additional links:
+<a href="sd11.html" rel=subdocument>further reading</a>
+<hr><hr><hr>
+<a name="voidmainexamp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/voidmainexamp.html"><!-- qtag -->Question 11.14b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+So what could go wrong?
+Are there
+really any
+systems where <TT>void&nbsp;main()</TT> doesn't work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It has been reported that
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+programs using <TT>void&nbsp;main()</TT>
+and compiled using BC++&nbsp;4.5
+can crash.
+Some compilers
+(including
+
+
+
+DEC C V4.1
+and <TT>gcc</TT> with certain warnings enabled)
+will complain about <TT>void&nbsp;main()</TT>.
+</p><p>Additional links:
+<a href="http://www.eskimo.com/~scs/readings/voidmain.960823.html">further reading</a>
+<a href="sd12.html" rel=subdocument>examples</a>
+<hr><hr><hr>
+<a name="voidmainbooks">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/voidmainbooks.html"><!-- qtag -->Question 11.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+The book I've been using,
+<I>C Programing
+for the Compleat Idiot</I>,
+always uses <TT>void&nbsp;main()</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Perhaps its author
+counts himself among the target audience.
+Many books unaccountably use <TT>void&nbsp;main()</TT> in examples,
+and assert that it's correct.
+They're
+wrong,
+or they're assuming that everyone writes code
+for systems where it happens to work.
+<hr><hr><hr>
+<a name="exitvsreturn">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/exitvsreturn.html"><!-- qtag -->Question 11.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is <TT>exit(status)</TT> truly equivalent
+to returning the same <TT>status</TT> from <TT>main</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes and no.
+The Standard says that
+a return from the initial call to <TT>main</TT>
+is equivalent to calling <TT>exit</TT>.
+However,
+a <TT>return</TT> from <TT>main</TT>
+cannot be expected to work
+
+
+if
+data local to <TT>main</TT> might be needed
+during cleanup;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#crashatexit">16.4</a>.
+A few
+very old,
+nonconforming systems
+may
+once have had
+problems
+
+with one or the other form.
+(Finally, the
+two forms are obviously not equivalent
+in a recursive call to <TT>main</TT>.)
+</p>
+
+<p>References:
+
+K&amp;R2 Sec. 7.6 pp. 163-4
+<br>
+ISO Sec. 5.1.2.2.3
+<hr><hr><hr>
+<a name="stringize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/stringize.html"><!-- qtag -->Question 11.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to use
+the ANSI ``stringizing'' preprocessing operator
+`<TT>#</TT>'
+to insert the value of a symbolic constant into a message,
+but it keeps
+stringizing the macro's name rather than its
+value.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It turns out that
+the definition of <TT>#</TT>
+says that
+it's supposed to stringize
+a macro argument immediately,
+without further expanding it
+(if the argument happens to be
+the name of
+another macro).
+You can use
+something like the following
+two-step
+procedure
+to force a macro to be expanded as well as
+stringized:
+<pre>
+#define Str(x) #x
+#define Xstr(x) Str(x)
+#define OP plus
+char *opname = Xstr(OP);
+</pre>
+This
+code
+
+sets <TT>opname</TT> to <TT>"plus"</TT> rather than <TT>"OP"</TT>.
+(It works because
+the <TT>Xstr()</TT> macro expands its argument,
+and then <TT>Str()</TT> stringizes it.)
+<a href="fn50.html" rel=subdocument>[footnote]</a>
+</p><p>
+An equivalent circumlocution is necessary
+with the
+token-pasting
+operator <TT>##</TT>
+when the values
+(rather than the names)
+of two macros are to be concatenated.
+</p><p>
+Note that both <TT>#</TT> and <TT>##</TT> operate
+only during preprocessor macro expansion.
+You cannot use them in 
+
+normal
+
+source code,
+but
+only in macro definitions.
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 6.8.3.2, Sec. 6.8.3.5
+<hr><hr><hr>
+<a name="macstrexp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/macstrexp.html"><!-- qtag -->Question 11.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does the message
+``warning: macro replacement within a string literal''
+mean?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some
+pre-ANSI compilers/preprocessors
+
+interpreted macro definitions like
+<pre>
+	#define TRACE(var, fmt) printf("TRACE: var = fmt\n", var)
+</pre>
+such that invocations like
+<pre>
+	TRACE(i, %d);
+</pre>
+were expanded as
+<pre>
+	printf("TRACE: i = %d\n", i);
+</pre>
+In other words, macro parameters were
+expanded
+even inside
+
+
+
+string literals and character constants.
+(This interpretation may even have been an accident of early implementations,
+but it can prove useful for macros like this.)
+</p><p>Macro expansion is <em>not</em> defined in this way
+by K&amp;R or by Standard C.
+(It can be dangerous and confusing:
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#macstrexp2">10.22</a>.)
+When you do want
+to turn macro arguments into strings,
+you can use the new <TT>#</TT> preprocessing operator,
+along with string literal concatenation
+(another new ANSI feature):
+<pre>
+	#define TRACE(var, fmt) \
+		printf("TRACE: " #var " = " #fmt "\n", var)
+</pre>
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a>.
+</p>
+<p>References:
+
+H&amp;S Sec. 3.3.8 p. 51
+<hr><hr><hr>
+<a name="ifdefsyntax">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/ifdefsyntax.html"><!-- qtag -->Question 11.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm getting strange syntax errors inside
+lines
+I've
+<TT>#ifdef</TT>fed out.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Under ANSI C,
+the text inside a ``turned off''
+
+<TT>#if</TT>, <TT>#ifdef</TT>, or <TT>#ifndef</TT>
+must still consist of ``valid preprocessing
+tokens.''
+This means that
+
+
+
+the characters <TT>"</TT> and <TT>'</TT> must each be paired just as in
+real C code,
+and the pairs mustn't cross line boundaries.
+(Note particularly that an apostrophe
+within a contracted word
+looks like the beginning of a character constant.)
+Therefore, natural-language comments
+and pseudocode
+should always be written
+between the ``official'' comment delimiters <TT>/*</TT> and <TT>*/</TT>.
+(But see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#nestcomment">20.20</a>,
+and
+also
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#notgeneral">10.25</a>.)
+</p>
+
+
+<p>References:
+
+ISO Sec. 5.1.1.2, Sec. 6.1
+<br>
+H&amp;S Sec. 3.2 p. 40
+<hr><hr><hr>
+<a name="pragma">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/pragma.html"><!-- qtag -->Question 11.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What are <TT>#pragma</TT>s 
+and what are they good for?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The <TT>#pragma</TT> directive
+
+provides a single, well-defined
+``escape hatch'' which can be used for
+all sorts of
+(nonportable)
+implementation-specific controls and extensions:
+source listing control,
+structure packing,
+warning suppression
+(like <TT>lint</TT>'s old <TT>/*&nbsp;NOTREACHED&nbsp;*/</TT> comments),
+etc.
+</p>
+
+<p>References:
+
+ISO Sec. 6.8.6
+<br>
+H&amp;S Sec. 3.7 p. 61
+<hr><hr><hr>
+<a name="pragmaonce">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/pragmaonce.html"><!-- qtag -->Question 11.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does ``<TT>#pragma&nbsp;once</TT>'' mean?
+I found it in some header files.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is an extension implemented by some preprocessors to help make
+header files idempotent;
+that is,
+to make sure that
+their contents are processed exactly once
+even if they are <TT>#include</TT>d multiple times.
+It
+is
+equivalent to the
+<TT>#ifndef</TT> trick mentioned in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#nestincl">10.7</a>,
+though less portable.
+Some people claim that <TT>#pragma&nbsp;once</TT> can be implemented
+``more efficiently''
+(of course only compilation efficiency is a factor here),
+but in fact a preprocessor that is serious
+about compilation efficiency can arrange for the
+
+portable
+<TT>#ifndef</TT> trick to be handled just
+as efficiently.
+
+<hr><hr><hr>
+<a name="nonstrings">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/nonstrings.html"><!-- qtag -->Question 11.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is <TT>char&nbsp;a[3]&nbsp;=&nbsp;"abc";</TT> legal?
+What does it mean?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is legal
+
+
+in ANSI C
+(and perhaps in a few pre-ANSI systems),
+though useful only in rare circumstances.
+It declares an array of size three,
+initialized with the three characters <TT>'a'</TT>, <TT>'b'</TT>, and <TT>'c'</TT>,
+<em>without</em> the usual terminating <TT>'\0'</TT> character.
+
+
+The array is therefore not a true C string
+and cannot be used
+with <TT>strcpy</TT>,
+<TT>printf</TT>'s <TT>%s</TT> format,
+etc.
+</p><p>
+
+
+Most of the time, you should let the compiler count the 
+initializers when initializing arrays
+(in the case of the initializer <TT>"abc"</TT>, of course,
+the computed size will be 4).
+</p>
+
+<p>References:
+
+ISO Sec. 6.5.7
+<br>
+H&amp;S Sec. 4.6.4 p. 98
+<hr><hr><hr>
+<a name="aryvsadr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/aryvsadr.html"><!-- qtag -->Question 11.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Since array references decay into pointers,
+if <TT>arr</TT> is an array,
+what's
+the difference between
+<TT>arr</TT> and <TT>&amp;arr</TT>?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryvsadr">6.12</a>.
+<hr><hr><hr>
+<a name="voidparith">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/voidparith.html"><!-- qtag -->Question 11.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why can't I perform arithmetic on a <TT>void&nbsp;*</TT> pointer?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The compiler doesn't know the size of the pointed-to
+objects.
+(Remember that pointer arithmetic
+is always in terms of
+the pointed-to size;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#explscale">4.4</a>.)
+Therefore,
+arithmetic on <TT>void&nbsp;*</TT>'s is disallowed
+(though some compilers
+
+allow it as an extension).
+Before performing arithmetic,
+convert the pointer either to <TT>char&nbsp;*</TT>
+or to the
+
+pointer
+type you're trying to manipulate
+(but see also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#castincr">4.5</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>).
+
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.1.2.5, Sec. 6.3.6
+<br>
+H&amp;S Sec. 7.6.2 p. 204
+<hr><hr><hr>
+<a name="memmove">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/memmove.html"><!-- qtag -->Question 11.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<TT>memcpy</TT> and
+<TT>memmove</TT>?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>memmove</TT> offers guaranteed behavior
+if the
+memory
+regions
+
+pointed to by the
+source and destination arguments
+
+overlap.
+<TT>memcpy</TT> makes no such guarantee,
+and may therefore be more efficiently implementable.
+When in doubt, it's safer to use <TT>memmove</TT>.
+</p><p>It seems
+simple enough to implement <TT>memmove</TT>;
+the overlap guarantee
+apparently requires
+only an additional test:
+<pre>
+void *memmove(void *dest, void const *src, size_t n)
+{
+	register char *dp = dest;
+	register char const *sp = src;
+	if(dp &lt; sp) {
+		while(n-- &gt; 0)
+			*dp++ = *sp++;
+	} else {
+		dp += n;
+		sp += n;
+		while(n-- &gt; 0)
+			*--dp = *--sp;
+	}
+
+	return dest;
+}
+</pre>
+The problem
+with this code
+is in that additional test:
+the comparison
+<TT>(dp&nbsp;&lt;&nbsp;sp)</TT>
+is not quite portable
+(it compares two pointers
+which do not necessarily point within the same object)
+and may not be as cheap as it looks.
+On some machines
+(particularly segmented architectures),
+it may be tricky and significantly less efficient
+<a href="norml.html" rel=subdocument>[footnote]</a>
+to implement.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. B3 p. 250
+<br>
+ISO Sec. 7.11.2.1, Sec. 7.11.2.2
+<br>
+Rationale Sec. 4.11.2
+<br>
+H&amp;S Sec. 14.3 pp. 341-2
+<br>
+PCS Sec. 11 pp. 165-6
+<hr><hr><hr>
+<a name="malloc0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/malloc0.html"><!-- qtag -->Question 11.26</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What should <TT>malloc(0)</TT> do?
+Return a null pointer or a pointer to 0 bytes?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The ANSI/ISO Standard says that it may do either;
+the
+behavior is implementation-defined
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>).
+Portable code must either
+take care not to call <TT>malloc(0)</TT>,
+or be prepared for
+the possibility of a null return.
+</p>
+
+<p>References:
+
+ISO Sec. 7.10.3
+<br>
+PCS Sec. 16.1 p. 386
+<hr><hr><hr>
+<a name="extidsignif">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/extidsignif.html"><!-- qtag -->Question 11.27</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does the ANSI Standard
+place limits on
+the length
+and case-significance
+of
+
+external identifiers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The problem is
+linkers
+which are
+under control of
+neither
+the ANSI/ISO Standard nor
+the C compiler developers on the systems which have them.
+
+The limitation is only that identifiers be
+<em>significant</em>
+in some initial sequence of characters,
+not that they be restricted to
+that many characters
+in total
+length.
+(The limitation was to six characters
+in the original ANSI Standard,
+but has been relaxed to
+31
+
+in C99.)
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 6.1.2, Sec. 6.9.1
+<br>
+Rationale Sec. 3.1.2
+<br>
+C9X Sec. 6.1.2
+<br>
+H&amp;S Sec. 2.5 pp. 22-3
+<hr><hr><hr>
+<a name="noalias">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/noalias.html"><!-- qtag -->Question 11.28</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What was <TT>noalias</TT> and what ever happened to it?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>noalias</TT> was another type qualifier,
+in the same syntactic class as <TT>const</TT> and <TT>volatile</TT>,
+which was intended to assert that
+an
+object
+was not
+pointed to (``aliased'') by other pointers.
+The primary application,
+which is an important one,
+would have been for the formal parameters of functions
+designed to perform computations on large arrays.
+A compiler cannot usually take advantage of vectorization
+or other parallelization
+hardware
+(on supercomputers which have it)
+unless it can ensure
+that the source and destination arrays do not overlap.
+</p><p>The <TT>noalias</TT> keyword was not backed up by any ``prior art,''
+and it was introduced late in the review and approval process.
+It was
+surprisingly
+difficult to define precisely and explain coherently,
+and sparked widespread, acrimonious debate,
+including a scathing pan by Dennis Ritchie.
+It had far-ranging implications,
+particularly for several standard library interfaces,
+for which easy fixes were not readily apparent.
+</p><p>Because of the criticism and the difficulty of defining
+<TT>noalias</TT> well,
+the Committee
+
+declined to adopt it,
+in spite of its superficial
+
+attractions.
+(When writing a standard,
+features cannot be introduced halfway;
+their full integration,
+and all implications,
+must be understood.)
+The need for an explicit mechanism
+to support parallel implementation of
+non-overlapping operations remains
+
+unfilled
+(although
+some work is being done
+on
+the problem).
+</p>
+<p>References:
+
+ISO Sec. 6.9.6
+<hr><hr><hr>
+<a name="preansi">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/preansi.html"><!-- qtag -->Question 11.29a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My compiler is rejecting the simplest possible test programs,
+with all kinds of syntax errors.
+It's complaining about the
+first line of
+<pre>
+	main(int argc, char **argv)
+	{
+		return 0;
+	}
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Perhaps it is a pre-ANSI compiler,
+unable to accept function prototypes and the like.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#autoaggrinit">1.31</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#headerglom">10.9</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#preansilib">11.30</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#unclosed">16.1b</a>.
+</p><p>If you don't have access to an ANSI compiler,
+and you need to convert some newer code
+(such as that in this list)
+so that you can compile it,
+perform these steps:
+
+</p><OL><li>Remove
+the argument type information from
+function prototype declarations,
+and convert prototype-style function definitions to old style.
+The new-style declarations
+<pre>
+	extern int f1(void);
+	extern int f2(int);
+	int main(int argc, char **argv) { ... }
+	int f3(void) { ... }
+</pre>
+would be
+
+rewritten as
+<pre>
+	extern int f1();
+	extern int f2();
+	int main(argc, argv) int argc; char **argv; { ... }
+	int f3() { ... }
+</pre>
+
+(Beware
+of parameters with ``narrow'' types;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>.)
+<li>Replace <TT>void *</TT> with <TT>char *</TT>
+.
+<li>Perhaps insert explicit casts where converting between
+``generic'' pointers
+(<TT>void&nbsp;*</TT>, which you've just replaced with <TT>char&nbsp;*</TT>)
+and other pointer types
+(for instance in calls to <TT>malloc</TT> and <TT>free</TT>,
+and in <TT>qsort</TT> comparison functions;
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#cast">7.7</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#qsort2">13.9</a>).
+<li>
+
+
+Insert casts when passing the ``wrong'' numeric
+types as function arguments, e.g. <TT>sqrt((double)i);</TT>.
+<li>
+Rework calls to <TT>realloc</TT>
+that use <TT>NULL</TT> or <TT>0</TT> as first or second arguments
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#reallocnull">7.30</a>).
+<li>Remove <TT>const</TT> and <TT>volatile</TT> qualifiers.
+<li>Modify any initialized automatic aggregates
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#autoaggrinit">1.31</a>).
+<li>Use older library functions
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#oldlibfcns">13.24</a>).
+
+<li>Re-work any preprocessor macros involving <TT>#</TT> or <TT>##</TT>
+(see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#oldpaste">10.20</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#charize">10.21</a>,
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#macstrexp">11.18</a>).
+<li>
+Rework conditional compilation
+involving <TT>#elif</TT>.
+<li>Convert from the facilities of <TT>&lt;stdarg.h&gt;</TT>
+to <TT>&lt;varargs.h&gt;</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#oldvarargs">15.7</a>).
+<li>Cross your fingers.
+(In other words, the
+steps listed here
+are not always
+sufficient;
+more complicated changes may be required which aren't covered 
+by any cookbook conversions.)
+</OL><p>It is possible to make many of these changes with the preprocessor
+rather than by editing source code.
+
+
+
+
+
+
+
+</p><p>See also the
+Rationale's list of ``quiet changes''
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#avail">11.2</a>).
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#cproto">11.31</a>.
+<hr><hr><hr>
+<a name="preansi2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/preansi2.html"><!-- qtag -->Question 11.29b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does the message
+
+``Automatic aggregate intialization is an ANSI feature''
+mean?
+My compiler is complaining about valid ANSI code.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Messages like these are typically emitted by pre-ANSI compilers
+which have been upgraded just enough to detect
+(but not properly translate)
+new C features which were introduced with the ANSI Standard.
+The implication of the message is that you should pay your vendor more money
+for a copy of their real ANSI C compiler.
+<hr><hr><hr>
+<a name="preansilib">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/preansilib.html"><!-- qtag -->Question 11.30</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why are some ANSI/ISO Standard library functions showing up as
+undefined, even though I've got an ANSI compiler?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's possible
+
+
+to have a compiler available which accepts ANSI syntax,
+but not to have
+
+ANSI-compatible header files
+
+or run-time libraries installed.
+(In fact,
+this situation is rather common when using
+a non-vendor-supplied compiler such as <TT>gcc</TT>.)
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#preansi">11.29a</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#libsearch">13.26</a>.
+<hr><hr><hr>
+<a name="cproto">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/cproto.html"><!-- qtag -->Question 11.31</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does anyone have a tool for converting old-style C programs to
+ANSI C,
+or vice versa,
+or for automatically generating prototypes?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Two programs, protoize and unprotoize,
+convert back and forth between prototyped and ``old
+style'' function definitions and declarations.
+(These programs do
+<em>not</em>
+handle full-blown translation between
+``Classic''&nbsp;C
+and ANSI C.)
+These programs
+
+
+are part of
+the FSF's GNU C compiler distribution;
+
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#compilers">18.3</a>.
+</p><p>
+
+
+
+
+The unproto program
+(/pub/unix/unproto5.shar.Z on ftp.win.tue.nl)
+is a filter which sits between the preprocessor
+and the next compiler pass,
+converting most of ANSI C to traditional C on-the-fly.
+</p><p>The GNU GhostScript package comes with
+a little program called ansi2knr.
+</p><p>Before converting ANSI C back to old-style,
+beware that such a conversion cannot always be made both safely 
+and automatically.
+ANSI C introduces
+new features and complexities
+not found in K&amp;R C.
+You'll especially need to be
+
+careful of prototyped function calls;
+you'll probably need to insert explicit casts.
+See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a> and 
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#preansi">11.29a</a>.
+</p><p>Several prototype generators exist,
+many as modifications to <TT>lint</TT>.
+
+
+
+A program called
+CPROTO was posted to comp.sources.misc in March, 1992.
+
+
+There is another program called ``cextract.''
+
+
+Many vendors supply simple utilities
+like these
+with their compilers.
+See also
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+(But
+be careful
+when generating prototypes for old functions
+with ``narrow'' parameters;
+see
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>.)
+</p>
+<hr><hr><hr>
+<a name="extensions">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/extensions.html"><!-- qtag -->Question 11.32</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why won't
+the Frobozz Magic C Compiler,
+which claims to be ANSI compliant,
+accept this code?
+I know that the code is ANSI, because <TT>gcc</TT> accepts it.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many
+compilers support a few non-Standard extensions,
+<TT>gcc</TT> more so than most.
+
+Are you sure that the code being rejected doesn't rely on
+such an
+extension?
+
+
+
+The compiler may have an option to disable extensions;
+it may be wise to use such an option
+if you're not certain your code is ANSI-compatible.
+(<TT>gcc</TT>, to its credit,
+includes a <TT>-pedantic</TT> option
+which turns off extensions
+and attempts to enforce strict ANSI compliance.)
+</p><p>It is usually a bad idea
+
+
+
+to perform
+experiments with a particular compiler
+to determine properties of a language;
+
+the applicable
+
+standard may permit variations,
+or the compiler may be wrong.
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#experiment">11.35</a>.
+<hr><hr><hr>
+<a name="undef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/undef.html"><!-- qtag -->Question 11.33</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+People seem to make a point of distinguishing
+between
+implementation-defined,
+unspecified,
+and
+undefined
+behavior.
+What do these mean?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+First of all,
+all
+
+three of these represent areas
+in which the C Standard
+does <em>not</em> specify exactly what a particular construct,
+or a program which uses it,
+must do.
+This looseness in C's definition is traditional and deliberate:
+it permits compiler writers to
+(a)
+make
+
+choices
+which allow efficient code to be generated
+by arranging that various constructs
+are implemented as ``however the hardware does them''
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#strangefp">14.4a</a>),
+and
+(b)
+ignore
+(that is,
+avoid worrying about
+generating correct code for)
+certain marginal constructs
+which are
+too difficult to define precisely
+and which probably aren't useful to well-written programs anyway
+(see for example
+the code fragments in
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder1">3.1</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#ieqiplusplus">3.3</a>).
+</p><p>These three variations on
+``not precisely defined by the standard''
+are defined as:
+</p><p><b>implementation-defined:</b>
+The implementation must pick some behavior;
+it may not fail to compile the program.
+(The program using the construct is not incorrect.)
+The choice must be documented.
+The Standard may specify
+a set of allowable behaviors
+from which to choose,
+or it may impose no particular requirements.
+</p><p><b>unspecified:</b>
+Like implementation-defined,
+except that the choice need not be documented.
+</p><p><b>undefined:</b>
+Anything at all can happen;
+the Standard imposes no requirements.
+The program may fail to compile,
+or it may execute incorrectly
+(either crashing or silently generating incorrect results),
+or it may fortuitously do exactly what the programmer intended.
+</p><p>Note, too,
+that since the Standard imposes
+absolutely no
+requirements
+on the behavior of a compiler faced with an instance of undefined behavior,
+the compiler
+(more importantly, any generated code)
+can do absolutely anything.
+In particular,
+there is no guarantee
+that
+at most
+the undefined bit of the program will behave badly,
+and
+that the rest of the program will perform normally.
+It's perilous
+to think that you can tolerate undefined behavior
+in a
+program,
+imagining that its undefinedness can't hurt;
+the undefined behavior can be more undefined than you think it can.
+(See
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>
+for a relatively simple
+
+example.)
+</p><p>Since many people seem to have trouble
+comprehending the depths to which undefined behavor can descend,
+
+it is traditional to come up with eye-catching, outrageous examples.
+Undefined means that,
+notwithstanding question <a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#bool2">9.2</a>,
+<TT>printf("%d",&nbsp;j++&nbsp;&lt;=&nbsp;j);</TT>
+can print 42, or ``forty-two.''
+
+
+</p><p>If you're
+interested in
+writing portable code,
+you can
+ignore the distinctions,
+as you'll
+usually
+want to avoid code that depends on any of the three behaviors.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder4">3.9</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#appalled">11.34</a>.
+</p><p>(A fourth defined class of not-quite-precisely-defined behavior,
+without the same stigma attached to it,
+is <a href="../sx1/index.html#locale-specific"><dfn>locale-specific</dfn></a>.)
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 3.10, Sec. 3.16, Sec. 3.17
+<br>
+Rationale Sec. 1.6
+<hr><hr><hr>
+<a name="compliance">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/compliance.html"><!-- qtag -->Question 11.33b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does it really mean for a program to be
+``legal''
+or
+``valid''
+or
+``conforming''?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Simply stated,
+the
+Standard talks about three
+kinds of conformance:
+conforming programs,
+strictly conforming programs,
+and
+conforming implementations.
+</p><p>A <a href="../sx1/index.html#conforming program"><dfn>conforming program</dfn></a> is one that is accepted by
+a
+conforming implementation.
+</p><p>A <a href="../sx1/index.html#strictly conforming program"><dfn>strictly conforming program</dfn></a> is one that
+does not depend on
+any implementation-defined, unspecified, or undefined behavior,
+that does not exceed any implementation limits,
+and that otherwise uses
+only the features of the language and library
+as specified in the Standard.
+</p><p>A <a href="../sx1/index.html#conforming implementation"><dfn>conforming implementation</dfn></a> is one that does everything the
+Standard says it's supposed to.
+(The way the Standard says this is that
+a conforming implementation ``shall accept
+any strictly conforming program''.)
+There are two kinds of conforming implementation:
+hosted and freestanding.
+A <a href="../sx1/index.html#hosted implementation"><dfn>hosted implementation</dfn></a> is intended for use with conventional
+application programs;
+a <a href="../sx1/index.html#freestanding implementation"><dfn>freestanding implementation</dfn></a> is intended for use with
+embedded systems and the like,
+and is not required to supply all of the standard library functions.
+</p><p>Unfortunately,
+neither of
+the definitions relating to conforming programs are
+as practically useful as one might wish.
+There are very few
+realistic, useful, strictly conforming programs.
+On the other hand, a
+merely conforming program can make use of any compiler-specific
+extension it wants to.
+</p><p>Other words you may hear are
+``compliant'' and ``conformant''
+which are basically
+just synonyms for
+``conforming''.
+</p>
+
+<p>References:
+
+ISO Sec. 
+<br>
+Rationale Sec. 1.7
+<hr><hr><hr>
+<a name="appalled">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/appalled.html"><!-- qtag -->Question 11.34</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm appalled that the ANSI Standard leaves so many issues undefined.
+Isn't a Standard's whole job to standardize these things?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It has always been a characteristic of C that certain
+constructs behaved
+
+
+
+in whatever way
+a particular compiler
+or a particular piece of hardware
+chose to implement them.
+This deliberate imprecision
+often
+allows compilers to generate
+more efficient code for common cases,
+without having to burden all programs
+with
+extra code to
+assure well-defined behavior
+of cases deemed to be less reasonable.
+Therefore,
+the Standard is simply codifying existing practice.
+</p><p>A programming language standard can be thought of
+as a treaty between the
+language user
+and the
+compiler implementor.
+Parts of that treaty consist of
+features which the compiler implementor agrees to provide,
+and which the user may assume will be available.
+Other parts, however,
+consist of rules which the user agrees to follow
+and which the implementor may assume will be followed.
+As long as both sides uphold their guarantees,
+programs have a fighting chance of working correctly.
+If <em>either</em> side reneges on any of its commitments,
+nothing is guaranteed to work.
+
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#experiment">11.35</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#sysdep">19.42</a>.
+
+
+</p>
+<p>References:
+
+Rationale Sec. 1.1
+<hr><hr><hr>
+<a name="experiment">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ansi/experiment.html"><!-- qtag -->Question 11.35</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+People keep saying that the behavior
+of <TT>i&nbsp;=&nbsp;i++</TT>
+is undefined,
+but
+I just tried
+it
+on an ANSI-conforming compiler,
+and got the results I expected.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A compiler may do anything it likes when faced with undefined
+behavior
+(and, within limits, with implementation-defined and
+unspecified behavior),
+including doing what you expect.
+It's unwise to depend on it, though.
+</p><p>Here is another way of looking at it,
+
+due to Roger Miller:
+
+
+<blockquote>``Somebody told me that in basketball
+you can't hold the ball and run.
+I got a basketball and tried it and it worked just fine.
+He obviously didn't understand basketball.''
+</blockquote></p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#lucky">7.3b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#extensions">11.32</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#appalled">11.34</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

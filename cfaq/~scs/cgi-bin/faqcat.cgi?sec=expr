@@ -1,0 +1,1682 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file expr.sgml dated Sat Jul  3 17:10:33 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/expr/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Expressions</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>3. Expressions</H1>
+<a name="evalorder1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/evalorder1.html"><!-- qtag -->Question 3.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't
+this code:
+
+<pre>
+a[i] = i++;</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The subexpression <TT>i++</TT> causes a
+side effect--it modifies
+<TT>i</TT>'s value--which leads to undefined behavior
+since
+<TT>i</TT> is also referenced elsewhere in the same expression.
+There is no way of knowing
+whether the
+
+reference will happen
+before or after the side effect--in fact,
+<em>neither</em>
+obvious interpretation might hold;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder4">3.9</a>.
+
+(Note that although the language in
+K&amp;R suggests that the behavior
+of this expression is unspecified,
+the C Standard makes the stronger statement that it is
+undefined--see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>.)
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.12
+<br>
+K&amp;R2 Sec. 2.12
+<br>
+ISO Sec. 6.3
+<br>
+H&amp;S Sec. 7.12 pp. 227-9
+<hr><hr><hr>
+<a name="evalorder2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/evalorder2.html"><!-- qtag -->Question 3.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Under my compiler, the code
+<pre>
+int i&nbsp;=&nbsp;7;
+printf("%d\n",&nbsp;i++&nbsp;*&nbsp;i++);</pre>
+
+prints 49.
+Regardless of the order of evaluation, shouldn't it print 56?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's true that
+the postincrement and postdecrement operators <TT>++</TT> and <TT>--</TT>
+perform
+their
+operations after yielding the former value.
+What's often misunderstood are
+
+the
+implications
+and
+precise definition
+
+of
+the word
+``after.''
+It is
+<em>not</em>
+guaranteed that
+an increment or decrement
+is performed immediately after
+giving up the previous value and before any other part of the
+expression is evaluated.
+It is merely guaranteed that the update will be performed
+sometime before the expression is considered ``finished''
+(before the next
+``sequence point,'' in ANSI C's terminology;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#seqpoints">3.8</a>).
+In the example, the compiler chose to multiply the previous value
+by itself and to perform both increments later.
+</p><p>The behavior of code which contains
+multiple, ambiguous side effects
+has always been undefined.
+(Loosely speaking, by
+``multiple, ambiguous side effects''
+we mean
+any combination of
+increment, decrement, and assignment operators
+(<TT>++</TT>, <TT>--</TT>, <TT>=</TT>, <TT>+=</TT>,
+<TT>-=</TT>, etc.)
+in a single expression
+which causes the same
+object
+either to be
+modified twice
+or
+modified and then inspected.
+This is a rough definition;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#seqpoints">3.8</a> for a precise one,
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#confused">3.11</a> for a simpler one,
+and question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a> for the meaning of 
+``undefined.'')
+Don't even try to find out how your compiler implements such 
+things,
+let alone write code which depends on them
+
+(contrary to the ill-advised exercises in many C textbooks);
+as
+Kernighan and Ritchie
+wisely point out,
+``if you don't know
+<em>how</em>
+they are done on various machines,
+that innocence may help to protect you.''
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.12 p. 50
+<br>
+K&amp;R2 Sec. 2.12 p. 54
+<br>
+ISO Sec. 6.3
+<br>
+H&amp;S Sec. 7.12 pp. 227-9
+<br>
+CT&amp;P Sec. 3.7 p. 47
+<br>
+PCS Sec. 9.5 pp. 120-1
+<hr><hr><hr>
+<a name="ieqiplusplus">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/ieqiplusplus.html"><!-- qtag -->Question 3.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've experimented with
+the code
+<pre>
+int i&nbsp;=&nbsp;3;
+i&nbsp;=&nbsp;i++;</pre>
+
+on several compilers.
+Some gave <TT>i</TT> the
+
+value 3,
+and
+some gave 4.
+Which compiler is correct?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is no correct answer;
+the
+expression is undefined.
+See questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder1">3.1</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#seqpoints">3.8</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder4">3.9</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>.
+(Also, note that neither <TT>i++</TT> nor <TT>++i</TT>
+is the same as <TT>i+1</TT>.
+If you want to increment <TT>i</TT>,
+use
+<TT>i=i+1</TT>,
+<TT>i+=1</TT>,
+<TT>i++</TT>,
+or
+<TT>++i</TT>,
+not some 
+
+combination.
+
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#plusplus">3.12b</a>.)
+<hr><hr><hr>
+<a name="xorswapexpr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/xorswapexpr.html"><!-- qtag -->Question 3.3b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Here's a slick expression:
+<pre>
+a&nbsp;^=&nbsp;b&nbsp;^=&nbsp;a&nbsp;^=&nbsp;b</pre>
+
+It swaps <TT>a</TT> and <TT>b</TT> without using a temporary.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not portably,
+it doesn't.
+It attempts to modify
+the variable
+<TT>a</TT> twice between sequence points,
+so
+its behavior is undefined.
+</p><p>
+For example, it has been reported
+that
+
+
+
+
+
+
+when given the code
+<pre>
+	int a = 123, b = 7654;
+	a ^= b ^= a ^= b;
+</pre>
+the SCO Optimizing C compiler (<TT>icc</TT>)
+sets <TT>b</TT> to 123 and <TT>a</TT> to 0.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder1">3.1</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#seqpoints">3.8</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#swapmacro">10.3</a>,
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#swapnotemp">20.15c</a>.
+<hr><hr><hr>
+<a name="precvsooe">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/precvsooe.html"><!-- qtag -->Question 3.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Can I use explicit parentheses to force
+the order of evaluation I want,
+and control these side effects?
+Even if I don't, doesn't precedence dictate it?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not in general.
+</p><p>Operator precedence and explicit parentheses impose only a
+partial ordering on the evaluation of an
+expression.
+In
+the expression
+<pre>
+	f() + g() * h()
+</pre>
+although we know that
+the multiplication will happen
+before the addition,
+there is no telling which
+of the three functions
+will be called first.
+In other words, precedence only partially specifies order of
+evaluation, where ``partially'' emphatically does
+<I>not</I>
+cover evaluation of operands.
+</p><p>
+Parentheses tell the compiler which operands go with which operators;
+they
+
+do <em>not</em> force the compiler to evaluate everything 
+within the parentheses first.
+Adding explicit parentheses to the above expression
+to make it
+<pre>
+	f() + (g() * h())
+</pre>
+would make no difference in the order of the function calls.
+
+Similarly,
+adding explicit parentheses to
+the expression from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>
+to make it
+<pre>
+	(i++) * (i++)		/* WRONG */
+</pre>
+accomplishes nothing
+(since <TT>++</TT> already
+has higher precedence
+than <TT>*</TT>);
+the expression remains undefined with or without them.
+</p><p>When you need to ensure the order of subexpression evaluation,
+you may need to use explicit temporary variables
+and separate statements.
+
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.12 p. 49, Sec. A.7 p. 185
+<br>
+K&amp;R2 Sec. 2.12 pp. 52-3, Sec. A.7 p. 200
+<hr><hr><hr>
+<a name="seqpointops">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/seqpointops.html"><!-- qtag -->Question 3.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+But what about the
+<TT>&amp;&amp;</TT>
+and
+<TT>||</TT>
+
+
+operators?
+<br>I see code like 
+``<TT>while((c&nbsp;=&nbsp;getchar())&nbsp;!=&nbsp;EOF&nbsp;&amp;&amp;&nbsp;c&nbsp;!=&nbsp;'\n')</TT>'' ...
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is a special
+
+``short-circuiting''
+exception for these
+operators:
+the right-hand side is not evaluated
+if the left-hand side determines the outcome
+(i.e. is true for <TT>||</TT> or false for <TT>&amp;&amp;</TT>).
+Therefore,
+left-to-right
+evaluation
+is
+guaranteed,
+as it
+also
+is for the 
+comma operator
+(but see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#comma">3.7</a>).
+Furthermore, all of these operators
+(along with
+<TT>?:</TT>)
+introduce an extra internal sequence point
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#seqpoints">3.8</a>).
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.6 p. 38, Secs. A7.11-12 pp. 190-1
+<br>
+K&amp;R2 Sec. 2.6 p. 41, Secs. A7.14-15 pp. 207-8
+<br>
+ISO Sec. 6.3.13, Sec. 6.3.14, Sec. 6.3.15
+<br>
+H&amp;S Sec. 7.7 pp. 217-8, Sec. 7.8 pp. 218-20, Sec. 7.12.1 p. 229
+<br>
+CT&amp;P Sec. 3.7 pp. 46-7
+<hr><hr><hr>
+<a name="shortcircuit">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/shortcircuit.html"><!-- qtag -->Question 3.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is it safe to assume
+that the right-hand side
+of the
+<TT>&amp;&amp;</TT>
+and
+<TT>||</TT>
+operators
+won't be evaluated
+if the left-hand side determines the outcome?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes.
+Idioms like
+<pre>
+	if(d != 0 &amp;&amp; n / d &gt; 0)
+		{ /* average is greater than 0 */ }
+</pre>
+and
+<pre>
+	if(p == NULL || *p == '\0')
+		{ /* no string */ }
+</pre>
+are quite common in C,
+and depend on
+this so-called short-circuiting behavior.
+In the first example,
+in the absence of short-circuiting behavior,
+the right-hand side would divide by 0--and perhaps crash--if
+<TT>d</TT> were equal to 0.
+In the second example,
+the right-hand side would attempt to reference
+nonexistent memory--and perhaps crash--if
+<TT>p</TT> were a null pointer.
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.3.13, Sec. 6.3.14
+<br>
+H&amp;S Sec. 7.7 pp. 217-8
+<hr><hr><hr>
+<a name="comma">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/comma.html"><!-- qtag -->Question 3.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why did
+<pre>
+printf("%d&nbsp;%d",&nbsp;f1(),&nbsp;f2());</pre>
+
+call <TT>f2</TT> first?
+I thought the comma operator guaranteed left-to-right evaluation.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The comma operator does guarantee left-to-right evaluation,
+but the commas separating the arguments in a function call
+are not comma operators.
+<a href="fn15.html" rel=subdocument>[footnote]</a>
+The order of evaluation of the arguments to a function call
+is <a href="../sx1/index.html#unspecified"><dfn>unspecified</dfn></a>.
+(See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>.)
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 3.5 p. 59
+<br>
+K&amp;R2 Sec. 3.5 p. 63
+<br>
+ISO Sec. 6.3.2.2
+<br>
+H&amp;S Sec. 7.10 p. 224
+<hr><hr><hr>
+<a name="seqpoints">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/seqpoints.html"><!-- qtag -->Question 3.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I understand
+complex expressions like the ones in this section,
+and avoid writing undefined ones?
+What's a ``sequence point''?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A sequence point
+
+is
+a
+point
+in time
+at which
+the dust
+has settled
+and
+all side effects
+which have been seen so far
+are guaranteed to be complete.
+
+The sequence points listed in the C standard are:
+<UL><li>at the end of
+the evaluation of
+a <a href="../sx1/index.html#full expression"><dfn>full expression</dfn></a>
+(a full expression is an expression statement,
+or any other expression which is not
+a subexpression within
+any larger expression);
+<li>at the <TT>||</TT>, <TT>&amp;&amp;</TT>, <TT>?:</TT>, and comma operators;
+and
+<li>at a function call
+(after the evaluation of all the arguments,
+and
+just before the actual call).
+</UL></p><p>The
+Standard states that
+
+<blockquote>Between the previous and next sequence point
+an object shall have its stored value modified
+at most once by the evaluation of an expression.
+Furthermore,
+the prior value shall be accessed only
+to determine the value to be stored.
+</blockquote></p><p>
+These two rather opaque sentences
+say several things.
+First,
+they talk about operations bounded by
+the
+``previous and next sequence points'';
+such operations
+usually correspond to
+
+full expressions.
+
+(In an expression statement,
+the ``next sequence point''
+is
+usually
+
+at the terminating semicolon,
+and the ``previous sequence point''
+
+is
+at the end of the previous
+statement.
+An expression may also contain intermediate
+sequence points,
+as listed above.)
+</p><p>The first sentence rules out both the examples
+
+<pre>
+	i++ * i++
+</pre>
+and
+<pre>
+	i = i++
+</pre>
+from questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#ieqiplusplus">3.3</a>--in both cases,
+<TT>i</TT> has its value modified twice within the expression,
+i.e. between sequence points.
+(If we were to write a similar expression
+which
+did
+
+have an internal sequence point,
+such as
+<pre>
+	i++ &amp;&amp; i++
+</pre>
+it <em>would</em> be well-defined,
+if questionably useful.)
+</p><p>The second sentence
+
+can be
+quite
+difficult to understand.
+It turns out that it disallows code like
+<pre>
+	a[i] = i++
+</pre>
+from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder1">3.1</a>.
+(Actually, the other expressions we've been discussing
+are in violation of the second sentence, as well.)
+To see why,
+let's first look more carefully
+at what the Standard is trying to allow and disallow.
+</p><p>Clearly,
+expressions like
+<pre>
+	a = b
+</pre>
+and
+<pre>
+	c = d + e
+</pre>
+which read
+
+some values and use them to write others,
+are well-defined and
+
+legal.
+Clearly,
+
+<a href="fn16.html" rel=subdocument>[footnote]</a>
+expressions like
+<pre>
+	i = i++
+</pre>
+which modify the same value twice
+are abominations
+which needn't be allowed
+(or in any case,
+needn't be well-defined,
+i.e. we don't have to figure out a way to say what they do,
+
+and compilers don't have to support them).
+
+Expressions
+like these
+are disallowed by the first sentence.
+</p><p>It's also clear
+<a href="fn16.html" rel=subdocument>[footnote]</a>
+that we'd like to disallow expressions like
+<pre>
+	a[i] = i++
+</pre>
+which modify <TT>i</TT> <em>and</em> use it along the way,
+but not disallow expressions like
+<pre>
+	i = i + 1
+</pre>
+which
+use and modify <TT>i</TT>
+
+but only modify it
+later
+
+
+when it's reasonably easy to ensure
+that the final store of the final value
+(into <TT>i</TT>, in this case)
+doesn't interfere with
+
+the
+earlier
+accesses.
+</p><p>And that's
+
+what the second sentence says:
+if an object is written to within a full expression,
+any
+and all
+
+accesses to it within the same expression
+must be
+directly involved in the computation of
+the value to be written.
+This rule effectively constrains legal expressions
+to those in which the accesses demonstrably precede
+the
+modification.
+For example,
+the old standby
+<TT>i&nbsp;=&nbsp;i&nbsp;+&nbsp;1</TT> is
+allowed,
+because the access of <TT>i</TT> is used to determine <TT>i</TT>'s final value.
+The example
+<pre>
+	a[i] = i++
+</pre>
+is disallowed because one of the accesses
+of <TT>i</TT>
+(the one in <TT>a[i]</TT>)
+has nothing to do
+with the value which ends up being stored in <TT>i</TT>
+(which happens over in <TT>i++</TT>),
+and so there's no good way to
+define--either for our understanding
+or the compiler's--whether the access should take place 
+before or after the incremented value is stored.
+Since there's no good way to define it,
+the Standard declares that it is undefined,
+and that portable programs
+simply must not use such constructs.
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder4">3.9</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#confused">3.11</a>.
+</p>
+
+
+
+
+
+
+
+
+
+<p>References:
+
+ISO Sec. 5.1.2.3, Sec. 6.3, Sec. 6.6, Annex C
+<br>
+Rationale Sec. 2.1.2.3
+<br>
+H&amp;S Sec. 7.12.1 pp. 228-9
+<hr><hr><hr>
+<a name="evalorder4">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/evalorder4.html"><!-- qtag -->Question 3.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+So
+if I write
+<pre>
+a[i]&nbsp;=&nbsp;i++;</pre>
+
+and I don't care
+
+which cell of <TT>a[]</TT> gets written to,
+the code is fine,
+and <TT>i</TT> gets
+incremented by one,
+right?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not necessarily!
+For one thing,
+if you don't care which cell of <TT>a[]</TT> gets written to,
+why write code which seems to write to <TT>a[]</TT> at all?
+More significantly,
+
+once
+an expression or program becomes undefined,
+<em>all</em> aspects of it become undefined.
+
+When an undefined expression has
+(apparently)
+two plausible interpretations,
+do not mislead yourself by imagining
+that the compiler will choose one or the other.
+The Standard does not require that
+a compiler make an obvious choice,
+and some compilers don't.
+In this case,
+not only do we not know
+whether <TT>a[i]</TT> or <TT>a[i+1]</TT> is written to,
+it is
+possible
+that a completely unrelated cell of the array
+(or any random part of memory)
+is written to,
+and it is also not possible to predict
+what final value <TT>i</TT> will receive.
+
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#ieqiplusplus">3.3</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#experiment">11.35</a>.
+<hr><hr><hr>
+<a name="experiment">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/experiment.html"><!-- qtag -->Question 3.10a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+People keep saying that the behavior
+of <TT>i&nbsp;=&nbsp;i++</TT>
+is undefined,
+but
+I just tried
+it
+on an ANSI-conforming compiler,
+and got the results I expected.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#experiment">11.35</a>.
+<hr><hr><hr>
+<a name="expec0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/expec0.html"><!-- qtag -->Question 3.10b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+People told me that if I evaluated an undefined expression,
+or accessed an uninitialized variable,
+I'd get a random, garbage value.
+But I tried it, and got <em>zero</em>.
+What's up with that?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's hard to answer this question,
+because it's hard to see
+what the
+
+citation of
+the ``unexpected'' value of 0 is supposed to prove.
+C does guarantee that
+certain
+values will be initialized to 0
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#initval">1.30</a>),
+but for the rest
+(and certainly for the results of those undefined expressions),
+it <em>is</em> true that you might get garbage.
+The fact that you happened to get 0
+one time
+does not mean
+you were wrong to have expected garbage,
+nor does it mean that you can depend on this happening next time
+(much less
+that you should
+write code which depends on it!).
+</p><p>Most memory blocks newly delivered by the operating system,
+and most as-yet-untouched stack frames,
+do tend to be zeroed,
+so
+the first time you access them,
+they may happen to contain 0,
+but after a program has run for a while,
+these regularities rapidly disappear.
+(And programs which unwittingly depend on
+a circumstantial initial value of an uninitialized variable
+can be <em>very</em> difficult to debug,
+because the ``expected'' values may coincidentally arise
+in all the small, easy test cases,
+while the unexpected values and the attendant crashes happen
+only in the larger, longer-running, much-harder-to-trace-through invocations.)
+<hr><hr><hr>
+<a name="confused">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/confused.html"><!-- qtag -->Question 3.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I avoid these undefined evaluation order difficulties
+if I don't feel like learning the complicated rules?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The easiest answer
+is that if you steer clear of expressions
+which don't have
+reasonably
+obvious
+interpretations,
+for the most part you'll steer clear of
+the undefined ones,
+too.
+(Of course,
+``reasonably obvious''
+means different things to different people.
+This answer works as long as you agree
+that
+<TT>a[i]&nbsp;=&nbsp;i++</TT> and <TT>i&nbsp;=&nbsp;i++</TT>
+are not ``reasonably obvious.'')
+</p><p>To be a bit more precise,
+here are some
+simpler rules which,
+though slightly more conservative than
+the ones in the Standard,
+will
+help to
+make sure that your code is
+``reasonably obvious''
+and
+equally understandable to both 
+the compiler <em>and</em> your fellow programmers:
+<OL><li>Make sure that each
+expression
+modifies at most one object.
+By ``object'' we mean either
+a simple variable,
+or
+a cell of an array,
+or
+the
+location
+pointed to by a pointer (e.g. <TT>*p</TT>).
+A ``modification'' is either
+simple assignment with the <TT>=</TT> operator,
+or
+a compound assignment
+with an operator like <TT>+=</TT>, <TT>-=</TT>, or <TT>*=</TT>,
+or an increment or decrement with <TT>++</TT> or <TT>--</TT>
+(in either pre or post forms).
+<li>If an object
+(as defined above)
+appears more than once in an expression,
+and is the object modified in the expression,
+make sure that
+<em>all</em> appearances of the object
+which fetch its value
+participate in the computation of the new value which is stored.
+This rule allows the expression
+<pre>
+	i = i + 1
+</pre>
+because although the object <TT>i</TT> appears twice and is modified,
+the appearance 
+(on the right-hand side)
+which fetches <TT>i</TT>'s old value
+is used to compute <TT>i</TT>'s new value.
+<li>If you want to break rule 1,
+make sure that the several objects being modified are distinctly different,
+
+and try to limit yourself to two or at most three modifications,
+and of a style matching those of the following examples.
+(Also,
+make sure that you continue to follow rule 2
+
+for each object modified.)
+
+The expression
+<pre>
+	c = *p++
+</pre>
+is allowed under this rule,
+because the two objects modified 
+(<TT>c</TT> and <TT>p</TT>)
+are distinct.
+The expression
+<pre>
+	*p++ = c
+</pre>
+is also allowed,
+because <TT>p</TT> and <TT>*p</TT>
+(i.e. <TT>p</TT> itself and what it points to)
+are both modified but are almost certainly distinct.
+Similarly, both
+<pre>
+	c = a[i++]
+and
+	a[i++] = c
+</pre>
+are allowed,
+because <TT>c</TT>, <TT>i</TT>, and <TT>a[i]</TT> are
+presumably
+
+all distinct.
+Finally, expressions like
+<pre>
+	*p++ = *q++
+</pre>
+and
+<pre>
+	a[i++] = b[j++]
+</pre>
+in which <em>three</em> things are modified
+(<TT>p</TT>, <TT>q</TT>, and <TT>*p</TT> in the first expression,
+and <TT>i</TT>, <TT>j</TT>, and <TT>a[i]</TT> in the second),
+are allowed <em>if</em> all three objects are distinct,
+i.e. only if two <em>different</em> pointers <TT>p</TT> and <TT>q</TT>
+or two <em>different</em> array indices <TT>i</TT> and <TT>j</TT>
+are used.
+<li>You may also break rule 1 or 2
+as long as you interpose
+a defined sequence point operator
+between the two modifications,
+or between the modification and the access.
+The expression
+<pre>
+	(c = getchar()) != EOF &amp;&amp; c != '\n'
+</pre>
+(commonly seen in a <TT>while</TT> loop while
+reading a line)
+is legal because
+the second access of the variable <TT>c</TT>
+occurs after the sequence point implied by <TT>&amp;&amp;</TT>.
+(Without the sequence point,
+the expression would be illegal
+because the access of <TT>c</TT> while comparing it to <TT>'\n'</TT>
+on the right
+does
+
+not ``determine the value to be stored''
+on the left.)
+<hr><hr><hr>
+<a name="prevspost">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/prevspost.html"><!-- qtag -->Question 3.12a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between <TT>++i</TT> and <TT>i++</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+If your C book doesn't explain, get a better one.
+Briefly:
+<TT>++i</TT> adds one to
+the stored value of
+<TT>i</TT>
+and ``returns'' the
+new,
+incremented value
+to the surrounding expression;
+<TT>i++</TT>
+adds one
+to <TT>i</TT> but
+returns the prior, unincremented value.
+
+
+<hr><hr><hr>
+<a name="plusplus">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/plusplus.html"><!-- qtag -->Question 3.12b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If I'm not using the value of the expression,
+should I use <TT>++i</TT> or <TT>i++</TT> to increment a variable?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Since the two forms differ only in the value yielded,
+they are entirely equivalent when only their side effect is needed.
+(However, the prefix form is preferred in C++.)
+Some people will tell you that in the old days one form was preferred
+over the other because it utilized a PDP-11 autoincrement
+addressing mode,
+but those people are confused.
+
+An autoincrement addressing mode can only help if a pointer
+variable is being incremented and indirected upon,
+as in
+<pre>
+	register char c, *cp;
+	c = *cp++;
+</pre>
+
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#ieqiplusplus">3.3</a>.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.8 p. 43
+<br>
+K&amp;R2 Sec. 2.8 p. 47
+<br>
+ISO Sec. 6.3.2.4, Sec. 6.3.3.1
+<br>
+H&amp;S Sec. 7.4.4 pp. 192-3, Sec. 7.5.8 pp. 199-200
+<hr><hr><hr>
+<a name="transitivity">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/transitivity.html"><!-- qtag -->Question 3.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need to check whether one number lies between two others.
+Why doesn't
+<pre>
+if(a &lt; b &lt; c)</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The relational operators,
+such as <TT>&lt;</TT>,
+
+are all binary;
+they compare two operands and return
+a true or false
+(1 or 0)
+result.
+Therefore, the expression
+<TT>a &lt; b &lt; c</TT> compares <TT>a</TT> to <TT>b</TT>,
+and then checks whether the resulting 1 or 0 is less than <TT>c</TT>.
+(To see it more clearly,
+imagine that it had been written as
+<TT>(a &lt; b) &lt; c</TT>,
+because that's how the compiler interprets it.)
+To check whether one number lies between two others,
+use code like this:
+<pre>
+	if(a &lt; b &amp;&amp; b &lt; c)
+</pre>
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.6 p. 38
+<br>
+K&amp;R2 Sec. 2.6 pp. 41-2
+<br>
+ISO Sec. 6.3.8, Sec. 6.3.9
+<br>
+H&amp;S Secs. 7.6.4,7.6.5 pp. 207-210
+<hr><hr><hr>
+<a name="intoverflow1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/intoverflow1.html"><!-- qtag -->Question 3.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't the code
+<pre>
+int&nbsp;a&nbsp;=&nbsp;1000,&nbsp;b&nbsp;=&nbsp;1000;
+long&nbsp;int&nbsp;c&nbsp;=&nbsp;a&nbsp;*&nbsp;b;</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Under C's integral promotion rules,
+the multiplication is carried out using <TT>int</TT> arithmetic,
+and the result may overflow
+or be truncated before being
+promoted and
+assigned to the <TT>long&nbsp;int</TT> left-hand side.
+Use an explicit cast
+on at least one of the operands
+to force long arithmetic:
+<pre>
+	long int c = (long int)a * b;
+</pre>
+or perhaps
+<pre>
+	long int c = (long int)a * (long int)b;
+</pre>
+(both forms are equivalent).
+</p><p>Notice that
+the expression
+<TT>(long&nbsp;int)(a&nbsp;*&nbsp;b)</TT> would
+<em>not</em>
+have the desired effect.
+An
+explicit cast of this form
+(i.e.
+applied to the result of
+the multiplication)
+is equivalent to the implicit conversion which would occur anyway
+when the value is assigned to the <TT>long&nbsp;int</TT>
+left-hand side,
+and like the implicit conversion,
+it happens too late,
+after the damage has been done.
+
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#truncation1">3.15</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.7 p. 41
+<br>
+K&amp;R2 Sec. 2.7 p. 44
+<br>
+ISO Sec. 6.2.1.5
+<br>
+H&amp;S Sec. 6.3.4 p. 176
+<br>
+CT&amp;P Sec. 3.9 pp. 49-50
+<hr><hr><hr>
+<a name="intovf3">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/intovf3.html"><!-- qtag -->Question 3.14b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I ensure that integer arithmetic doesn't overflow?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#intovf">20.6b</a>.
+<hr><hr><hr>
+<a name="truncation1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/truncation1.html"><!-- qtag -->Question 3.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does the code
+<pre>
+double degC, degF;
+degC = 5 / 9 * (degF - 32);</pre>
+
+keep giving me 0?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+If both operands of a binary operator are integers,
+C performs an integer operation,
+regardless of the type of the rest of the expression.
+In this case,
+the integer operation is
+truncating division,
+yielding 5 / 9 = 0.
+(Note,
+though,
+that the problem of having subexpressions evaluated in an
+unexpected type
+is not restricted to division,
+nor for that matter to type <TT>int</TT>.)
+If you cast one of the operands to <TT>float</TT> or <TT>double</TT>,
+or use a floating-point constant,
+i.e.
+<pre>
+	degC = (double)5 / 9 * (degF - 32);
+or
+	degC = 5.0 / 9 * (degF - 32);
+</pre>
+
+it will
+work as you expect.
+Note that the cast must be on one of the operands;
+casting the result
+(as in <TT>(double)(5&nbsp;/&nbsp;9)&nbsp;* (degF&nbsp;-&nbsp;32)</TT>)
+would not help.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#intoverflow1">3.14</a>.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 1.2 p. 10, Sec. 2.7 p. 41
+<br>
+K&amp;R2 Sec. 1.2 p. 10, Sec. 2.7 p. 44
+<br>
+ISO Sec. 6.2.1.5
+<br>
+H&amp;S Sec. 6.3.4 p. 176
+<hr><hr><hr>
+<a name="qcolonlhs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/qcolonlhs.html"><!-- qtag -->Question 3.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a complicated expression which
+I have
+to assign
+to one 
+of two variables,
+depending on a condition.
+Can I use code like this?
+<pre>
+	((condition) ? a : b) = complicated_expression;
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+
+The <TT>?:</TT> operator,
+like most operators,
+yields a value,
+and you can't assign to a value.
+(In other words, <TT>?:</TT> does not yield an <a href="../sx1/index.html#lvalue"><dfn>lvalue</dfn></a>.)
+
+If you really want to,
+you can try something like
+<pre>
+	*((condition) ? &amp;a : &amp;b) = complicated_expression;
+</pre>
+although this is admittedly not as pretty.
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.3.15
+<br>
+H&amp;S Sec. 7.1 pp. 179-180
+<hr><hr><hr>
+<a name="ternprec">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/ternprec.html"><!-- qtag -->Question 3.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have
+some code
+containing expressions
+like
+<pre>
+a ? b = c : d</pre>
+
+and some compilers are accepting it but some are not.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In the original definition of
+the language,
+<TT>=</TT> was of lower precedence
+than <TT>?:</TT>,
+so early compilers tended to trip up on an expression like
+the one above,
+attempting to parse it as
+if it had been written
+<pre>
+	(a ? b) = (c : d)
+</pre>
+Since it has no other sensible meaning, however,
+later compilers have allowed
+the expression,
+and interpret it
+as if
+an inner set of
+parentheses were implied:
+<pre>
+	a ? (b = c) : d
+</pre>
+Here,
+the left-hand operand of the <TT>=</TT> is simply <TT>b</TT>,
+not the invalid <TT>a&nbsp;?&nbsp;b</TT>.
+In fact,
+the grammar specified in the ANSI/ISO C Standard
+effectively requires this interpretation.
+(The grammar in the Standard
+is not precedence-based,
+and says that any expression may appear between
+the <TT>?</TT> and <TT>:</TT> symbols.)
+</p><p>An expression like the one in the question is
+
+perfectly acceptable to an ANSI compiler,
+but if you ever have to compile it under an older compiler,
+you can always add the explicit, inner parentheses.
+
+</p>
+
+
+<p>References:
+
+K&amp;R1 Sec. 2.12 p. 49
+<br>
+ISO Sec. 6.3.15
+<br>
+Rationale Sec. 3.3.15
+<hr><hr><hr>
+<a name="unswarn">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/unswarn.html"><!-- qtag -->Question 3.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does the warning
+``semantics of `<TT>&gt;</TT>' change in ANSI C''
+mean?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This message represents an attempt
+by certain
+(perhaps overzealous)
+compilers
+to warn you
+that
+some code
+may perform differently under the ANSI C ``value preserving''
+rules than under the older ``unsigned preserving'' rules.
+</p><p>
+
+
+The wording of this
+message
+is rather confusing because what has changed
+is not really the semantics of the <TT>&gt;</TT> operator
+itself
+(in
+fact,
+almost any C operator can appear in the
+message),
+but
+rather
+the semantics
+of the implicit conversions
+
+which always occur when
+two dissimilar types meet across a binary operator,
+or when a narrow integral type must be promoted.
+</p><p>(If you didn't think you were using any unsigned values
+in your expression,
+the
+most likely
+culprit is <TT>strlen</TT>.
+In Standard C,
+<TT>strlen</TT> returns
+<TT>size_t</TT>,
+which is an unsigned type.)
+
+</p><p>See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#preservingrules">3.19</a>.
+<hr><hr><hr>
+<a name="preservingrules">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../expr/preservingrules.html"><!-- qtag -->Question 3.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between the ``unsigned preserving''
+and ``value preserving'' rules?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+These rules concern the behavior
+when
+an unsigned type must be promoted to a ``larger'' type.
+Should it be promoted to a larger signed or unsigned type?
+(To foreshadow the answer,
+it may depend
+on whether the larger type is truly larger.)
+</p><p>Under the unsigned preserving
+(also called ``sign preserving'')
+rules,
+the promoted type
+is always unsigned.
+This rule has the virtue of simplicity,
+but it
+can lead to surprises
+(see the first example below).
+</p><p>Under the value preserving rules,
+the conversion depends on the actual sizes of the
+original and promoted
+types.
+If the promoted type is truly larger--which
+means that it can represent all the values of the
+original, unsigned
+type as signed values--then the promoted type
+is signed.
+If the two types are actually the same size,
+then the promoted type is unsigned
+(as for the unsigned preserving rules).
+</p><p>Since the <em>actual</em> sizes of the types are used
+in making the determination,
+the results
+will vary from machine to machine.
+On some machines,
+<TT>short&nbsp;int</TT> is smaller than <TT>int</TT>,
+but on some machines, they're the same size.
+On some machines,
+<TT>int</TT> is smaller than <TT>long&nbsp;int</TT>,
+but on some machines, they're the same size.
+</p><p>
+
+
+
+In practice, the difference between the unsigned and
+value preserving rules matters most often when one operand of
+a binary
+operator is (or promotes to) <TT>int</TT>
+and the other one might,
+depending on the promotion rules, be either <TT>int</TT> or
+<TT>unsigned int</TT>.
+If one operand is <TT>unsigned int</TT>, the other
+will be converted to that type--almost certainly causing
+an undesired result if its value was negative
+(again, see the first example below).
+When the ANSI
+C Standard was established, the value preserving rules were
+chosen, to reduce the number of cases where
+these surprising results occur.
+(On the other hand,
+the value preserving rules also reduce
+the number of <em>predictable</em> cases,
+because portable programs cannot depend on a machine's type sizes
+and hence cannot know which way the value preserving rules will fall.)
+</p><p>Here is a contrived example
+showing the sort of surprise
+that can
+
+occur under the unsigned preserving rules:
+<pre>
+	unsigned short us = 10;
+	int i = -5;
+	if(i &gt; us)
+		printf("whoops!\n");
+</pre>
+The important issue is how
+the expression <TT>i&nbsp;&gt;&nbsp;us</TT> is evaluated.
+Under the unsigned preserving rules
+(and under the value preserving rules on a machine where 
+<TT>short</TT> integers and plain integers are the same size),
+<TT>us</TT> is promoted to 
+<TT>unsigned&nbsp;int</TT>.
+The usual integral conversions say that when types
+<TT>unsigned&nbsp;int</TT> and <TT>int</TT> meet across a binary operator,
+both operands are converted to unsigned,
+so <TT>i</TT> is converted to <TT>unsigned&nbsp;int</TT>, as well.
+The old value of <TT>i</TT>, -5,
+is converted to some 
+large unsigned value (65,531 on a 16-bit machine).
+This converted value is greater than 10,
+so the code prints ``whoops!''
+</p><p>Under the value preserving rules,
+on a machine where
+plain integers are larger than <TT>short</TT> integers,
+<TT>us</TT> is converted to a plain <TT>int</TT>
+(and retains its value, 10),
+and <TT>i</TT> remains a plain <TT>int</TT>.
+The
+expression is not true,
+and the code prints nothing.
+(To see why the values can be preserved only when the signed type is larger,
+remember that a value like 40,000 can be represented
+as an unsigned 16-bit integer but not as a signed one.)
+</p><p>Unfortunately, the value preserving rules
+do not prevent all surprises.
+The example just presented still prints ``whoops''
+on a machine where short and plain integers are the same size.
+The
+value preserving rules
+may also inject a few surprises of their
+own--consider
+the code:
+<pre>
+	unsigned char uc = 0x80;
+	unsigned long ul = 0;
+	ul |= uc &lt;&lt; 8;
+	printf("0x%lx\n", ul);
+</pre>
+Before being left-shifted, <TT>uc</TT> is promoted.
+Under the unsigned preserving rules,
+it is promoted to an <TT>unsigned&nbsp;int</TT>,
+and the code goes on to print <TT>0x8000</TT>,
+as expected.
+Under the value preserving rules, however,
+<TT>uc</TT> is promoted to a <em>signed</em> int
+(as long as <TT>int</TT>'s are larger than <TT>char</TT>'s,
+which is usually the case).
+The intermediate result <TT>uc&nbsp;&lt;&lt;&nbsp;8</TT>
+goes on to
+meet
+<TT>ul</TT>,
+which is <TT>unsigned&nbsp;long</TT>.
+The signed, intermediate result must therefore be promoted as well,
+and if <TT>int</TT> is smaller than <TT>long</TT>,
+the intermediate result
+is sign-extended,
+becoming
+<TT>0xffff8000</TT> on a machine with 32-bit <TT>long</TT>s.
+On such a machine,
+the code prints <TT>0xffff8000</TT>,
+which is probably not what was expected.
+(On machines where <TT>int</TT> and <TT>long</TT> are the same size,
+the code
+prints <TT>0x8000</TT>
+under either set of rules.)
+</p><p>To avoid surprises
+(under either set of rules,
+or due to an unexpected change of rules),
+it's best to avoid mixing signed and unsigned types in the same 
+expression,
+although as the second example shows,
+this rule is not always sufficient.
+You can
+always
+use explicit casts
+to indicate,
+unambiguously,
+exactly
+where and how you want conversions performed;
+see questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#extconform">12.42</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>
+for examples.
+(Some compilers attempt to warn you when they detect ambiguous 
+cases
+or expressions which would have behaved differently under the 
+unsigned preserving rules,
+although sometimes these warnings fire too often;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#unswarn">3.18</a>.)
+</p>
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 2.7 p. 44, Sec. A6.5 p. 198, Appendix C p. 260
+<br>
+ISO Sec. 6.2.1.1, Sec. 6.2.1.2, Sec. 6.2.1.5
+<br>
+Rationale Sec. 3.2.1.1
+<br>
+H&amp;S Secs. 6.3.3,6.3.4 pp. 174-177
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

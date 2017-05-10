@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>feature testing macros - cppreference.com</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.21.2" />
+<link rel="shortcut icon" href="../../favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://en.cppreference.com/mwiki/opensearch_desc.php" title="cppreference.com (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://en.cppreference.com/mwiki/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="cppreference.com Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=ext.gadget.ColiruCompiler%257Cext.rtlcite%257Cmediawiki.legacy.commonPrint%252Cshared%257Cskins.cppreference2&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#toc{display:none}.editsection{display:none}
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-css:7:472787eddcf4605d11de8c7ef047234f */</style>
+
+<script src="../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"User","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":2,"wgPageName":"User:D41D8CD98F/feature_testing_macros","wgTitle":"D41D8CD98F/feature testing macros","wgCurRevisionId":87347,"wgArticleId":14000,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Todo with reason"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"User:D41D8CD98F/feature_testing_macros","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":0,"showtoolbar":1,"skin":"cppreference2","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-ColiruCompiler":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});;},{},{});
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-js:7:ca03345b1e2c4d90a25d968753a73b92 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<style type="text/css">/*<![CDATA[*/
+.source-cpp {line-height: normal;}
+.source-cpp li, .source-cpp pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for cpp
+ * CSS class: source-cpp, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.cpp.source-cpp .de1, .cpp.source-cpp .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.cpp.source-cpp  {font-family:monospace;}
+.cpp.source-cpp .imp {font-weight: bold; color: red;}
+.cpp.source-cpp li, .cpp.source-cpp .li1 {font-weight: normal; vertical-align:top;}
+.cpp.source-cpp .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.cpp.source-cpp .li2 {font-weight: bold; vertical-align:top;}
+.cpp.source-cpp .kw1 {color: #0000dd;}
+.cpp.source-cpp .kw2 {color: #0000ff;}
+.cpp.source-cpp .kw3 {color: #0000dd;}
+.cpp.source-cpp .kw4 {color: #0000ff;}
+.cpp.source-cpp .co1 {color: #909090;}
+.cpp.source-cpp .co2 {color: #339900;}
+.cpp.source-cpp .coMULTI {color: #ff0000; font-style: italic;}
+.cpp.source-cpp .es0 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es1 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es2 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es3 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es4 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es5 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .br0 {color: #008000;}
+.cpp.source-cpp .sy0 {color: #008000;}
+.cpp.source-cpp .sy1 {color: #000080;}
+.cpp.source-cpp .sy2 {color: #000040;}
+.cpp.source-cpp .sy3 {color: #000040;}
+.cpp.source-cpp .sy4 {color: #008080;}
+.cpp.source-cpp .st0 {color: #008000;}
+.cpp.source-cpp .nu0 {color: #000080;}
+.cpp.source-cpp .nu6 {color: #000080;}
+.cpp.source-cpp .nu8 {color: #000080;}
+.cpp.source-cpp .nu12 {color: #000080;}
+.cpp.source-cpp .nu16 {color:#000080;}
+.cpp.source-cpp .nu17 {color:#000080;}
+.cpp.source-cpp .nu18 {color:#000080;}
+.cpp.source-cpp .nu19 {color:#000080;}
+.cpp.source-cpp .ln-xtra, .cpp.source-cpp li.ln-xtra, .cpp.source-cpp div.ln-xtra {background-color: #ffc;}
+.cpp.source-cpp span.xtra { display:block; }
+
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/mwiki/skins/cppreference2/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-2 ns-subject page-User_D41D8CD98F_feature_testing_macros skin-cppreference2 action-view">
+        <!-- header -->
+        <div id="mw-head" class="noprint">
+            <div id="cpp-head-first-base">
+                <div id="cpp-head-first">
+                    <h5><a href="http://en.cppreference.com/">
+                        cppreference.com                        </a></h5>
+                    <div id="cpp-head-search">
+                        
+<!-- 0 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="http://en.cppreference.com/mwiki/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input name="search" title="Search cppreference.com [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search the pages for this text" id="searchButton"><img src="../../mwiki/skins/cppreference2/images/search-ltr.png%3F303" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /0 -->
+                    </div>
+                    <div id="cpp-head-personal">
+                        
+<!-- 0 -->
+<div id="p-personal" class="">
+<span id="pt-createaccount"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=User%3AD41D8CD98F%2Ffeature+testing+macros&amp;type=signup">Create account</a></span>	<div class="menu">
+        <ul>
+<li id="pt-login"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=User%3AD41D8CD98F%2Ffeature+testing+macros" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>        </ul>
+    </div>
+</div>
+
+<!-- /0 -->
+                    </div>
+
+                </div>
+            </div>
+            <div id="cpp-head-second-base">
+                <div id="cpp-head-second">
+                    <div id="cpp-head-tools-left">
+                        
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-user" class="selected"><span><a href="feature_testing_macros.html"  title="View the user page [c]" accesskey="c">User page</a></span></li>
+					<li  id="ca-talk"><span><a href="../User_talk:D41D8CD98F/feature_testing_macros.html"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="feature_testing_macros.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                    <div id="cpp-head-tools-right">
+                        
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="feature_testing_macros.html" >View</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">History</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="feature_testing_macros.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /header -->
+        <!-- content -->
+        <div id="cpp-content-base">
+            <div id="content">
+                <a id="top"></a>
+                <div id="mw-js-message" style="display:none;"></div>
+                                <!-- firstHeading -->
+                <h1 id="firstHeading" class="firstHeading">feature testing macros</h1>
+                <!-- /firstHeading -->
+                <!-- bodyContent -->
+                <div id="bodyContent">
+                                        <!-- tagline -->
+                    <div id="siteSub">From cppreference.com</div>
+                    <!-- /tagline -->
+                                        <!-- subtitle -->
+                    <div id="contentSub"></div>
+                    <!-- /subtitle -->
+                                                            <!-- bodycontent -->
+                    <div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>Provide a set of preprocessor macros which give a simple and portable way to detect the presence of C++ standards and experimantal features.
+</p><p>The presence of a certain header can be detected using <a href="../cpp/experimental/feature_test.html#Finding_Headers" title="cpp/experimental/feature test"><tt>__has_include</tt></a>.
+</p>
+<table id="toc" class="toc"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="feature_testing_macros.html#Table_of_Contents"><span class="tocnumber">1</span> <span class="toctext">Table of Contents</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="feature_testing_macros.html#C.2B.2B17"><span class="tocnumber">2</span> <span class="toctext">C++17</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="feature_testing_macros.html#C.2B.2B14"><span class="tocnumber">3</span> <span class="toctext">C++14</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="feature_testing_macros.html#C.2B.2B11"><span class="tocnumber">4</span> <span class="toctext">C++11</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="feature_testing_macros.html#C.2B.2B98"><span class="tocnumber">5</span> <span class="toctext">C++98</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="feature_testing_macros.html#Technical_Specifications"><span class="tocnumber">6</span> <span class="toctext">Technical Specifications</span></a>
+<ul>
+<li class="toclevel-2 tocsection-7"><a href="feature_testing_macros.html#File_System"><span class="tocnumber">6.1</span> <span class="toctext">File System</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="feature_testing_macros.html#Library_Fundamentals"><span class="tocnumber">6.2</span> <span class="toctext">Library Fundamentals</span></a>
+<ul>
+<li class="toclevel-3 tocsection-9"><a href="feature_testing_macros.html#v1"><span class="tocnumber">6.2.1</span> <span class="toctext">v1</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="feature_testing_macros.html#v2"><span class="tocnumber">6.2.2</span> <span class="toctext">v2</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-11"><a href="feature_testing_macros.html#Parallelism"><span class="tocnumber">6.3</span> <span class="toctext">Parallelism</span></a></li>
+<li class="toclevel-2 tocsection-12"><a href="feature_testing_macros.html#Concurrency"><span class="tocnumber">6.4</span> <span class="toctext">Concurrency</span></a></li>
+<li class="toclevel-2 tocsection-13"><a href="feature_testing_macros.html#Transactional_Memory"><span class="tocnumber">6.5</span> <span class="toctext">Transactional Memory</span></a></li>
+<li class="toclevel-2 tocsection-14"><a href="feature_testing_macros.html#Concepts"><span class="tocnumber">6.6</span> <span class="toctext">Concepts</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<h2> <span class="mw-headline" id="Table_of_Contents">Table of Contents</span></h2>
+<ul><li> <a href="feature_testing_macros.html#C.2B.2B17">C++17</a>
+</li><li> <a href="feature_testing_macros.html#C.2B.2B14">C++14</a>
+</li><li> <a href="feature_testing_macros.html#C.2B.2B11">C++11</a>
+</li><li> <a href="feature_testing_macros.html#C.2B.2B98">C++98</a>
+</li><li> <a href="feature_testing_macros.html#Technical_Specifications">Technical Specifications</a>
+</li></ul>
+<dl><dd><ul><li> <a href="feature_testing_macros.html#File_System">File System</a>
+</li><li> <a href="feature_testing_macros.html#Library_Fundamentals">Library Fundamentals</a>
+</li></ul>
+<dl><dd><ul><li> <a href="feature_testing_macros.html#v1">v1</a>
+</li><li> <a href="feature_testing_macros.html#v2">v2</a>
+</li></ul>
+</dd></dl>
+<ul><li> <a href="feature_testing_macros.html#Parallelism">Parallelism</a>
+</li><li> <a href="feature_testing_macros.html#Concurrency">Concurrency</a>
+</li><li> <a href="feature_testing_macros.html#Transactional_Memory">Transactional Memory</a>
+</li><li> <a href="feature_testing_macros.html#Concepts">Concepts</a>
+</li></ul>
+</dd></dl>
+<p>This page is based on <a rel="nofollow" class="external text" href="http://wg21.link/P0096R2">P0096R2</a>.
+</p>
+<table class="metadata plainlinks ambox mbox-small-left ambox-notice" style=""><tr><td class="mbox-empty-cell"></td><td class="mbox-text" style="">This section is incomplete<br />Reason: Update to <a rel="nofollow" class="external text" href="http://wg21.link/P0096R3">P0096R3</a>. </td></tr></table>
+<h2> <span class="mw-headline" id="C.2B.2B17">C++17</span></h2>
+<table class="wikitable">
+
+<tr>
+<th> Paper(s)
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0012r1.html">P0012R1</a>
+</td>
+<td> Make exception specifications be part of the type system
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_noexcept_function_type</span></span>
+</td>
+<td> 201510
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4191.html">N4191</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4295.html">N4295</a>
+</p>
+</td>
+<td> <a href="../cpp/language/fold.html" title="cpp/language/fold">Fold expressions</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_fold_expressions</span></span>
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3928.pdf">N3928</a>
+</td>
+<td> <a href="../cpp/language/static_assert.html" title="cpp/language/static assert">Extended <code>static_assert</code></a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_static_assert</span></span> (<a href="feature_testing_macros.html#cpp_static_assert_200410">value increased</a>)
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4196.html">N4196</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4266.html">N4266</a>
+</p>
+</td>
+<td rowspan="2"> Attributes for <a href="../cpp/language/namespace.html" title="cpp/language/namespace">namespaces</a> and <a href="../cpp/language/enum.html" title="cpp/language/enum">enumerators</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_namespace_attributes</span></span>
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_enumerator_attributes</span></span>
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4230.html">N4230</a>
+</td>
+<td> <a href="../cpp/language/namespace.html" title="cpp/language/namespace">Nested namespace definition</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_nested_namespace_definitions</span></span>
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0136r0.html">P0136R0</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0136r1.html">P0136R1</a>
+</p>
+</td>
+<td> <a href="../cpp/language/using_declaration.html#Inheriting_constructors" title="cpp/language/using declaration">Rewording inheriting constructors</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_inheriting_constructors</span></span> (<a href="feature_testing_macros.html#cpp_inheriting_constructors_200802">value increased</a>)
+</td>
+<td> 201511
+</td>
+<td> predefined
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4198.html">N4198</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4268.html">N4268</a>
+</p>
+</td>
+<td> Allow constant evaluation for all <a href="../cpp/language/template_parameters.html#Template_non-type_arguments" title="cpp/language/template parameters">non-type template arguments</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_nontype_template_args</span></span>
+</td>
+<td> 201411
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4152.pdf">N4152</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4259.pdf">N4259</a>
+</p>
+</td>
+<td> <span class="t-lc">std::uncaught_exceptions</span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_uncaught_exceptions</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/exception.html" title="cpp/header/exception"><tt>&lt;exception&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0007r1.html">P0007R1</a>
+</td>
+<td> <span class="t-lc">std:as_const</span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_as_const</span></span>
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/utility.html" title="cpp/header/utility"><tt>&lt;utility&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0074r0.html">P0074R0</a>
+</td>
+<td> Making <span class="t-lc"><a href="../cpp/memory/owner_less.html" title="cpp/memory/owner less">std::owner_less</a></span> more flexible (<a href="../cpp/memory/owner_less_void.html" title="cpp/memory/owner less void"><tt>std::owner_less&lt;void&gt;</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_transparent_operators</span></span> (<a href="feature_testing_macros.html#cpp_lib_transparent_operators_201210">value increased</a>)
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/memory.html" title="cpp/header/memory"><tt>&lt;memory&gt;</tt></a> <a href="../cpp/header/functional.html" title="cpp/header/functional"><tt>&lt;functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4169.html">N4169</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/utility/functional/invoke.html" title="cpp/utility/functional/invoke">std::invoke</a></span> function template
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_invoke</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/functional.html" title="cpp/header/functional"><tt>&lt;functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3911.pdf">N3911</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/types/void_t.html" title="cpp/types/void t">std::void_t</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_void_t</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4389.html">N4389</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/types/integral_constant.html" title="cpp/types/integral constant">std::bool_constant</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_bool_constant</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0006r0.html">P0006R0</a>
+</td>
+<td> Type traits variable templates (<span class="t-lc"><a href="../cpp/types/is_void.html" title="cpp/types/is void">std::is_void_v</a></span>, etc)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_type_trait_variable_templates</span></span>
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0013r1.html">P0013R1</a>
+</td>
+<td> <a href="../cpp/utility/rtti.html#Operations_on_traits" title="cpp/types">Logical operator type traits</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_logical_traits</span></span>
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0092r1.html">P0092R1</a>
+</td>
+<td> Polishing &lt;chrono&gt; (rounding functions for <span class="t-lc"><a href="../cpp/chrono/duration.html" title="cpp/chrono/duration">std::chrono::duration</a></span> and <span class="t-lc"><a href="../cpp/chrono/time_point.html" title="cpp/chrono/time point">std::chrono::time_point</a></span>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_chrono</span></span>
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/chrono.html" title="cpp/header/chrono"><tt>&lt;chrono&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4258.pdf">N4258</a>
+</td>
+<td> Cleaning-up <code>noexcept</code> in the Library
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_allocator_traits_is_always_equal</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/memory.html" title="cpp/header/memory"><tt>&lt;memory&gt;</tt></a> <a href="../cpp/header/scoped_allocator.html" title="cpp/header/scoped allocator"><tt>&lt;scoped_allocator&gt;</tt></a>
+<p><a href="../cpp/header/string.html" title="cpp/header/string"><tt>&lt;string&gt;</tt></a> <a href="../cpp/header/deque.html" title="cpp/header/deque"><tt>&lt;deque&gt;</tt></a>
+<a href="../cpp/header/forward_list.html" title="cpp/header/forward list"><tt>&lt;forward_list&gt;</tt></a> <a href="../cpp/header/list.html" title="cpp/header/list"><tt>&lt;list&gt;</tt></a>
+<a href="../cpp/header/vector.html" title="cpp/header/vector"><tt>&lt;vector&gt;</tt></a> <a href="../cpp/header/map.html" title="cpp/header/map"><tt>&lt;map&gt;</tt></a>
+<a href="../cpp/header/set.html" title="cpp/header/set"><tt>&lt;set&gt;</tt></a> <a href="../cpp/header/unordered_map.html" title="cpp/header/unordered map"><tt>&lt;unordered_map&gt;</tt></a> <a href="../cpp/header/unordered_set.html" title="cpp/header/unordered set"><tt>&lt;unordered_set&gt;</tt></a>
+</p>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4510.html">N4510</a>
+</td>
+<td> Minimal incomplete type support for standard containers
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_incomplete_container_elements</span></span>
+</td>
+<td> 201505
+</td>
+<td>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4279.html">N4279</a>
+</td>
+<td rowspan="2"> Improved insertion interface for unique-key maps (<span class="t-lc"><a href="../cpp/container/map/try_emplace.html" title="cpp/container/map/try emplace">std::map::try_emplace</a></span>, <span class="t-lc"><a href="../cpp/container/map/insert_or_assign.html" title="cpp/container/map/insert or assign">std::map::insert_or_assign</a></span> and their counterparts in <span class="t-lc"><a href="../cpp/container/unordered_map.html" title="cpp/container/unordered map">std::unordered_map</a></span>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_map_try_emplace</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/map.html" title="cpp/header/map"><tt>&lt;map&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_unordered_map_try_emplace</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/unordered_map.html" title="cpp/header/unordered map"><tt>&lt;unordered_map&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4280.pdf">N4280</a>
+</td>
+<td> Non-member <code>size()</code> and more (<a href="../cpp/iterator.html#Container_access" title="cpp/iterator">uniform container access</a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_nonmember_container_access</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/iterator.html" title="cpp/header/iterator"><tt>&lt;iterator&gt;</tt></a> <a href="../cpp/header/array.html" title="cpp/header/array"><tt>&lt;array&gt;</tt></a> <a href="../cpp/header/deque.html" title="cpp/header/deque"><tt>&lt;deque&gt;</tt></a> <a href="../cpp/header/forward_list.html" title="cpp/header/forward list"><tt>&lt;forward_list&gt;</tt></a>
+<p><a href="../cpp/header/list.html" title="cpp/header/list"><tt>&lt;list&gt;</tt></a> <a href="../cpp/header/map.html" title="cpp/header/map"><tt>&lt;map&gt;</tt></a> <a href="../cpp/header/regex.html" title="cpp/header/regex"><tt>&lt;regex&gt;</tt></a> <a href="../cpp/header/set.html" title="cpp/header/set"><tt>&lt;set&gt;</tt></a> <a href="../cpp/header/string.html" title="cpp/header/string"><tt>&lt;string&gt;</tt></a>
+<a href="../cpp/header/unordered_map.html" title="cpp/header/unordered map"><tt>&lt;unordered_map&gt;</tt></a> <a href="../cpp/header/unordered_set.html" title="cpp/header/unordered set"><tt>&lt;unordered_set&gt;</tt></a> <a href="../cpp/header/vector.html" title="cpp/header/vector"><tt>&lt;vector&gt;</tt></a>
+</p>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4508.html">N4508</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/thread/shared_mutex.html" title="cpp/thread/shared mutex">std::shared_mutex</a></span> (untimed)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_shared_mutex</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="../cpp/header/shared_mutex.html" title="cpp/header/shared mutex"><tt>&lt;shared_mutex&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0156r0.html">P0156R0</a>
+</td>
+<td> Variadic <span class="t-lc"><a href="../cpp/thread/lock_guard.html" title="cpp/thread/lock guard">std::lock_guard</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_lock_guard_variadic</span></span>
+</td>
+<td> 201510
+</td>
+<td> <a href="../cpp/header/thread.html" title="cpp/header/thread"><tt>&lt;thread&gt;</tt></a>
+</td></tr></table>
+<h2> <span class="mw-headline" id="C.2B.2B14">C++14</span></h2>
+<table class="wikitable">
+
+<tr>
+<th> Paper(s)
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3472.pdf">N3472</a>
+</td>
+<td> <a href="../cpp/language/integer_literal.html" title="cpp/language/integer literal">Binary literals</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_binary_literals</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3610.html">N3610</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3648.html">N3648</a>
+</p>
+</td>
+<td> <a href="../cpp/language/lambda.html" title="cpp/language/lambda">Generalized lambda-capture</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_init_captures</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3649.html">N3649</a>
+</td>
+<td> <a href="../cpp/language/lambda.html" title="cpp/language/lambda">Generic lambdas</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_generic_lambdas</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3778.html">N3778</a>
+</td>
+<td> <a href="../cpp/memory/new/operator_delete.html" title="cpp/memory/new/operator delete">Sized deallocation</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_sized_deallocation</span></span>
+</td>
+<td> 201309
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3652.html">N3652</a>
+</td>
+<td> <a href="../cpp/language/constexpr.html" title="cpp/language/constexpr">Relaxed constraints on constexpr functions / constexpr member functions and implicit const</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_constexpr</span></span> (<a href="feature_testing_macros.html#cpp_constexpr_200704">value increased</a>)
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3638.html">N3638</a>
+</td>
+<td rowspan="2"> <a href="../cpp/language/auto.html" title="cpp/language/auto">Return type deduction for normal functions</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_decltype_auto</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_return_type_deduction</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3760.html">N3760</a>
+</td>
+<td> <a href="../cpp/language/attributes.html" title="cpp/language/attributes"><span class="t-c"><span class="mw-geshi cpp source-cpp"><span class="br0">&#91;</span><span class="br0">&#91;</span>deprecated<span class="br0">&#93;</span><span class="br0">&#93;</span></span></span> attribute</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__has_cpp_attribute<span class="br0">&#40;</span>deprecated<span class="br0">&#41;</span></span></span>
+</td>
+<td> 201309
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3653.html">N3653</a>
+</td>
+<td> <a href="../cpp/language/aggregate_initialization.html" title="cpp/language/aggregate initialization">Member initializers and aggregates</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_aggregate_nsdmi</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3651.pdf">N3651</a>
+</td>
+<td> <a href="../cpp/language/variable_template.html" title="cpp/language/variable template">Variable Templates</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_variable_templates</span></span>
+</td>
+<td> 201304
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3658.html">N3658</a>
+</td>
+<td> Compile-time integer sequences (<span class="t-lc"><a href="../cpp/utility/integer_sequence.html" title="cpp/utility/integer sequence">std::integer_sequence</a></span>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_integer_sequence</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/utility.html" title="cpp/header/utility"><tt>&lt;utility&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3668.html">N3668</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/utility/exchange.html" title="cpp/utility/exchange">std::exchange()</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_exchange_function</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/utility.html" title="cpp/header/utility"><tt>&lt;utility&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3670.html">N3670</a>
+</td>
+<td> <a href="../cpp/utility/tuple/get.html" title="cpp/utility/tuple/get">Addressing tuples by type</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_tuples_by_type</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/utility.html" title="cpp/header/utility"><tt>&lt;utility&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3887.pdf">N3887</a>
+</td>
+<td> <span class="t-lc">std::tuple_element_t</span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_tuple_element_t</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="../cpp/header/utility.html" title="cpp/header/utility"><tt>&lt;utility&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3656.htm">N3656</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/memory/unique_ptr/make_unique.html" title="cpp/memory/unique ptr/make unique">std::make_unique</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_make_unique</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/memory.html" title="cpp/header/memory"><tt>&lt;memory&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3421.htm">N3421</a>
+</td>
+<td> Transparent operator functors (<a href="../cpp/utility/functional/greater_void.html" title="cpp/utility/functional/greater void"><tt>std::greater&lt;&gt;</tt></a>, etc)
+</td>
+<td> <span id="cpp_lib_transparent_operators_201210"><span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_transparent_operators</span></span></span>
+</td>
+<td> 201210
+</td>
+<td> <a href="../cpp/header/functional.html" title="cpp/header/functional"><tt>&lt;functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3545.pdf">N3545</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/types/integral_constant.html" title="cpp/types/integral constant">std::integral_constant::operator()</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_integral_constant_callable</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3655.pdf">N3655</a>
+</td>
+<td> Type alias versions of standard <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/concept/TransformationTrait&amp;action=edit&amp;redlink=1" class="new" title="cpp/concept/TransformationTrait (page does not exist)"><code>TransformationTrait</code>s</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_transformation_trait_aliases</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3462.html">N3462</a>
+</td>
+<td> <a href="../cpp/language/sfinae.html" title="cpp/language/sfinae">SFINAE</a>-friendly <span class="t-lc"><a href="../cpp/types/result_of.html" title="cpp/types/result of">std::result_of</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_result_of_sfinae</span></span>
+</td>
+<td> 201210
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3945.html#2112">LWG 2112</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/types/is_final.html" title="cpp/types/is final">std::is_final</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_is_final</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3822.html#2247">LWG 2247</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/types/is_null_pointer.html" title="cpp/types/is null pointer">std::is_null_pointer</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_is_null_pointer</span></span>
+</td>
+<td> 201309
+</td>
+<td> <a href="../cpp/header/type_traits.html" title="cpp/header/type traits"><tt>&lt;type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3642.pdf">N3642</a>
+</td>
+<td rowspan="2"> User-defined literals for standard library types (<a href="../cpp/chrono/duration.html#Literals" title="cpp/chrono/duration"><tt>std::chrono_literals</tt></a>, <a href="../cpp/string/basic_string/operator&quot;&quot;s.html" title="cpp/string/basic string/operator&quot;&quot;s"><tt>std::string_literals</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_chrono_udls</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/chrono.html" title="cpp/header/chrono"><tt>&lt;chrono&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_string_udls</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/string.html" title="cpp/header/string"><tt>&lt;string&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3657.htm">N3657</a>
+</td>
+<td> Heterogeneous comparison lookup to associative containers
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_generic_associative_lookup</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/map.html" title="cpp/header/map"><tt>&lt;map&gt;</tt></a><br /><a href="../cpp/header/set.html" title="cpp/header/set"><tt>&lt;set&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3644.pdf">N3644</a>
+</td>
+<td> Null <a href="../cpp/concept/ForwardIterator.html" title="cpp/concept/ForwardIterator"><code>ForwardIterator</code>s</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_null_iterators</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/iterator.html" title="cpp/header/iterator"><tt>&lt;iterator&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3945.html#2285">LWG 2285</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/iterator/make_reverse_iterator.html" title="cpp/iterator/make reverse iterator">std::make_reverse_iterator</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_make_reverse_iterator</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="../cpp/header/iterator.html" title="cpp/header/iterator"><tt>&lt;iterator&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3671.html">N3671</a>
+</td>
+<td> Making non-modifying sequence operations more robust (two-range overloads for <span class="t-lc"><a href="../cpp/algorithm/mismatch.html" title="cpp/algorithm/mismatch">std::mismatch</a></span>, <span class="t-lc"><a href="../cpp/algorithm/equal.html" title="cpp/algorithm/equal">std::equal</a></span> and <span class="t-lc"><a href="../cpp/algorithm/is_permutation.html" title="cpp/algorithm/is permutation">std::is_permutation</a></span>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_robust_nonmodifying_seq_ops</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/algorithm.html" title="cpp/header/algorithm"><tt>&lt;algorithm&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3779.pdf">N3779</a>
+</td>
+<td> User-defined literals for <span class="t-lc"><a href="../cpp/numeric/complex.html" title="cpp/numeric/complex">std::complex</a></span> (<a href="../cpp/numeric/complex/operator&quot;&quot;i.html" title="cpp/numeric/complex/operator&quot;&quot;i"><tt>std::complex_literals</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_complex_udls</span></span>
+</td>
+<td> 201309
+</td>
+<td> <a href="../cpp/header/complex.html" title="cpp/header/complex"><tt>&lt;complex&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3654.html">N3654</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/io/manip/quoted.html" title="cpp/io/manip/quoted">std::quoted</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_quoted_string_io</span></span>
+</td>
+<td> 201304
+</td>
+<td> <a href="../cpp/header/iomanip.html" title="cpp/header/iomanip"><tt>&lt;iomanip&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3659.html">N3659</a>
+</td>
+<td> <a href="../cpp/header/shared_mutex.html" title="cpp/header/shared mutex">Shared locking</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__has_include<span class="br0">&#40;</span><span class="sy1">&lt;</span>shared_mutex<span class="sy1">&gt;</span><span class="br0">&#41;</span></span></span>
+</td>
+<td> 1
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3891.htm">N3891</a>
+</td>
+<td> Rename shared_mutex to <span class="t-lc"><a href="../cpp/thread/shared_timed_mutex.html" title="cpp/thread/shared timed mutex">shared_timed_mutex</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_shared_timed_mutex</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="../cpp/header/shared_mutex.html" title="cpp/header/shared mutex"><tt>&lt;shared_mutex&gt;</tt></a>
+</td></tr></table>
+<h2> <span class="mw-headline" id="C.2B.2B11">C++11</span></h2>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2249.html">N2249</a>
+</td>
+<td> <a href="../cpp/language/types.html" title="cpp/language/types">New character types</a> (<span class="t-c"><span class="mw-geshi cpp source-cpp"><span class="kw4">char16_t</span></span></span> and <span class="t-c"><span class="mw-geshi cpp source-cpp"><span class="kw4">char32_t</span></span></span>)
+</td>
+<td> <span id="cpp_unicode_characters_200704"><span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_unicode_characters</span></span></span>
+</td>
+<td> 200704
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2442.htm">N2442</a>
+</td>
+<td rowspan="2"> <a href="../cpp/language/string_literal.html" title="cpp/language/string literal">Raw and unicode string literals</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_raw_strings</span></span>
+</td>
+<td> 200710
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_unicode_literals</span></span>
+</td>
+<td> 200710
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2765.pdf">N2765</a>
+</td>
+<td> <a href="../cpp/language/user_literal.html" title="cpp/language/user literal">User-defined literals</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_user_defined_literals</span></span>
+</td>
+<td> 200809
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2927.pdf">N2927</a>
+</td>
+<td> <a href="../cpp/language/lambda.html" title="cpp/language/lambda">Lambda expressions</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lambdas</span></span>
+</td>
+<td> 200907
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2235.pdf">N2235</a>
+</td>
+<td> <a href="../cpp/language/constexpr.html" title="cpp/language/constexpr"><tt>constexpr</tt></a>
+</td>
+<td> <span id="cpp_constexpr_200704"><span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_constexpr</span></span></span>
+</td>
+<td> 200704
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2930.html">N2930</a>
+</td>
+<td> <a href="../cpp/language/range-for.html" title="cpp/language/range-for">Range-for loop</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_range_based_for</span></span>
+</td>
+<td> 200907
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1720.html">N1720</a>
+</td>
+<td> <a href="../cpp/language/static_assert.html" title="cpp/language/static assert"><tt>static_assert</tt></a>
+</td>
+<td> <span id="cpp_static_assert_200410"><span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_static_assert</span></span></span>
+</td>
+<td> 200410
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2343.pdf">N2343</a>
+</td>
+<td> <a href="../Special:Search/decltype.html" title="cpp/language/decltype"><tt>decltype</tt></a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_decltype</span></span>
+</td>
+<td> 200707
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td rowspan="3"> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf">N2761</a>
+</td>
+<td rowspan="3"> <a href="../cpp/language/attributes.html" title="cpp/language/attributes">Attributes</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_attributes</span></span>
+</td>
+<td> 200809
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__has_cpp_attribute<span class="br0">&#40;</span>noreturn<span class="br0">&#41;</span></span></span>
+</td>
+<td> 200809
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__has_cpp_attribute<span class="br0">&#40;</span>carries_dependency<span class="br0">&#41;</span></span></span>
+</td>
+<td> 200809
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2118.html">N2118</a>
+</td>
+<td> <a href="../cpp/language/reference.html" title="cpp/language/reference">Rvalue reference</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_rvalue_references</span></span>
+</td>
+<td> 200610
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2242.pdf">N2242</a>
+</td>
+<td> <a href="../cpp/language/parameter_pack.html" title="cpp/language/parameter pack">Variadic templates</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_variadic_templates</span></span>
+</td>
+<td> 200704
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2672.htm">N2672</a>
+</td>
+<td> <a href="../cpp/language/list_initialization.html" title="cpp/language/list initialization">Initializer lists</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_initializer_lists</span></span>
+</td>
+<td> 200806
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2437.pdf">N2437</a>
+</td>
+<td> <a href="../cpp/language/cast_operator.html" title="cpp/language/cast operator">Explicit conversion operators</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_explicit_conversion</span></span>
+</td>
+<td> 200710
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1986.pdf">N1986</a>
+</td>
+<td> <a href="../cpp/language/constructor.html#Delegating_constructor" title="cpp/language/initializer list">Delegating constructors</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_delegating_constructors</span></span>
+</td>
+<td> 200604
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2756.htm">N2756</a>
+</td>
+<td> <a href="../cpp/language/data_members.html#Member_initialization" title="cpp/language/data members">Non-static data member initializers</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_nsdmi</span></span>
+</td>
+<td> 200809
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2540.htm">N2540</a>
+</td>
+<td> <a href="../cpp/language/using_declaration.html#Inheriting_constructors" title="cpp/language/using declaration">Inheriting constructors</a>
+</td>
+<td> <span id="cpp_inheriting_constructors_200802"><span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_inheriting_constructors</span></span></span>
+</td>
+<td> 200802
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2439.htm">N2439</a>
+</td>
+<td> <a href="../cpp/language/member_functions.html" title="cpp/language/member functions">ref-qualifiers</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_ref_qualifiers</span></span>
+</td>
+<td> 200710
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2258.pdf">N2258</a>
+</td>
+<td> <a href="../cpp/language/type_alias.html" title="cpp/language/type alias">Template aliases</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_alias_templates</span></span>
+</td>
+<td> 200704
+</td>
+<td> <i>predefined</i>
+</td></tr></table>
+<h2> <span class="mw-headline" id="C.2B.2B98">C++98</span></h2>
+<table class="wikitable">
+
+<tr>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> Run-time type identification (<a href="../cpp/language/dynamic_cast.html" title="cpp/language/dynamic cast"><tt>dynamic_cast</tt></a>, <a href="../cpp/language/typeid.html" title="cpp/language/typeid"><tt>typeid</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_rtti</span></span>
+</td>
+<td> 199711
+</td>
+<td> <i>predefined</i>
+</td></tr>
+<tr>
+<td> <a href="../cpp/language/exceptions.html" title="cpp/language/exceptions">Exception handling</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_exceptions</span></span>
+</td>
+<td> 199711
+</td>
+<td> <i>predefined</i>
+</td></tr></table>
+<h2> <span class="mw-headline" id="Technical_Specifications">Technical Specifications</span></h2>
+<h3> <span class="mw-headline" id="File_System">File System</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4100.pdf">N4100</a>
+</td>
+<td> <a href="../cpp/experimental/fs.html" title="cpp/experimental/fs">Filesystem library</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_filesystem</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="../cpp/header/experimental/filesystem.html" title="cpp/header/experimental/filesystem"><tt>&lt;experimental/filesystem&gt;</tt></a>
+</td></tr></table>
+<h3> <span class="mw-headline" id="Library_Fundamentals">Library Fundamentals</span></h3>
+<h4> <span class="mw-headline" id="v1">v1</span></h4>
+<table class="wikitable">
+
+<tr>
+<th> Paper(s)
+</th>
+<th> Feature
+</th>
+<th> Macro Name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3915.pdf">N3915</a>
+</td>
+<td> <a href="../cpp/experimental/apply.html" title="cpp/experimental/apply"><tt>apply()</tt></a> call a function with arguments from a tuple
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_apply</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/tuple&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/tuple (page does not exist)"><tt>&lt;experimental/tuple&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3932.htm">N3932</a>
+</td>
+<td> Variable templates for type traits
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_type_trait_variable_templates</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/type_traits&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/type traits (page does not exist)"><tt>&lt;experimental/type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3866.html">N3866</a>
+</td>
+<td> <a href="../cpp/experimental/invocation_type.html" title="cpp/experimental/invocation type">Invocation type traits</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_invocation_type</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/type_traits&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/type traits (page does not exist)"><tt>&lt;experimental/type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3916.pdf">N3916</a>
+</td>
+<td> Type-erased allocator for <span class="t-lc"><a href="../cpp/utility/functional/function.html" title="cpp/utility/functional/function">std::function</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_function_erased_allocator</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/functional&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/functional (page does not exist)"><tt>&lt;experimental/functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3905.html">N3905</a>
+</td>
+<td> Searchers
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_boyer_moore_searching</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/functional&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/functional (page does not exist)"><tt>&lt;experimental/functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3672.html">N3672</a>, <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3793.html">N3793</a>
+</td>
+<td> <a href="../cpp/experimental/optional.html" title="cpp/experimental/optional">optional</a> objects
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_optional</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/experimental/optional.html" title="cpp/header/experimental/optional"><tt>&lt;experimental/optional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2013/n3804.html">N3804</a>
+</td>
+<td> class <a href="../cpp/experimental/any.html" title="cpp/experimental/any">any</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_any</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/experimental/any.html" title="cpp/header/experimental/any"><tt>&lt;experimental/any&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3921.html">N3921</a>
+</td>
+<td> <a href="../cpp/experimental/basic_string_view.html" title="cpp/experimental/basic string view">string_view</a>: a non-owning reference to a string
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_string_view</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="../cpp/header/experimental/string_view.html" title="cpp/header/experimental/string view"><tt>&lt;experimental/string_view&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3920.html">N3920</a>
+</td>
+<td> Extending <span class="t-lc"><a href="../cpp/memory/shared_ptr.html" title="cpp/memory/shared ptr">std::shared_ptr</a></span> to support arrays
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_shared_ptr_arrays</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/memory&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/memory (page does not exist)"><tt>&lt;experimental/memory&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3916.pdf">N3916</a>
+</td>
+<td> <a href="../cpp/experimental/memory.html" title="cpp/experimental/memory" class="mw-redirect">Polymorphic memory resources</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_memory_resources</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="../cpp/header/experimental/memory_resource.html" title="cpp/header/experimental/memory resource"><tt>&lt;experimental/memory_resource&gt;</tt></a>
+</td></tr>
+<tr>
+<td> N3916
+</td>
+<td> Type-erased allocator for <span class="t-lc"><a href="../cpp/thread/promise.html" title="cpp/thread/promise">std::promise</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_promise_erased_allocator</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/future&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/future (page does not exist)"><tt>&lt;experimental/future&gt;</tt></a>
+</td></tr>
+<tr>
+<td> N3916
+</td>
+<td> Type-erased allocator for <span class="t-lc"><a href="../cpp/thread/packaged_task.html" title="cpp/thread/packaged task">std::packaged_task</a></span>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_packaged_task_erased_allocator</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/future&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/future (page does not exist)"><tt>&lt;experimental/future&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3925.pdf">N3925</a>
+</td>
+<td> <a href="../cpp/experimental/sample.html" title="cpp/experimental/sample"><tt>sample</tt></a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_sample</span></span>
+</td>
+<td> 201402
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/algorithm&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/algorithm (page does not exist)"><tt>&lt;experimental/algorithm&gt;</tt></a>
+</td></tr></table>
+<h4> <span class="mw-headline" id="v2">v2</span></h4>
+<p>Library Fundamentals v2 incorporates all the facilities and feature testing macros of v1. In addition, it defines the following feature testing macros.
+</p>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2015/p0013r1.html">P0013R1</a>
+</td>
+<td> Logical operator type traits (<a href="../cpp/experimental/conjunction.html" title="cpp/experimental/conjunction"><tt>conjunction</tt></a>, <a href="../cpp/experimental/disjunction.html" title="cpp/experimental/disjunction"><tt>disjunction</tt></a>, <a href="../cpp/experimental/negation.html" title="cpp/experimental/negation"><tt>negation</tt></a>,
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_logical_traits</span></span>)
+</td>
+<td> 201511
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/type_traits&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/type traits (page does not exist)"><tt>&lt;experimental/type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4502.pdf">N4502</a>
+</td>
+<td> <a href="../cpp/experimental/lib_extensions_2.html#The_C.2B.2B_detection_idiom" title="cpp/experimental/lib extensions 2">The C++ detection idiom</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_detect</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/type_traits&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/type traits (page does not exist)"><tt>&lt;experimental/type_traits&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4388.html">N4388</a>
+</td>
+<td> A const-propagating wrapper (<a href="../cpp/experimental/propagate_const.html" title="cpp/experimental/propagate const"><tt>propagate_const</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_propagate_const</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/propagate_const&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/propagate const (page does not exist)"><tt>&lt;experimental/propagate_const&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4076.html">N4076</a>
+</td>
+<td> Generalized callable negator (<a href="../cpp/experimental/not_fn.html" title="cpp/experimental/not fn"><tt>not_fn</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_not_fn</span></span>
+</td>
+<td> 201406
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/functional&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/functional (page does not exist)"><tt>&lt;experimental/functional&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4282.pdf">N4282</a>
+</td>
+<td> The world’s dumbest smart pointer (<a href="../cpp/experimental/observer_ptr.html" title="cpp/experimental/observer ptr"><tt>observer_ptr</tt></a>, a non-owning, observe-only pointer-like class)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_observer_ptr</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/memory&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/memory (page does not exist)"><tt>&lt;experimental/memory&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4273.htm">N4273</a>
+</td>
+<td> Uniform container erasure
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_erase_if</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/vector&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/vector (page does not exist)"><tt>&lt;experimental/vector&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4391.html">N4391</a>
+</td>
+<td> <a href="../cpp/experimental/make_array.html" title="cpp/experimental/make array"><tt>make_array</tt></a>, <a href="../cpp/experimental/to_array.html" title="cpp/experimental/to array"><tt>to_array</tt></a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_make_array</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/array&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/array (page does not exist)"><tt>&lt;experimental/array&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4257.html">N4257</a>
+</td>
+<td> Delimited iterators
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_ostream_joiner</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/iterator&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/iterator (page does not exist)"><tt>&lt;experimental/iterator&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4061.pdf">N4061</a>
+</td>
+<td> Greatest common divisor and least common multiple (<a href="../cpp/experimental/gcd.html" title="cpp/experimental/gcd"><tt>gcd</tt></a>, <a href="../cpp/experimental/lcm.html" title="cpp/experimental/lcm"><tt>lcm</tt></a>)
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_gcd_lcm</span></span>
+</td>
+<td> 201411
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/numeric&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/numeric (page does not exist)"><tt>&lt;experimental/numeric&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4531.html">N4531</a>
+</td>
+<td> <span class="t-lc"><a href="../cpp/numeric/random/rand.html" title="cpp/numeric/random/rand">std::rand</a></span> replacement
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_randint</span></span>
+</td>
+<td> 201511
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/random&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/random (page does not exist)"><tt>&lt;experimental/random&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4417.pdf">N4417</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4519.pdf">n4519</a>
+</p>
+</td>
+<td> Source-code information capture
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_source_location</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/source_location&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/source location (page does not exist)"><tt>&lt;experimental/source_location&gt;</tt></a>
+</td></tr></table>
+<h3> <span class="mw-headline" id="Parallelism">Parallelism</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4507.pdf">N4507</a>
+</td>
+<td> <a href="../cpp/experimental/parallelism.html" title="cpp/experimental/parallelism">parallelism</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_parallel_algorithm</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/algorithm&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/algorithm (page does not exist)"><tt>&lt;experimental/algorithm&gt;</tt></a> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/exception_list&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/exception list (page does not exist)"><tt>&lt;experimental/exception_list&gt;</tt></a> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/execution_policy&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/execution policy (page does not exist)"><tt>&lt;experimental/execution_policy&gt;</tt></a> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/numeric&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/numeric (page does not exist)"><tt>&lt;experimental/numeric&gt;</tt></a>
+</td></tr></table>
+<h3> <span class="mw-headline" id="Concurrency">Concurrency</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4399.html">N4399</a>
+</td>
+<td> Improvements to <span class="t-lc">std::future&lt;T&gt;</span> and Related APIs
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_future_continuations</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/future&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/future (page does not exist)"><tt>&lt;experimental/future&gt;</tt></a>
+</td></tr>
+<tr>
+<td rowspan="2"> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4204.html">N4204</a>
+</td>
+<td rowspan="2"> <a href="../cpp/experimental/concurrency.html#Latches_and_barriers" title="cpp/experimental/concurrency">Latches and Barriers</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_latch</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/latch&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/latch (page does not exist)"><tt>&lt;experimental/latch&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_barrier</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/barrier&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/barrier (page does not exist)"><tt>&lt;experimental/barrier&gt;</tt></a>
+</td></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4162.pdf">N4162</a>
+<p><a rel="nofollow" class="external text" href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4260.pdf">N4260</a>
+</p>
+</td>
+<td> <a href="../cpp/experimental/concurrency.html#Atomic_smart_pointers" title="cpp/experimental/concurrency">Atomic Smart Pointers</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_lib_experimental_atomic_smart_pointers</span></span>
+</td>
+<td> 201505
+</td>
+<td> <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/header/experimental/atomic&amp;action=edit&amp;redlink=1" class="new" title="cpp/header/experimental/atomic (page does not exist)"><tt>&lt;experimental/atomic&gt;</tt></a>
+</td></tr></table>
+<h3> <span class="mw-headline" id="Transactional_Memory">Transactional Memory</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4514.pdf">N4514</a>
+</td>
+<td> Transactional Memory
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_transactional_memory</span></span>
+</td>
+<td> 201505
+</td>
+<td> <i>predefined</i>
+</td></tr></table>
+<p><br />
+</p>
+<h3> <span class="mw-headline" id="Concepts">Concepts</span></h3>
+<table class="wikitable">
+
+<tr>
+<th> Paper
+</th>
+<th> Feature
+</th>
+<th> Macro name
+</th>
+<th> Value
+</th>
+<th> Header
+</th></tr>
+<tr>
+<td> <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4553.pdf">N4553</a>
+</td>
+<td> <a href="../cpp/language/concepts.html" title="cpp/language/constraints">Constraints and concepts</a>
+</td>
+<td> <span class="t-c"><span class="mw-geshi cpp source-cpp">__cpp_concepts</span></span>
+</td>
+<td> 201507
+</td>
+<td> <i>predefined</i>
+</td></tr></table>
+
+<!-- 
+NewPP limit report
+Preprocessor visited node count: 8160/1000000
+Preprocessor generated node count: 8875/1000000
+Post‐expand include size: 58256/2097152 bytes
+Template argument size: 27392/2097152 bytes
+Highest expansion depth: 17/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key mwiki1-mwiki_en_:pcache:idhash:14000-0!*!0!!en!*!* and timestamp 20160815162110 -->
+</div>                    <!-- /bodycontent -->
+                                        <!-- printfooter -->
+                    <div class="printfooter">
+                    Retrieved from "<a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;oldid=87347">http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;oldid=87347</a>"                    </div>
+                    <!-- /printfooter -->
+                                                            <!-- catlinks -->
+                    <div id='catlinks' class='catlinks'><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="../Special:Categories.html" title="Special:Categories">Category</a>: <ul><li><a href="../Category:Todo_with_reason.html" title="Category:Todo with reason">Todo with reason</a></li></ul></div></div>                    <!-- /catlinks -->
+                                                            <div class="visualClear"></div>
+                    <!-- debughtml -->
+                                        <!-- /debughtml -->
+                </div>
+                <!-- /bodyContent -->
+            </div>
+        </div>
+        <!-- /content -->
+        <!-- footer -->
+        <div id="cpp-footer-base" class="noprint">
+            <div id="footer">
+                        <div id="cpp-navigation">
+            <h5>Navigation</h5>
+            <ul>
+<li id="n-Support-us"><a href="http://www.cppreference.com/support" rel="nofollow">Support us</a></li><li id="n-recentchanges"><a href="../Special:RecentChanges.html" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-FAQ"><a href="../Cppreference:About.html">FAQ</a></li><li id="n-Offline-version"><a href="../Cppreference:Archives.html">Offline version</a></li>            </ul>
+        </div>
+                        <div id="cpp-toolbox">
+            <h5><span>Toolbox</span><a href="feature_testing_macros.html#"></a></h5>
+            <ul>
+<li id="t-whatlinkshere"><a href="../Special:WhatLinksHere/User:D41D8CD98F/feature_testing_macros.html" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="../Special:RecentChangesLinked/User:D41D8CD98F/feature_testing_macros.html" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-contributions"><a href="../Special:Contributions/D41D8CD98F.html" title="A list of contributions of this user">User contributions</a></li><li id="t-log"><a href="../Special:Log/D41D8CD98F.html">Logs</a></li><li id="t-upload"><a href="http://upload.cppreference.com/w/Special:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="../Special:SpecialPages.html" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;oldid=87347" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="http://en.cppreference.com/mwiki/index.php?title=User:D41D8CD98F/feature_testing_macros&amp;action=info">Page information</a></li>            </ul>
+        </div>
+                            <ul id="footer-info">
+                                    <li id="footer-info-lastmod"> This page was last modified on 15 August 2016, at 09:18.</li>
+                                    <li id="footer-info-viewcount">This page has been accessed 3,205 times.</li>
+                            </ul>
+                    <ul id="footer-places">
+                                    <li id="footer-places-privacy"><a href="../Cppreference:Privacy_policy.html" title="Cppreference:Privacy policy">Privacy policy</a></li>
+                                    <li id="footer-places-about"><a href="../Cppreference:About.html" title="Cppreference:About">About cppreference.com</a></li>
+                                    <li id="footer-places-disclaimer"><a href="../Cppreference:General_disclaimer.html" title="Cppreference:General disclaimer">Disclaimers</a></li>
+                            </ul>
+                                    <ul id="footer-icons" class="noprint">
+                                    <li id="footer-poweredbyico">
+                                            <a href="http://www.mediawiki.org/"><img src="../../mwiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>                                            <a href="http://qbnz.com/highlighter/"><img src="http://upload.cppreference.com/mwiki/images/2/2b/powered_by_geshi_88x31.png" alt="Powered by GeSHi" height="31" width="88" /></a>                                            <a href="http://www.tigertech.net/referral/cppreference.com"><img src="http://upload.cppreference.com/mwiki/images/9/94/powered_by_tigertech_88x31.png" alt="Hosted by Tiger Technologies" height="31" width="88" /></a>                                        </li>
+                                </ul>
+                        <div style="clear:both">
+            </div>
+            </div>
+        </div>
+        <!-- /footer -->
+        <script>if(window.mw){
+mw.loader.state({"site":"loading","user":"missing","user.groups":"ready"});
+}</script>
+<script src="../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=skins.cppreference2&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.page.ready","mediawiki.searchSuggest","mediawiki.hidpi","ext.gadget.ColiruCompiler"], null, true);
+}</script>
+<script src="../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2828341-1']);
+_gaq.push(['_setDomainName', 'cppreference.com']);
+_gaq.push(['_trackPageview']);
+</script><!-- Served in 0.065 secs. -->
+	</body>
+<!-- Cached 20160815180559 -->
+</html>

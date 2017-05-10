@@ -1,0 +1,2267 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file lib.sgml dated Fri Nov 23 12:45:55 2001 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/lib/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Library Functions</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>13. Library Functions</H1>
+<a name="itoa">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/itoa.html"><!-- qtag -->Question 13.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I convert numbers to strings
+(the opposite of <TT>atoi</TT>)?
+Is there an <TT>itoa</TT> function?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Just use <TT>sprintf</TT>:
+<pre>
+	sprintf(string, "%d", number);
+</pre>
+(Don't worry that <TT>sprintf</TT> may be overkill,
+potentially wasting run time or code space;
+it works well in practice.)
+
+See
+also
+the examples in the answer to question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#retaggr">7.5a</a>,
+and
+also
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#asciivals">8.6</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#sprintfsize">12.21</a>.
+</p><p>You can obviously use <TT>sprintf</TT> to convert
+long
+or floating-point numbers to strings as well
+(using <TT>%ld</TT> or <TT>%f)</TT>;
+in other words,
+<TT>sprintf</TT>
+can also be thought of as
+the opposite of
+<TT>atol</TT>
+and <TT>atof</TT>.
+In addition,
+you have quite a bit of control over the formatting.
+(It's
+for these reasons
+
+that
+C supplies <TT>sprintf</TT> as a general solution,
+and not <TT>itoa</TT>.)
+</p><p>If you simply must write an <TT>itoa</TT> function,
+here are some things to consider:
+<UL><li>There is a
+sample implementation in K&amp;R.
+<li>You'll have to worry about
+return buffer allocation;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#retaggr">7.5a</a>.
+<li>A na&iuml;ve implementation usually
+doesn't
+handle the most-negative integer
+(INT_MIN, usually -32,768 or -2,147,483,648)
+properly.
+</UL></p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#sprintfsize">12.21</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#hexio">20.10</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 3.6 p. 60
+<br>
+K&amp;R2 Sec. 3.6 p. 64
+<hr><hr><hr>
+<a name="strncpy">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/strncpy.html"><!-- qtag -->Question 13.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does <TT>strncpy</TT> not always
+place a <TT>'\0'</TT> terminator
+in the destination string?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>strncpy</TT>
+
+was first designed to handle a now-obsolete data structure,
+the fixed-length, not-necessarily-<TT>\0</TT>-terminated
+``string.''
+<a href="strncpyexamp.html" rel=subdocument>[footnote]</a>
+<TT>strncpy</TT> is admittedly a bit cumbersome to use in other contexts,
+since you must often append a
+<TT>'\0'</TT> to the destination
+string by hand.
+</p><p>You can get around the problem by using <TT>strncat</TT>
+instead of <TT>strncpy</TT>.
+If
+the destination string starts out empty
+(that is, if you do
+<TT>*dest&nbsp;=&nbsp;'\0'</TT>
+first),
+<TT>strncat</TT> does what you probably wanted 
+<TT>strncpy</TT> to do:
+<pre>
+	*dest = '\0';
+	strncat(dest, source, n);
+</pre>
+This code copies up to <TT>n</TT> characters,
+and always appends a <TT>\0</TT>.
+</p><p>Another possibility is
+
+
+<pre>
+<TT>sprintf(dest,&nbsp;"%.*s",&nbsp;n,&nbsp;source)</TT>
+</pre>
+(though,
+strictly speaking,
+this is only guaranteed to work for <TT>n</TT> &lt;= 509).
+</p><p>When
+arbitrary
+bytes
+(as opposed to strings)
+are being copied,
+<TT>memcpy</TT> is usually a more appropriate function to use
+than <TT>strncpy</TT>.
+<hr><hr><hr>
+<a name="substr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/substr.html"><!-- qtag -->Question 13.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does C have anything like the ``substr''
+(extract substring)
+routine present in other languages?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not as such.
+(One
+reason it doesn't
+is that,
+as mentioned in
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc2">7.2</a>
+and
+section <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#index">8</a>,
+
+C has no managed string type.)
+</p><p>To extract a substring of length <TT>LEN</TT>
+starting at index <TT>POS</TT> in a source string,
+use something like
+<pre>
+	char dest[LEN+1];
+	strncpy(dest, &amp;source[POS], LEN);
+	dest[LEN] = '\0';	/* ensure \0 termination */
+</pre>
+or,
+using the trick from
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#strncpy">13.2</a>,
+<pre>
+	char dest[LEN+1] = "";
+	strncat(dest, &amp;source[POS], LEN);
+</pre>
+or,
+making use of pointer instead of array notation,
+<pre>
+	strncat(dest, source + POS, LEN);
+</pre>
+(The expression <TT>source&nbsp;+&nbsp;POS</TT> is,
+by definition,
+identical to <TT>&amp;source[POS]</TT>
+--see
+also
+section <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#index">6</a>.)
+<hr><hr><hr>
+<a name="strupper">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/strupper.html"><!-- qtag -->Question 13.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How do I convert a string to all upper or lower case?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some libraries have routines
+<TT>strupr</TT> and <TT>strlwr</TT>
+or
+<TT>strupper</TT> and <TT>strlower</TT>,
+but these are not Standard or portable.
+It's a straightforward exercise
+
+to write upper/lower-case functions
+in terms of the
+<TT>toupper</TT> and <TT>tolower</TT>
+
+macros in <TT>&lt;ctype.h&gt;</TT>;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#toupper">13.5</a>.
+(The only tricky part is
+that
+the
+function
+will either have to modify the string in-place
+or
+deal with the problem of returning a new string;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#retaggr">7.5a</a>.)
+</p><p>(Note
+also
+that converting characters and strings to upper or lower case is
+vastly more complicated when multinational character sets are
+being
+used.)
+</p>
+
+<p>References:
+
+K&amp;R1 Sec. 2.7 p. 40
+<br>
+K&amp;R2 Sec. 2.7 p. 43
+<hr><hr><hr>
+<a name="toupper">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/toupper.html"><!-- qtag -->Question 13.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why
+do some versions of
+<TT>toupper</TT> act strangely if given an upper-case letter?
+<br>Why does some code call <TT>islower</TT> before <TT>toupper</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In earlier times,
+<TT>toupper</TT>
+was a
+function-like
+preprocessor macro
+and
+was defined to work only on
+lower-case letters;
+it
+misbehaved
+if applied to digits, punctuation,
+or letters which were already upper-case.
+Similarly,
+<TT>tolower</TT>
+worked only on upper-case letters.
+Therefore,
+old code
+(or code written
+for wide portability)
+tends to call
+<TT>islower</TT> before <TT>toupper</TT>,
+and
+<TT>isupper</TT> before <TT>tolower</TT>.
+</p><p>The C Standard, however,
+says that <TT>toupper</TT> and <TT>tolower</TT>
+must work correctly on all characters,
+i.e. characters
+which don't need changing
+are
+left
+alone.
+
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 7.3.2
+<br>
+H&amp;S Sec. 12.9 pp. 320-1
+<br>
+PCS p. 182
+<hr><hr><hr>
+<a name="strtok">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/strtok.html"><!-- qtag -->Question 13.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I split up a
+string
+into
+whitespace-separated fields?
+<br>How can I duplicate the process
+by which <TT>main()</TT>
+is handed <TT>argc</TT> and <TT>argv</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The only Standard function
+available
+for
+this kind of
+``tokenizing''
+is
+<TT>strtok</TT>,
+although it can be tricky to use
+<a href="strtokstate.html" rel=subdocument>[footnote]</a>
+and it may not do everything you want it to.
+(For instance, it does not handle quoting.)
+Here is a usage example,
+which simply prints each field as it's extracted:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+char string[] = "this is a test";	/* not char *; see Q <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#strlitnomod">16.6</a> */
+char *p;
+for(p = strtok(string, " \t\n"); p != NULL;
+			p = strtok(NULL, " \t\n"))
+	printf("\"%s\"\n", p);
+</pre>
+</p><p>As an alternative,
+here is a routine I use
+
+for building an <TT>argv</TT> all at once:
+<pre>
+#include &lt;ctype.h&gt;
+
+int makeargv(char *string, char *argv[], int argvsize)
+{
+	char *p = string;
+	int  i;
+	int argc = 0;
+
+	for(i = 0; i &lt; argvsize; i++) {
+		/* skip leading whitespace */
+		while(isspace(*p))
+			p++;
+
+		if(*p != '\0')
+			argv[argc++] = p;
+		else {
+			argv[argc] = 0;
+			break;
+		}
+
+		/* scan over arg */
+		while(*p != '\0' &amp;&amp; !isspace(*p))
+			p++;
+		/* terminate arg: */
+		if(*p != '\0' &amp;&amp; i &lt; argvsize-1)
+			*p++ = '\0';
+	}
+
+	return argc;
+}
+</pre>
+</p><p>Calling <TT>makeargv</TT> is straightforward:
+<pre>
+	char *av[10];
+	int i, ac = makeargv(string, av, 10);
+	for(i = 0; i &lt; ac; i++)
+		printf("\"%s\"\n", av[i]);
+</pre>
+</p><p>If you want each separator character to be significant,
+for instance if you want two tabs in a row to indicate an omitted field,
+it's probably
+more straightforward
+to use <TT>strchr</TT>:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char string[] = "this\thas\t\tmissing\tfield";
+char *p = string;
+
+while(1) {		/* break in middle */
+	char *p2 = strchr(p, '\t');
+	if(p2 != NULL)
+		*p2 = '\0';
+	printf("\"%s\"\n", p);
+	if(p2 == NULL)
+		break;
+	p = p2 + 1;
+}
+</pre>
+</p><p>All the
+code fragments
+presented here
+modify the
+input string,
+by inserting
+<TT>\0</TT>'s
+to terminate each field
+(meaning that the string must be writable;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>).
+If you'll need the original string later,
+make a copy before breaking it up.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. B3 p. 250
+<br>
+ISO Sec. 7.11.5.8
+<br>
+H&amp;S Sec. 13.7 pp. 333-4
+<br>
+PCS p. 178
+<hr><hr><hr>
+<a name="regex">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/regex.html"><!-- qtag -->Question 13.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need some code to do
+regular expression
+and
+wildcard matching.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Make sure you
+recognize
+the
+difference between:
+</p><UL><li>Classic
+regular expressions,
+variants of which are used in such Unix utilities as
+<TT>ed</TT> and <TT>grep</TT>.
+In regular expressions,
+a dot <TT>.</TT> usually matches any single character,
+and the sequence <TT>.*</TT> usually matches any string of characters.
+(Of course,
+full-blown
+regular expressions have several more features
+than
+these two.)
+<li>Filename
+wildcards,
+variants of which are used by most operating systems.
+There is considerably more variation
+here
+(in particular,
+MS-DOS wildcards are
+somewhat stunted),
+but it is often the case that
+<TT>?</TT> matches any single character,
+and <TT>*</TT> matches any string of characters.
+</UL><p>There are a number of packages available for matching regular expressions.
+Most packages use a pair of functions,
+one for ``compiling'' the regular expression,
+and one for ``executing'' it
+(i.e. matching strings against it).
+Look for header files named <TT>&lt;regex.h&gt;</TT>
+or <TT>&lt;regexp.h&gt;</TT>,
+and functions called
+<TT>regcmp</TT>/<TT>regex</TT>,
+<TT>regcomp</TT>/<TT>regexec</TT>,
+or
+<TT>re_comp</TT>/<TT>re_exec</TT>.
+
+(These functions may
+exist
+in a separate regexp library.)
+A popular,
+freely-redistributable
+regexp package
+by Henry Spencer is available from
+ftp.cs.toronto.edu in pub/regexp.shar.Z
+or in several other archives.
+The GNU project has a
+package
+called rx.
+<a href="offload.html" rel=subdocument>[footnote]</a>
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+</p><p>Filename wildcard matching
+(sometimes called
+``globbing'')
+is
+done
+in a variety of ways on
+different
+systems.
+On Unix,
+wildcards are automatically expanded by the shell
+before a process is invoked,
+so programs rarely have to worry about them explicitly.
+Under MS-DOS compilers,
+there is often a special object file
+which can be linked in
+to a program
+to
+expand wildcards
+while <TT>argv</TT> is being built.
+
+Several systems
+(including MS-DOS and VMS)
+provide
+system services for
+listing or opening files specified by wildcards.
+Check your compiler/library documentation.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#readdir">19.20</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#argv">20.3</a>.
+</p><p>Here is a quick little wildcard matcher by Arjan Kenter:
+<pre>
+int match(char *pat, char *str)
+{
+	switch(*pat) {
+	case '\0':  return !*str;
+	case '*':   return match(pat+1, str) ||
+				*str &amp;&amp; match(pat, str+1);
+	case '?':   return *str &amp;&amp; match(pat+1, str+1);
+	default:    return *pat == *str &amp;&amp; match(pat+1, str+1);
+	}
+}
+</pre>
+(Copyright
+1995,
+Arjan Kenter)
+</p><p>With this definition,
+the call <TT>match("a*b.c",&nbsp;"aplomb.c")</TT>
+would return 1.
+</p>
+
+
+
+<p>References:
+
+Schumacher, ed., <I>Software Solutions in C</I> Sec. 3 pp. 35-71
+<hr><hr><hr>
+<a name="qsort1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/qsort1.html"><!-- qtag -->Question 13.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to sort an array of strings with <TT>qsort</TT>,
+using
+<TT>strcmp</TT>
+as the comparison function,
+but it's not working.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+By ``array of strings'' you probably mean
+``array of pointers to <TT>char</TT>.''
+The arguments to <TT>qsort</TT>'s comparison function are pointers to the
+objects being sorted, in this case, pointers to pointers to <TT>char</TT>.
+<TT>strcmp</TT>,
+however,
+accepts simple pointers to <TT>char</TT>.
+Therefore, <TT>strcmp</TT> can't be used directly.
+Write
+an intermediate
+comparison function like this:
+<pre>
+/* compare strings via pointers */
+int pstrcmp(const void *p1, const void *p2)
+{
+	return strcmp(*(char * const *)p1, *(char * const *)p2);
+}
+</pre>
+</p><p>The comparison function's
+arguments are expressed as ``generic pointers,''
+<TT>const&nbsp;void&nbsp;*</TT>.
+They
+are
+converted
+back to what they ``really are''
+(pointers to pointers to <TT>char</TT>)
+and dereferenced,
+yielding <TT>char&nbsp;*</TT>'s which can be
+passed to <TT>strcmp</TT>.
+</p><p>The call to <TT>qsort</TT> might look like
+<pre>
+#include &lt;stdlib.h&gt;
+char *strings[NSTRINGS];
+int nstrings;
+/* nstrings cells of strings[] are to be sorted */
+qsort(strings, nstrings, sizeof(char *), pstrcmp);
+</pre>
+</p><p>(Don't be misled by
+the discussion in K&amp;R2 Sec. 5.11 pp.&nbsp;119-20,
+which is not discussing
+the
+Standard library's
+<TT>qsort</TT>,
+and
+makes a quiet,
+unnecessary assumption about the equivalence of <TT>char&nbsp;*</TT>
+and <TT>void&nbsp;*</TT>).
+</p><p>For more information
+on
+
+<TT>qsort</TT> comparison
+functions--how
+they are called and how they must be
+declared--see
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#qsort2">13.9</a>.
+</p>
+
+
+<p>References:
+
+ISO Sec. 7.10.5.2
+<br>
+H&amp;S Sec. 20.5 p. 419
+<hr><hr><hr>
+<a name="qsort2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/qsort2.html"><!-- qtag -->Question 13.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Now I'm trying to sort an array of structures
+with <TT>qsort</TT>.
+My comparison function takes pointers to structures,
+but the compiler
+complains
+that the function is
+of the wrong type for <TT>qsort</TT>.
+How can I cast the function pointer to shut off the warning?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The
+conversions
+must be in the
+comparison function,
+which
+must be declared as accepting ``generic pointers''
+(<TT>const&nbsp;void&nbsp;*</TT>)
+as discussed
+in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#qsort1">13.8</a> 
+above.
+For a hypothetical
+little
+date structure
+<pre>
+struct mystruct {
+	int year, month, day;
+};
+</pre>
+the
+comparison function
+might look like
+<a href="compare.html" rel=subdocument>[footnote]</a>
+
+<pre>
+int mystructcmp(const void *p1, const void *p2)
+{
+	const struct mystruct *sp1 = p1;
+	const struct mystruct *sp2 = p2;
+	if(sp1-&gt;year &lt; sp2-&gt;year) return -1;
+	else if(sp1-&gt;year &gt; sp2-&gt;year) return 1;
+	else if(sp1-&gt;month &lt; sp2-&gt;month) return -1;
+	else if(sp1-&gt;month &gt; sp2-&gt;month) return 1;
+	else if(sp1-&gt;day &lt; sp2-&gt;day) return -1;
+	else if(sp1-&gt;day &gt; sp2-&gt;day) return 1;
+	else return 0;
+}
+</pre>
+(The conversions
+from generic pointers
+to <TT>struct mystruct</TT> pointers
+happen in the initializations
+<TT>sp1&nbsp;=&nbsp;p1</TT> and <TT>sp2&nbsp;=&nbsp;p2</TT>;
+the compiler performs the
+conversions implicitly
+since
+<TT>p1</TT> and <TT>p2</TT> are
+<TT>void</TT> pointers.)
+
+</p><p>For this version of <TT>mystructcmp</TT>,
+the call to <TT>qsort</TT> might look like
+<pre>
+#include &lt;stdlib.h&gt;
+struct mystruct dates[NDATES];
+int ndates;
+/* ndates cells of dates[] are to be sorted */
+qsort(dates, ndates, sizeof(struct mystruct), mystructcmp);
+</pre>
+</p><p>If,
+on the other hand,
+you're sorting pointers to structures,
+you'll need indirection,
+as in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#qsort1">13.8</a>;
+the
+head of
+the
+comparison function would
+look
+like
+<pre>
+int myptrstructcmp(const void *p1, const void *p2)
+{
+	struct mystruct *sp1 = *(struct mystruct * const *)p1;
+	struct mystruct *sp2 = *(struct mystruct * const *)p2;
+</pre>
+and the call would look like
+<pre>
+struct mystruct *dateptrs[NDATES];
+qsort(dateptrs, ndates, sizeof(struct mystruct *), myptrstructcmp);
+</pre>
+</p><p>To understand why the curious
+pointer conversions
+in a <TT>qsort</TT> comparison function are necessary
+(and why a cast of the function pointer when calling
+<TT>qsort</TT>
+can't help),
+it's useful to think about how <TT>qsort</TT> works.
+<TT>qsort</TT> doesn't know anything about the type or
+representation of the data being sorted:
+it just shuffles around little chunks of memory.
+(All it knows about the chunks is their size,
+which you specify
+in <TT>qsort</TT>'s third argument.)
+To determine whether two chunks need swapping,
+<TT>qsort</TT> calls your comparison function.
+(To swap them,
+it
+uses the equivalent of <TT>memcpy</TT>.)
+</p><p>Since <TT>qsort</TT> deals in a generic way
+with chunks of memory of unknown
+type,
+it uses generic pointers
+(<TT>void&nbsp;*</TT>)
+
+to refer to them.
+When <TT>qsort</TT> calls your comparison function,
+it passes as arguments
+two generic pointers to the chunks to be compared.
+Since it passes generic pointers,
+your comparison function must
+<em>accept</em> generic pointers,
+and
+convert
+the pointers back to their appropriate type
+before manipulating them
+(i.e. before performing the comparison).
+A <TT>void</TT> pointer is not the same type as a structure pointer,
+and on some machines it may have a different size or representation
+(which is why these casts are required for correctness).
+</p><p>If you were sorting an array of structures,
+and had a comparison function accepting structure pointers:
+<pre>
+	int mywrongstructcmp(struct mystruct *, struct mystruct *);
+</pre>
+and if you called <TT>qsort</TT> as
+<pre>
+	qsort(dates, ndates, sizeof(struct mystruct),
+		(int (*)(const void *, const void *))mywrongstructcmp);
+							/* WRONG */
+</pre>
+the
+cast
+<TT>(int&nbsp;(*)(const&nbsp;void&nbsp;*, const&nbsp;void&nbsp;*))</TT>
+would do nothing
+except perhaps
+silence the message from the compiler telling you that this
+comparison function
+may
+<em>not</em> work with <TT>qsort</TT>.
+The
+implications
+of any cast you use
+when calling qsort
+will have been forgotten
+by the time <TT>qsort</TT>
+gets around to calling your comparison function:
+it will call them with <TT>const&nbsp;void&nbsp;*</TT> arguments,
+so that is what your function must accept.
+No prototype mechanism exists
+which could operate down inside <TT>qsort</TT>
+to convert the <TT>void</TT> pointers to <TT>struct&nbsp;mystruct</TT> 
+pointers just before calling <TT>mywrongstructcmp</TT>.
+</p><p>
+In general,
+it is a bad idea to insert casts just to
+``shut the compiler up.''
+Compiler warnings are usually trying to tell you something,
+and unless you really know what you're doing,
+you ignore or
+muzzle
+them at your peril.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#genericpp">4.9</a>.
+
+</p><p><a href="sd14.html" rel=subdocument>Additional links</a>
+</p>
+
+<p>References:
+
+ISO Sec. 7.10.5.2
+<br>
+H&amp;S Sec. 20.5 p. 419
+<hr><hr><hr>
+<a name="listsort">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/listsort.html"><!-- qtag -->Question 13.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I sort a linked list?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Sometimes it's easier to keep the list in order as you build it
+(or perhaps to use a tree instead).
+Algorithms like insertion sort and merge sort
+lend themselves ideally to use with linked lists.
+If you want to use a standard library function,
+you can allocate a
+temporary
+array of pointers,
+fill it in with pointers to all your list nodes,
+call <TT>qsort</TT>,
+and finally rebuild the list pointers based on the sorted array.
+</p><p>Additional links:
+<a href="mergesort.ct.html">example by Chris Torek</a>
+</p>
+
+
+
+<p>References:
+
+Knuth Sec. 5.2.1 pp. 80-102, Sec. 5.2.4 pp. 159-168
+<br>
+Sedgewick Sec. 8 pp. 98-100, Sec. 12 pp. 163-175
+<hr><hr><hr>
+<a name="extsort">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/extsort.html"><!-- qtag -->Question 13.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I sort more data than will fit in memory?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You want an ``external sort,''
+which
+you can read about
+in Knuth,
+Volume 3.
+The basic idea is to sort the data in chunks
+(as much as will fit in memory at one time),
+write each sorted chunk to a temporary file,
+and then merge the files.
+Your operating system may provide a general-purpose sort utility,
+and if so,
+you can try invoking it from within your program:
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#system">19.27</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#popen">19.30</a>,
+and the example in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#system2">19.28</a>.
+</p>
+
+<p>References:
+
+Knuth Sec. 5.4 pp. 247-378
+<br>
+Sedgewick Sec. 13 pp. 177-187
+<hr><hr><hr>
+<a name="curtime">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/curtime.html"><!-- qtag -->Question 13.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I get the
+current date
+or
+time of day in a C program?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Just use the <TT>time</TT>,
+<TT>ctime</TT>,
+<TT>localtime</TT>
+and/or <TT>strftime</TT>
+functions.
+Here is a simple example:
+<a href="timefail.html" rel=subdocument>[footnote]</a>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+int main()
+{
+	time_t now;
+	time(&amp;now);
+	printf("It's %s", ctime(&amp;now));
+	return 0;
+}
+</pre>
+
+</p><p>Calls to <TT>localtime</TT> and <TT>strftime</TT>
+look like this:
+<pre>
+	struct tm *tmp = localtime(&amp;now);
+	char fmtbuf[30];
+	printf("It's %d:%02d:%02d\n",
+		tmp-&gt;tm_hour, tmp-&gt;tm_min, tmp-&gt;tm_sec);
+	strftime(fmtbuf, sizeof fmtbuf, "%A, %B %d, %Y", tmp);
+	printf("on %s\n", fmtbuf);
+</pre>
+
+
+
+(Note that these functions take a <em>pointer</em>
+to the <TT>time_t</TT> variable,
+even when they will not be modifying it.<a href="prelong.html" rel=subdocument>[footnote]</a>
+)
+</p><p>If you need sub-second resolution,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#subsecond">19.37</a>.
+</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. B10 pp. 255-7
+<br>
+ISO Sec. 7.12
+<br>
+H&amp;S Sec. 18
+<hr><hr><hr>
+<a name="mktime">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/mktime.html"><!-- qtag -->Question 13.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I know that the library function <TT>localtime</TT>
+will convert a <TT>time_t</TT> into a broken-down <TT>struct&nbsp;tm</TT>,
+and that <TT>ctime</TT>
+will convert a
+<TT>time_t</TT> to a printable string.
+How can I
+perform the inverse operations of converting
+a <TT>struct&nbsp;tm</TT> or a string into a <TT>time_t</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+ANSI C specifies a library function, <TT>mktime</TT>, which converts a
+<TT>struct&nbsp;tm</TT> to a <TT>time_t</TT>.
+</p><p>Converting a string to a <TT>time_t</TT> is harder, because of the wide
+variety of date and time formats which
+might be encountered.
+Some systems
+
+provide a <TT>strptime</TT> function,
+which is basically the inverse of <TT>strftime</TT>.
+Other popular functions are
+<TT>partime</TT>
+(widely distributed with the RCS package)
+and
+<TT>getdate</TT>
+
+(and a few others,
+
+from the C news distribution).
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. B10 p. 256
+<br>
+ISO Sec. 7.12.2.3
+<br>
+H&amp;S Sec. 18.4 pp. 401-2
+<hr><hr><hr>
+<a name="calendar">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/calendar.html"><!-- qtag -->Question 13.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I add
+N
+days to a date?
+
+
+How can I find the difference between two dates?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The ANSI/ISO Standard C <TT>mktime</TT> and
+<TT>difftime</TT> functions
+provide
+some
+(limited)
+support for
+both problems.
+<TT>mktime</TT> accepts non-normalized dates,
+so it is straightforward to
+take a filled-in <TT>struct&nbsp;tm</TT>,
+add or subtract from the <TT>tm_mday</TT> field,
+and call <TT>mktime</TT> to normalize the year, month, and day fields
+(and
+incidentally
+convert to a <TT>time_t</TT> value).
+<TT>difftime</TT> computes the difference,
+in seconds,
+between two <TT>time_t</TT> values;
+<TT>mktime</TT> can be used to compute <TT>time_t</TT> values for two dates to
+be subtracted.
+</p><p>However,
+these solutions
+are guaranteed to work correctly
+only
+for dates
+
+
+
+in the range
+which can be represented as <TT>time_t</TT>'s
+<a href="fn73.html" rel=subdocument>[footnote]</a>
+.
+The <TT>tm_mday</TT> field is an <TT>int</TT>,
+so day offsets of more than 32,736
+
+or so
+may cause overflow.
+
+(See below for an alternative solution without these limitations.)
+Note also
+
+
+
+that
+
+
+at
+daylight saving time
+changeovers,
+local days
+are not
+24 hours long,
+so be careful
+
+if you try to divide
+by 86,400 seconds/day.
+</p><p>Here is a code fragment to
+compute the date 90 days past October 24, 1994:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+tm1.tm_mon = 10 - 1;
+tm1.tm_mday = 24;
+tm1.tm_year = 1994 - 1900;
+tm1.tm_hour = tm1.tm_min = tm1.tm_sec = 0;
+tm1.tm_isdst = -1;
+
+tm1.tm_mday += 90;
+
+if(mktime(&amp;tm1) == -1)
+	fprintf(stderr, "mktime failed\n");
+else	printf("%d/%d/%d\n",
+		tm1.tm_mon+1, tm1.tm_mday, tm1.tm_year+1900);
+</pre>
+(Setting <TT>tm_isdst</TT> to -1
+helps to guard against daylight saving time anomalies;
+setting <TT>tm_hour</TT> to 12 would, too.)
+</p><p>Here is
+a piece of
+code to
+compute the difference
+in days
+between
+February 28 and March 1 in the year 2000:
+<pre>
+	struct tm tm1, tm2;
+	time_t t1, t2;
+
+	tm1.tm_mon = 2 - 1;
+	tm1.tm_mday = 28;
+	tm1.tm_year = 2000 - 1900;
+	tm1.tm_hour = tm1.tm_min = tm1.tm_sec = 0;
+	tm1.tm_isdst = -1;
+
+	tm2.tm_mon = 3 - 1;
+	tm2.tm_mday = 1;
+	tm2.tm_year = 2000 - 1900;
+	tm2.tm_hour = tm2.tm_min = tm2.tm_sec = 0;
+	tm2.tm_isdst = -1;
+
+	t1 = mktime(&amp;tm1);
+	t2 = mktime(&amp;tm2);
+	
+	if(t1 == -1 || t2 == -1)
+		fprintf(stderr, "mktime failed\n");
+	else {
+		long d = (difftime(t2, t1) + 86400L/2) / 86400L;
+		printf("%ld\n", d);
+	}
+</pre>
+(The addition of <TT>86400L/2</TT> rounds the difference to the 
+nearest day;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#round">14.6</a>.)
+</p><p>Another approach to both problems,
+which will work over a much wider range of dates,
+is to use
+``Julian day numbers''.
+A
+Julian day number is the
+
+
+
+number of days since January 1, 4013 BC.
+
+<a href="julepoch.html" rel=subdocument>[footnote]</a>
+Given <TT>ToJul</TT> and <TT>FromJul</TT> routines
+declared as
+<pre>
+/* returns Julian for month, day, year */
+long ToJul(int month, int day, int year);
+
+/* returns month, day, year for jul */
+void FromJul(long jul, int *monthp, int *dayp, int *yearp);
+</pre>
+adding <TT>n</TT> days to a date can be implemented as
+<pre>
+	int n = 90;
+	int month, day, year;
+	FromJul(ToJul(10, 24, 1994) + n, &amp;month, &amp;day, &amp;year);
+</pre>
+and the number of days between two dates is
+<pre>
+	ToJul(3, 1, 2000) - ToJul(2, 28, 2000)
+</pre>
+Code for handling
+Julian day numbers
+can be found in
+the Snippets collection
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>),
+the Simtel/Oakland archives
+(file JULCAL10.ZIP,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>),
+and
+the ``Date conversions'' article mentioned in the References.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#mktime">13.13</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#zeller">20.31</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#leapyear">20.32</a>.
+</p><p>Additional links:
+<br>
+<br>
+
+
+
+
+<a href="yesterday.msb.html">further explanation</a> by Mark Brader
+<br>
+<br>
+
+
+
+
+<a href="calendar.br.html">more code</a>
+for date-difference and day-of-week calculation
+by Branko Radovanovic
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. B10 p. 256
+<br>
+ISO Secs. 7.12.2.2,7.12.2.3
+<br>
+H&amp;S Secs. 18.4,18.5 pp. 401-2
+<br>
+David Burki, ``Date Conversions''
+<hr><hr><hr>
+<a name="y2k">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/y2k.html"><!-- qtag -->Question 13.14b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Did C have any Year 2000 problems?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No, although poorly-written C programs might have.
+</p><p>The
+<TT>tm_year</TT>
+field of <TT>struct&nbsp;tm</TT>
+holds the value of the year minus 1900;
+this field therefore contains the value 100 for the year 2000.
+Code that uses <TT>tm_year</TT> correctly
+(by adding or subtracting 1900
+when converting to or from human-readable 4-digit year representations)
+has no problems at the turn of the millennium.
+Any code that used <TT>tm_year</TT> incorrectly, however,
+such as by
+using it directly as a human-readable 2-digit year,
+or setting it from a 4-digit year with code like
+<pre>
+	tm.tm_year = yyyy % 100;	/* WRONG */
+</pre>
+or printing it as an allegedly human-readable 4-digit year
+with code like
+<pre>
+	printf("19%d", tm.tm_year);	/* WRONG */
+</pre>
+would have had
+grave y2k problems indeed.
+
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#leapyear">20.32</a>.
+</p><p>(The y2k problem is now mostly old history;
+all we have left to do
+is fix all the 32-bit <TT>time_t</TT> problems by 2038...)
+
+</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. B10 p. 255
+<br>
+ISO Sec. 7.12.1
+<br>
+H&amp;S Sec. 18.4 p. 401
+<hr><hr><hr>
+<a name="rand">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/rand.html"><!-- qtag -->Question 13.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need a random number generator.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The
+Standard
+C library has one: <TT>rand</TT>.
+The implementation on your system may not be perfect,
+but writing a better one isn't necessarily easy, either.
+
+</p><p>
+If
+you do find yourself needing to implement your own
+random number generator,
+there is plenty of literature out there;
+see the References below or
+
+
+
+
+the sci.math.num-analysis FAQ list.
+
+There are also any number of packages on the net:
+old standbys are
+r250, RANLIB, and FSULTRA
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>),
+and there is much recent work
+by
+<a href="http://stat.fsu.edu/~geo/">Marsaglia</a>,
+
+and Matumoto and Nishimura
+(the ``<a href="http://www.math.keio.ac.jp/~matumoto/emt.html">Mersenne Twister</a>''),
+and
+
+
+
+
+some code collected by
+<a href="http://www-cs-faculty.stanford.edu/~knuth/">Don Knuth</a>
+on his
+<a href="http://www-cs-faculty.stanford.edu/~knuth/programs.html">web pages</a>.
+</p><p>Here is
+a portable C implementation of
+the ``minimal standard'' generator proposed by
+Park and
+Miller:
+<pre>
+#define a 16807
+#define m 2147483647
+#define q (m / a)
+#define r (m % a)
+
+static long int seed = 1;
+
+long int PMrand()
+{
+	long int hi = seed / q;
+	long int lo = seed % q;
+	long int test = a * lo - r * hi;
+	if(test &gt; 0)
+		seed = test;
+	else	seed = test + m;
+	return seed;
+}
+</pre>
+(The ``minimal standard'' is adequately good;
+it is something ``against which all others should be judged'';
+it is recommended for use 
+``unless one has access to a random number generator
+<I>known</I> to be better.'')
+</p><p>This code implements the generator
+<blockquote><I>X</I> &nbsp;&lt;-&nbsp; (<I>aX</I> + <I>c</I>) mod <I>m</I>
+</blockquote>for <I>a</I> = 16807,
+<I>m</I> = 2147483647
+(which is
+2**31-1),
+and <I>c</I> = 0.<a href="pmprimem.html" rel=subdocument>[footnote]</a>
+The multiplication is carried out
+using a technique described by
+Schrage,
+ensuring that the intermediate result <I>aX</I> does not overflow.
+The implementation above returns <TT>long&nbsp;int</TT> values
+in the range [1, 2147483646];
+that is, it corresponds to C's <TT>rand</TT>
+with a <TT>RAND_MAX</TT> of 2147483646,
+<em>except</em> that it never returns 0.
+To alter it to return floating-point numbers in the range (0, 1)
+(as in the Park and Miller paper),
+change the declaration to
+<pre>
+	double PMrand()
+</pre>
+and the last line to
+<pre>
+	return (double)seed / m;
+</pre>
+For slightly better statistical properties,
+Park and Miller now recommend using <I>a</I> = 48271.
+</p>
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 2.7 p. 46, Sec. 7.8.7 p. 168
+<br>
+ISO Sec. 7.10.2.1
+<br>
+H&amp;S Sec. 17.7 p. 393
+<br>
+PCS Sec. 11 p. 172
+<br>
+Knuth Vol. 2 Chap. 3 pp.&nbsp;1-177
+<br>
+Park and Miller, ``Random Number Generators: Good Ones are Hard to Find''
+<hr><hr><hr>
+<a name="randrange">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/randrange.html"><!-- qtag -->Question 13.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I get random integers in a certain range?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The obvious way,
+<pre>
+	rand() % N		/* POOR */
+</pre>
+(which tries to return numbers from <TT>0</TT> to <TT>N-1</TT>)
+is poor,
+because
+the low-order bits of many random
+number
+generators are distressingly <em>non</em>-random.
+(See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#notveryrand">13.18</a>.)
+A better
+method is something like
+<pre>
+	(int)((double)rand() / ((double)RAND_MAX + 1) * N)
+</pre>
+</p><p>If you'd rather not use floating point,
+another method is
+<pre>
+	rand() / (RAND_MAX / N + 1)
+</pre>
+If you just need to do something with probability 1/<TT>N</TT>,
+you could use
+<pre>
+	if(rand() &lt; (RAND_MAX+1u) / N)
+</pre>
+All these
+methods
+obviously require knowing <TT>RAND_MAX</TT>
+(which ANSI <TT>#define</TT>s in <TT>&lt;stdlib.h&gt;</TT>),
+and
+assume
+
+that <TT>N</TT> is much less than <TT>RAND_MAX</TT>.
+</p><p>When <TT>N</TT> is close to <TT>RAND_MAX</TT>,
+and if the range of the random number generator
+is not a multiple of <TT>N</TT>
+(i.e. if <TT>(RAND_MAX+1)&nbsp;%&nbsp;N&nbsp;!=&nbsp;0</TT>),
+all of these methods break down:
+some outputs
+occur more often than others.
+(Using floating point does <em>not</em> help;
+the problem is that <TT>rand</TT> returns <TT>RAND_MAX+1</TT>
+distinct values,
+which cannot
+always be evenly
+divvied up
+into <TT>N</TT> buckets.)
+If this is a problem, about the only thing you can do
+is to call <TT>rand</TT> multiple times,
+discarding certain values:
+<pre>
+	unsigned int x = (RAND_MAX + 1u) / N;
+	unsigned int y = x * N;
+	unsigned int r;
+	do {
+		r = rand();
+	} while(r &gt;= y);
+	return r / x;
+</pre>
+
+</p><p>For any of these techniques,
+it's
+straightforward to shift
+the range,
+if necessary;
+numbers in the range [M, N] could be generated
+with something like 
+<pre>
+	M + rand() / (RAND_MAX / (N - M + 1) + 1)
+</pre>
+
+</p><p>(Note, by the way, that
+<TT>RAND_MAX</TT> is a <em>constant</em>
+telling you what the fixed range
+of the C library <TT>rand</TT> function is.
+You cannot set <TT>RAND_MAX</TT> to some other value,
+and there is no way of requesting that <TT>rand</TT>
+return numbers in some other range.)
+</p><p>If you're starting with a random number generator
+which returns floating-point values
+between 0 and 1
+(such as the last version of <TT>PMrand</TT>
+alluded to in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#rand">13.15</a>,
+or <TT>drand48</TT> in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#rand48">13.21</a>),
+all you have to do
+to get integers from 0 to <TT>N-1</TT>
+is multiply the output of that generator by <TT>N</TT>:
+<pre>
+	(int)(drand48() * N)
+</pre>
+</p><p><a href="sd15.html" rel=subdocument>Additional links</a>
+</p>
+
+<p>References:
+
+K&amp;R2 Sec. 7.8.7 p. 168
+<br>
+PCS Sec. 11 p. 172
+<hr><hr><hr>
+<a name="srand">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/srand.html"><!-- qtag -->Question 13.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Each time I run my program,
+I get the same sequence of numbers back from <TT>rand()</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's a characteristic of most
+pseudo-random number generators
+(and a defined property of the C library <TT>rand</TT>)
+that
+they
+
+always start with the same number
+and go through the same sequence.
+(Among other things,
+a bit of predictability can make debugging
+much easier.)
+When you don't want this predictability,
+you
+
+
+can call <TT>srand</TT> to seed the pseudo-random number
+generator with a truly random
+(or at least variable)
+initial value.
+Popular seed values are the time of day,
+or a process ID number,
+or
+the elapsed time
+before the user presses a key,
+or some combination of these.
+Here's an example call,
+using the time
+of day
+as a seed:
+<pre>
+	#include &lt;stdlib.h&gt;
+	#include &lt;time.h&gt;
+
+	srand((unsigned int)time((time_t *)NULL));
+</pre>
+(There remain several difficulties:
+the <TT>time_t</TT> returned by <TT>time</TT>
+might be a floating-point type,
+hence not portably convertible to <TT>unsigned&nbsp;int</TT>
+without the possibility of overflow.
+Furthermore,
+if time of day is available with 1-second resolution,
+using it by itself means that
+successive runs of the program can easily get the same seed.
+Subsecond resolution,
+of time-of-day
+or
+
+
+keystroke presses,
+is
+hard to achieve portably;
+see
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#subsecond">19.37</a>.)
+</p><p>Note also that
+it's
+
+rarely useful to call <TT>srand</TT> more 
+than once during a run of a program;
+
+in particular,
+don't try calling <TT>srand</TT>
+before each call to <TT>rand</TT>,
+in an attempt to get ``really random''
+numbers.</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. 7.8.7 p. 168
+<br>
+ISO Sec. 7.10.2.2
+<br>
+H&amp;S Sec. 17.7 p. 393
+<hr><hr><hr>
+<a name="notveryrand">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/notveryrand.html"><!-- qtag -->Question 13.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need a random true/false value,
+so I'm just taking <TT>rand()&nbsp;%&nbsp;2</TT>,
+but it's alternating 0, 1, 0, 1, 0...
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Poor
+pseudorandom number generators
+(such as the ones
+unfortunately supplied with some
+
+systems)
+are not very random in
+the low-order bits.
+(In fact,
+for a
+pure
+linear congruential random number generator
+with period
+2**e,
+and this tends to be how random number generators for e-bit 
+machines
+are written,
+the low-order n bits repeat with period
+2**n.)
+For this reason,
+it's preferable to use
+the higher-order bits:
+see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#randrange">13.16</a>.
+</p>
+<p>References:
+
+Knuth Sec. 3.2.1.1 pp. 12-14
+<hr><hr><hr>
+<a name="shuffle">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/shuffle.html"><!-- qtag -->Question 13.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I return a sequence of random numbers
+which don't repeat at all?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+What you're looking for is often called a
+
+
+
+``random permutation'' or
+``shuffle.''
+One way is to initialize an array with the
+values to be shuffled,
+then randomly interchange each of the cells with another one
+later in the array:
+<pre>
+	int a[10], i, nvalues = 10;
+
+	for(i = 0; i &lt; nvalues; i++)
+		a[i] = i + 1;
+
+	for(i = 0; i &lt; nvalues-1; i++) {
+		int c = randrange(nvalues-i);
+		int t = a[i]; a[i] = a[i+c]; a[i+c] = t;	/* swap */
+	}
+</pre>
+
+where <TT>randrange(N)</TT> is
+<TT>rand()&nbsp;/&nbsp;(RAND_MAX/(N)&nbsp;+&nbsp;1)</TT>
+or one of the other expressions from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#randrange">13.16</a>.
+</p>
+<p>References:
+
+Knuth Sec. 3.4.2 pp. 137-8
+<hr><hr><hr>
+<a name="fprand">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/fprand.html"><!-- qtag -->Question 13.19b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I generate floating-point random numbers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#rand48">13.21</a> for some examples.
+<hr><hr><hr>
+<a name="gaussian">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/gaussian.html"><!-- qtag -->Question 13.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I generate random numbers with a
+normal or
+Gaussian distribution?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are a number of ways of doing this.
+</p><OL><li>Exploit
+the
+Central Limit Theorem
+(``law of large numbers'')
+and add up several uniformly-distributed random numbers:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+#define NSUM 25
+
+double gaussrand()
+{
+	double x = 0;
+	int i;
+	for(i = 0; i &lt; NSUM; i++)
+		x += (double)rand() / RAND_MAX;
+
+	x -= NSUM / 2.0;
+	x /= sqrt(NSUM / 12.0);
+
+	return x;
+}
+</pre>
+(Don't overlook the <TT>sqrt(NSUM&nbsp;/&nbsp;12.)</TT> correction,
+though
+it's easy to do so accidentally,
+especially when <TT>NSUM</TT> is 12.)
+<li>Use a method described by
+Abramowitz
+and
+Stegun:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+#define PI 3.141592654
+
+double gaussrand()
+{
+	static double U, V;
+	static int phase = 0;
+	double Z;
+
+	if(phase == 0) {
+		U = (rand() + 1.) / (RAND_MAX + 2.);
+		V = rand() / (RAND_MAX + 1.);
+		Z = sqrt(-2 * log(U)) * sin(2 * PI * V);
+	} else
+		Z = sqrt(-2 * log(U)) * cos(2 * PI * V);
+
+	phase = 1 - phase;
+
+	return Z;
+}
+</pre>
+<li>Use a
+method
+discussed
+in
+Knuth
+and due originally
+to Marsaglia:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+double gaussrand()
+{
+	static double V1, V2, S;
+	static int phase = 0;
+	double X;
+
+	if(phase == 0) {
+		do {
+			double U1 = (double)rand() / RAND_MAX;
+			double U2 = (double)rand() / RAND_MAX;
+
+			V1 = 2 * U1 - 1;
+			V2 = 2 * U2 - 1;
+			S = V1 * V1 + V2 * V2;
+			} while(S &gt;= 1 || S == 0);
+
+		X = V1 * sqrt(-2 * log(S) / S);
+	} else
+		X = V2 * sqrt(-2 * log(S) / S);
+
+	phase = 1 - phase;
+
+	return X;
+}
+</pre>
+</OL>These
+methods
+all
+generate numbers with mean 0
+and standard deviation
+
+1.
+(To adjust to some
+other distribution,
+multiply by
+the standard deviation
+and add the mean.)
+Method 1 is poor ``in the tails''
+(especially if <TT>NSUM</TT> is small),
+but methods 2 and 3 perform
+quite
+well.
+See the references for more information.
+<p><a href="sd16.html" rel=subdocument>Additional links</a>
+</p>
+
+
+
+
+
+<p>References:
+
+Knuth Sec. 3.4.1 p. 117
+<br>
+Box and Muller, ``A Note on the Generation of Random Normal Deviates''
+<br>
+Marsaglia and Bray, ``A Convenient Method for Generating Normal Variables''
+<br>
+Abramowitz and Stegun, <I>Handbook of Mathematical Functions</I>
+<br>
+Press et al., <I>Numerical Recipes in C</I> Sec. 7.2 pp. 288-290
+<hr><hr><hr>
+<a name="rand48">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/rand48.html"><!-- qtag -->Question 13.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm porting this program, and it calls a routine
+<TT>drand48</TT>,
+which my library doesn't have.
+What is
+it?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>drand48</TT>
+is a
+Unix System V
+routine
+which
+returns floating point random numbers
+(presumably
+
+with 48 bits of precision)
+in the half-open interval
+[0,&nbsp;1)<a href="fn76.html" rel=subdocument>[footnote]</a>
+.
+(Its companion seed routine is <TT>srand48</TT>;
+neither is in the C Standard.)
+It's easy to write a low-precision replacement:
+
+<pre>
+#include &lt;stdlib.h&gt;
+
+double drand48()
+{
+	return rand() / (RAND_MAX + 1.);
+}
+</pre>
+</p><p>To more accurately simulate <TT>drand48</TT>'s semantics,
+you can try to give it closer to
+48 bits
+worth of precision:
+<pre>
+#define PRECISION 2.82e14	/* 2**48, rounded up */
+
+double drand48()
+{
+	double x = 0;
+	double denom = RAND_MAX + 1.;
+	double need;
+
+	for(need = PRECISION; need &gt; 1;
+			need /= (RAND_MAX + 1.)) {
+		x += rand() / denom;
+		denom *= RAND_MAX + 1.;
+	}
+
+	return x;
+}
+</pre>
+</p><p>Before using code like this, though,
+beware that it is numerically suspect,
+particularly if
+(as is usually the case)
+the period of <TT>rand</TT> is
+on the order of
+RAND_MAX.
+(If you have a longer-period random number generator available,
+such as BSD <TT>random</TT>,
+definitely
+use it
+when simulating <TT>drand48</TT>.)
+</p>
+<p>References:
+
+PCS Sec. 11 p. 149
+<hr><hr><hr>
+<a name="exitvsreturn">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/exitvsreturn.html"><!-- qtag -->Question 13.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is <TT>exit(status)</TT> truly equivalent
+to returning the same <TT>status</TT> from <TT>main</TT>?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#exitvsreturn">11.16</a>.
+<hr><hr><hr>
+<a name="memmove">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/memmove.html"><!-- qtag -->Question 13.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<TT>memcpy</TT> and
+<TT>memmove</TT>?
+
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#memmove">11.25</a>.
+<hr><hr><hr>
+<a name="oldlibfcns">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/oldlibfcns.html"><!-- qtag -->Question 13.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to port this old program.
+Why do I get ``undefined external'' errors
+for some library functions?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some
+old or
+semistandard functions have been renamed or replaced over the years;
+<br>if you need:/you should instead:
+<dl><dt><TT>index</TT>
+</dt><dd>use <TT>strchr</TT>.
+</dd><dt><TT>rindex</TT>
+</dt><dd>use <TT>strrchr</TT>.
+</dd><dt><TT>bcopy</TT>
+</dt><dd>use
+<TT>memmove</TT>,
+after interchanging the first and second arguments
+(see also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#memmove">11.25</a>).
+</dd><dt><TT>bcmp</TT>
+</dt><dd>use <TT>memcmp</TT>.
+</dd><dt><TT>bzero</TT>
+</dt><dd>use <TT>memset</TT>,
+with a second argument of 0.
+</dd></dl></p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#sprintfret">12.22</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#rand48">13.21</a>.
+</p>
+<p>References:
+
+PCS Sec. 11
+<hr><hr><hr>
+<a name="extlibs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/extlibs.html"><!-- qtag -->Question 13.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I
+keep getting
+errors due to library functions being undefined,
+but I'm #including all
+the right header files.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+
+
+
+In the general case of calling code in an
+external library,
+using <TT>#include</TT> to pull in
+the right header file(s) is only half
+of the story; you also have to tell the linker to search the
+external library itself.
+The declarations in the header file
+only tell the compiler how to call the external functions;
+the header file doesn't supply the definitions of the external
+functions, or tell the compiler/linker where to find those
+definitions.
+</p><p>In some cases
+(especially if the functions are nonstandard)
+obtaining
+those definitions
+may require explicitly asking
+for the correct libraries to be
+searched
+when you link the program.
+(Some systems may be able to arrange
+that whenever you <TT>#include</TT> a header,
+its associated library, if nonstandard,
+is automatically requested at link time,
+but such a facility is not
+widespread.)
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#missinghdr">10.11</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#preansilib">11.30</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#libsearch">13.26</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#libm">14.3</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#networking">19.40</a>.
+<hr><hr><hr>
+<a name="libsearch">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/libsearch.html"><!-- qtag -->Question 13.26</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm still getting errors due to library functions being undefined,
+even though I'm
+explicitly
+requesting the right libraries
+while linking.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many
+linkers make one pass
+over the list of object files and libraries you specify,
+and extract from libraries
+only those modules
+which satisfy references
+which have so far come up as undefined.
+Therefore, the
+order in which libraries are
+listed
+with respect to object files
+(and each other)
+is significant;
+usually,
+you
+want to
+search the libraries last.
+</p><p>For example,
+under
+Unix,
+a command line like
+<pre>
+	cc -lm myprog.c		# WRONG
+</pre>
+usually won't work.
+Instead,
+put any <TT>-l</TT> options
+at
+the end of the command line:
+<pre>
+	cc myprog.c -lm
+</pre>
+
+</p><p>If you list a library first,
+the linker doesn't know that it
+
+needs anything out of it yet,
+and
+passes it by.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#endundef">13.28</a>.
+<hr><hr><hr>
+<a name="bloat">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/bloat.html"><!-- qtag -->Question 13.27</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why is my simple program,
+which hardly does more than print ``Hello, world!''
+in a window,
+compiling to such a huge executable
+(several hundred K)?
+Should I <TT>#include</TT> fewer header files?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+What you're seeing is the current
+(poor)
+state of the ``art'' in library design.
+As run-time libraries accrete more and more features
+(especially
+having to do
+with
+Graphical User Interfaces),
+and when one library function calls another library function to 
+do part of its job
+(which ought to be a Good Thing;
+that's what library functions are for),
+it
+can happen
+that
+calling anything in the library
+(particularly something relatively powerful like <TT>printf</TT>)
+eventually pulls in practically everything
+else,
+leading to horribly bloated executables.
+</p><p>#including fewer header files probably won't help,
+because declaring a few functions which you don't call
+(which is mostly all that happens when you #include a header 
+you don't need)
+shouldn't result in those functions being placed in your 
+executable,
+unless
+they actually do get called.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>.
+</p><p>You may be able to track down
+and derail
+a
+chain
+
+of unnecessarily-coupled functions which are 
+
+bloating your executable,
+or maybe complain to your vendor to clean up the libraries.
+</p>
+<p>References:
+
+H&amp;S Sec. 4.8.6 pp. 103-4
+<hr><hr><hr>
+<a name="endundef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/endundef.html"><!-- qtag -->Question 13.28</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does it mean when the linker says that <TT>_end</TT> is undefined?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+That message
+is a quirk of the old Unix linkers.
+You
+get
+an error about <TT>_end</TT> being undefined
+only
+when other
+symbols
+are undefined,
+too--fix
+the others,
+and the error about <TT>_end</TT> will disappear.
+(See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#libsearch">13.26</a>.)
+<hr><hr><hr>
+<a name="noprintf">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../lib/noprintf.html"><!-- qtag -->Question 13.29</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My compiler is complaining that <TT>printf</TT> is undefined!
+How can this be?
+It's the world's most popular C function...
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+Allegedly, there are C compilers for Microsoft Windows
+which do not support <TT>printf</TT>,
+on the argument that
+<TT>printf</TT> is for printing to old-fashioned terminals,
+while under Windows the right way to display text
+is to call xxx to open a window
+and then xxx to display text in it.
+It may be possible to convince such a compiler
+that what you are writing is a
+``console application''
+meaning that it will
+take care of opening
+a ``console window''
+for you automatically,
+and condescend to let you call <TT>printf</TT> to print stuff to it.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#waitforkey">19.4b</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

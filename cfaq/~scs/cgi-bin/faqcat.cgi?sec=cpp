@@ -1,0 +1,1913 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file cpp.sgml dated Wed Dec 21 13:52:14 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/cpp/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>C Preprocessor</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>10. C Preprocessor</H1>
+<a name="safemacros">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/safemacros.html"><!-- qtag -->Question 10.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to define
+a few simple little function-like macros
+such as
+<pre>
+	#define square(x) x * x
+</pre>
+but they're not always working.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are three important rules to remember when defining
+function-like macros:
+<OL><li>The macro expansion must always be parenthesized
+to protect
+any lower-precedence operators
+from the surrounding expression.
+Given the
+(incorrect)
+<TT>square()</TT> macro above,
+the invocation
+<pre>
+	1 / square(n)
+</pre>
+would expand to
+<pre>
+	1 / n * n
+</pre>
+(which evaluates as <TT>(1 / n) * n</TT>),
+while
+what you want is
+<pre>
+	1 / (n * n)
+</pre>
+(In this case, the problem is one of associativity rather than 
+precedence, but the effect is the same.)
+
+<li>Within the macro definition,
+all
+occurrences
+of the parameters
+must be parenthesized
+to protect
+any low-precedence operators
+in the actual arguments
+from the
+rest of the macro expansion.
+Again
+given the <TT>square()</TT> macro above,
+the invocation
+<pre>
+	square(n + 1)
+</pre>
+would expand to
+<pre>
+	n + 1 * n + 1
+</pre>
+But what you want is
+<pre>
+	(n + 1) * (n + 1)
+</pre>
+<li>If a parameter appears several times
+in the expansion,
+the macro may not work properly
+if the actual argument
+is an expression with
+side effects.
+Yet again
+given the <TT>square()</TT> macro above,
+the invocation
+<pre>
+	square(i++)
+</pre>
+would expand to
+<pre>
+	i++ * i++
+</pre>
+which is undefined
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#evalorder2">3.2</a>).
+</OL></p><p>The proper definition of a <TT>square</TT> macro,
+to comply with rules 1 and 2 above,
+is
+<pre>
+	#define square(x) ((x) * (x))
+</pre>
+Complying 
+with rule 3 is harder.
+Sometimes,
+careful exploitation of the short-circuiting behavior of
+the
+<TT>&amp;&amp;</TT>, <TT>||</TT>, or <TT>?:</TT>
+operators
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#shortcircuit">3.6</a>)
+can arrange that a parameter which appears several times
+is guaranteed to be evaluated exactly once.
+Sometimes, the macro is
+
+just
+documented as being unsafe,
+and callers must remember
+not to use it on arguments with side effects.
+Other times,
+it may be advisable <em>not</em> to
+compose a function-like macro
+if it can't be made safe.
+</p><p>(As a stylistic convention,
+macros are often defined with capitalized or all-upper-case names,
+to make it obvious that they are macros.
+It may be acceptable to define a function-like macro
+with an all-lower-case name,
+if it truly simulates a function,
+but only if it complies with all three rules above.
+Since the squaring macro we've been discussing does not,
+it should be defined as something like
+<pre>
+	#define Square(x) ((x) * (x))	/* UNSAFE */
+</pre>
+if it is to be used at all.)
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 4.11 p. 87
+<br>
+K&amp;R2 Sec. 4.11.2 p. 90
+<br>
+H&amp;S Secs. 3.3.6,3.3.7 pp. 49-50
+<br>
+CT&amp;P Sec. 6.2 pp. 78-80
+<hr><hr><hr>
+<a name="slm">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/slm.html"><!-- qtag -->Question 10.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Here are
+some cute preprocessor macros:
+<pre>
+	#define begin	{
+	#define end	}
+</pre>
+With these,
+I can write C code that looks more like Pascal.
+What do y'all think?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Use of macros like these,
+though perhaps superficially attractive,
+is generally discouraged;
+in severe cases
+the practice is called
+
+``preprocessor abuse.''
+</p><p>There is little to be gained
+in
+
+
+trying to redefine
+the syntax of a language
+to fit your own predilections,
+or
+to match some other language.
+Your predilections are unlikely to be shared
+by later readers or maintainers of the code,
+and any simulation of another language
+is most unlikely to be perfect
+(so any alleged convenience or utility
+will probably be outweighed
+by the nuisance of remembering the
+imperfections).
+</p><p>As a general rule,
+it's a good idea
+if the use of
+preprocessor macros
+follows the syntax of the C language.
+Macros without arguments should look like variables or other
+identifiers;
+macros with arguments should look like function calls.
+Ask yourself:
+``If I somehow presented this code to the compiler
+without running it through the preprocessor,
+how many
+syntax errors would I get?''
+(Of course, you'd get plenty of undefined
+symbols
+and non-constant array dimensions,
+but those aren't <em>syntax</em> errors.)
+This rule means that C code,
+plus macro invocations,
+still looks like C code.
+So-called nonsyntactic macros
+
+like <TT>begin</TT> and <TT>end</TT>
+or <TT>CTRL(D)</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#charize">10.21</a>)
+can make C look like
+gobbledygook
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#ioccc">20.36</a>).
+</p><p>This is of course largely a style issue;
+see
+also
+section
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#index">17</a>.
+<hr><hr><hr>
+<a name="swapmacro">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/swapmacro.html"><!-- qtag -->Question 10.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a generic macro to swap two values?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is no good answer to this question.
+If the values are integers, a well-known trick using exclusive-OR
+
+
+could perhaps
+be used,
+but it will not work for floating-point values or
+pointers,
+or if the two values are the same variable.
+(See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#xorswapexpr">3.3b</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#swapnotemp">20.15c</a>.)
+If the macro is intended to be
+used on values of arbitrary type
+(the usual goal),
+any solution involving a temporary variable is problematical,
+because:
+<UL><li>It's hard to give
+the temporary
+a name that won't clash with anything.
+(Any name you pick
+might be the actual name of one of the variables being swapped.
+If you tried
+using <TT>##</TT>
+to concatenate the names of the two actual arguments,
+to ensure that it won't match either one,
+it might still not be unique
+if the concatenated name is longer than 31 characters,
+<a href="identl.html" rel=subdocument>[footnote]</a>
+and it
+wouldn't let you swap things like <TT>a[i]</TT> that aren't simple identifiers.
+You could probably get away with using a name like <TT>_tmp</TT> 
+in the ``no man's land'' between the user and 
+implementation namespaces; see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#namespace">1.29</a>.)
+<li>Either it can't be declared with the right type
+(because standard C does not provide a <TT>typeof</TT> operator),
+or
+(if it copies objects byte-by-byte,
+perhaps with <TT>memcpy</TT>,
+to a temporary array sized with <TT>sizeof</TT>)
+the macro can't be used on operands which are declared <TT>register</TT>.
+</UL></p><p>The best all-around solution is probably to forget about using a
+macro,
+unless you're willing to pass in the type as a third argument.
+
+
+(Also,
+
+
+
+if you're trying to swap entire structures or arrays,
+you probably want to
+exchange pointers
+instead.)
+If you're worried about the use of an ugly temporary, and know
+that your machine provides an efficient exchange instruction, convince your
+compiler vendor to recognize the standard three-assignment swap
+idiom in the optimization phase.
+</p><p>If you're consumed by a passionate desire
+to solve this problem once and for all,
+please reconsider;
+there are better problems worthier of your energies.
+</p><p>Additional links:
+<a href="sd6.html" rel=subdocument>so you think you have a solution</a>
+<hr><hr><hr>
+<a name="multistmt">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/multistmt.html"><!-- qtag -->Question 10.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the best way to write a multi-statement macro?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The usual goal is to
+be able to
+invoke the macro as if it were
+an expression statement consisting of a function call:
+<pre>
+	MACRO(arg1, arg2);
+</pre>
+This means that the ``caller'' will be supplying the final semicolon,
+so the macro body should not.
+The macro body cannot therefore
+be a simple
+brace-enclosed
+compound statement,
+because
+of the
+possibility
+that the macro could be used
+as the if branch of an if/else statement with an explicit else
+clause:
+<pre>
+	if(cond)
+		MACRO(arg1, arg2);
+	else	/* some other code */
+</pre>
+If
+the macro
+expanded
+to
+a simple
+compound statement,
+the final,
+caller-supplied
+semicolon
+would be a syntax error:
+<pre>
+	if(cond)
+		{stmt1; stmt2;};
+	else	/* some other code */
+</pre>
+</p><p>The traditional solution,
+therefore, 
+is to use
+<pre>
+	#define MACRO(arg1, arg2) do {	\
+		/* declarations */	\
+		stmt1;			\
+		stmt2;			\
+		/* ... */		\
+		} while(0)	/* (no trailing ; ) */
+</pre>
+
+When the caller appends a semicolon, this expansion
+becomes a single statement regardless of context.
+
+(An optimizing compiler will remove any ``dead'' tests or
+branches on the constant condition 0, although <TT>lint</TT> may complain.)
+</p><p>
+(Another possibility might be
+
+<pre>
+	#define MACRO(arg1, arg2) if(1) { \
+		stmt1; \
+		stmt2; \
+		} else
+</pre>
+but it
+is inferior,
+since
+it quietly
+breaks the surrounding code
+if
+the caller happens to forget to append
+the semicolon upon invocation.)
+</p><p>If all of the statements in the intended macro are simple expressions,
+with no declarations
+or loops,
+another technique is to
+write a single, parenthesized expression
+using one or more comma operators:
+<pre>
+	#define FUNC(arg1, arg2) (expr1, expr2, expr3)
+</pre>
+(For an
+example,
+see the
+first <TT>DEBUG()</TT>
+macro in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#varargs">10.26</a>.)
+This technique also allows a value
+(in this case,
+<TT>expr3</TT>)
+to be ``returned.''
+</p><p>Some compilers,
+e.g. <TT>gcc</TT>,
+are also able to expand compact functions in-line,
+either automatically or at the programmer's request
+(perhaps with a nonstandard
+``<TT>inline</TT>'' keyword
+or other extension).
+</p>
+
+<p>References:
+
+H&amp;S Sec. 3.3.2 p. 45
+<br>
+CT&amp;P Sec. 6.3 pp. 82-3
+<hr><hr><hr>
+<a name="typedefvsdefine">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/typedefvsdefine.html"><!-- qtag -->Question 10.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between using a <TT>typedef</TT>
+or
+
+a <TT>#define</TT>
+for a user-defined type?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#typedefvsdefine">1.13</a>.
+<hr><hr><hr>
+<a name="constvsdefine">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/constvsdefine.html"><!-- qtag -->Question 10.5b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<pre>
+	const MAXSIZE = 100;
+</pre>
+<pre>
+and
+</pre>
+<pre>
+	#define MAXSIZE 100
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A preprocessor
+<TT>#define</TT> gives you a true compile-time constant.
+In C, <TT>const</TT>
+gives you a run-time object which you're not supposed to try to modify;
+``<TT>const</TT>'' really means ``<TT>readonly</TT>''.
+See also the question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#constasconst">11.8</a>.
+(But in C++, <TT>const</TT> is closer to <TT>#define</TT>.)
+</p><p>Additional links:
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#constdefine2">longer explanation</a>
+<hr><hr><hr>
+<a name="hfiles">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/hfiles.html"><!-- qtag -->Question 10.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm splitting up a program
+into multiple source files
+for the first time,
+
+and I'm wondering what to put in <TT>.c</TT> files
+and what to put in <TT>.h</TT> files.
+(What does ``<TT>.h</TT>''
+mean,
+anyway?)
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+As a general rule, you should put these things in header
+(<TT>.h</TT>) files:
+<blockquote><pre>
+macro definitions (preprocessor <TT>#define</TT>s)
+structure, union, and enumeration declarations
+typedef declarations
+external function declarations (see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#extern">1.11</a>)
+global variable declarations
+</pre>
+</blockquote></p><p>It's especially important to put a declaration or definition in 
+a header file when it will be shared between several other files.
+Don't repeat a declaration or macro definition at the top of 
+two or more source files;
+do put it in a header file and <TT>#include</TT> it wherever 
+needed.
+The reason is not just to save typing:
+you want to set things up so that whenever a declaration or 
+definition changes,
+you only have to change it in one place,
+with the update propagated to
+all source files
+consistently.
+(In particular, never put external function
+prototypes in <TT>.c</TT> 
+files.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#decldef">1.7</a>.)
+</p><p>On the other hand,
+when a definition or declaration should remain private to one
+<TT>.c</TT>
+file, it's
+fine
+to
+leave it there.
+
+
+
+(Private file-scope functions and
+variables
+should
+also
+be declared
+<TT>static</TT>.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#opaquetypes">2.4</a>.)
+</p><p>Finally,
+you should not put actual code
+(i.e. function
+bodies)
+or global variable definitions
+(that is, defining
+or initializing
+instances)
+in header files.
+Also,
+when you are building a project
+out of multiple source files,
+you should compile each of them separately
+(using a compiler option
+to request compilation only),
+and use the linker
+to link the resultant object files together.
+(In an integrated development environment,
+all of this may be taken care of for you.)
+Don't try to ``link'' all of your source files together
+with <TT>#include</TT>;
+the <TT>#include</TT> directive should be used
+to pull in
+header files,
+not other <TT>.c</TT> files.
+
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#decldef">1.7</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#nestincl">10.7</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=style#srcfiles">17.2</a>.
+</p><p>Additional links:
+<a href="sd7.html" rel=subdocument>more explanation</a>
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 4.5 pp. 81-2
+<br>
+H&amp;S Sec. 9.2.3 p. 267
+<br>
+CT&amp;P Sec. 4.6 pp. 66-7
+<hr><hr><hr>
+<a name="nestincl">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/nestincl.html"><!-- qtag -->Question 10.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is it acceptable for one header file to <TT>#include</TT> another?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's a question of style,
+and thus receives considerable debate.
+Many people believe that
+``nested <TT>#include</TT> files''
+are to be avoided:
+
+the prestigious Indian Hill Style Guide
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#guides">17.9</a>)
+disparages them;
+they can make it harder to find relevant definitions;
+they can lead to multiple-definition errors if a file is <TT>#include</TT>d twice;
+they can lead to
+increased compilation time;
+and
+they make manual Makefile maintenance very difficult.
+On the other hand,
+they make it possible to use header files in a modular way (a
+header file can <TT>#include</TT> what it needs itself,
+rather than
+
+
+requiring each <TT>#include</TT>r to do so);
+a tool like <TT>grep</TT>
+(or a tags file)
+makes it easy to find definitions no matter where they are;
+a popular trick
+along the lines of:
+
+
+<pre>
+	#ifndef HFILENAME_USED
+	#define HFILENAME_USED
+	...header file contents...
+	#endif
+</pre>
+(where a different
+bracketing
+macro name
+is used for each header file)
+makes a header file ``idempotent''
+so that it can safely be <TT>#include</TT>d multiple times;
+a clever compiler can avoid expending any more time
+on later instances of
+an already-included header;
+and automated Makefile maintenance tools
+(which are a virtual necessity in large projects anyway;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tools">18.1</a>)
+handle dependency generation in the face of nested <TT>#include</TT> files easily.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=style#stylewars">17.10</a>.
+</p>
+<p>References:
+
+Rationale Sec. 4.1.2
+<hr><hr><hr>
+<a name="inclkinds">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/inclkinds.html"><!-- qtag -->Question 10.8a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+<TT>#include&nbsp;&lt;&gt;</TT>
+and
+<TT>#include&nbsp;""</TT>
+?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The
+<TT>&lt;&gt;</TT> syntax is
+typically used with
+Standard or system-supplied headers,
+while <TT>""</TT> is typically used for a program's own header files.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#cppsearchpath">10.8b</a>.
+</p><p>Additional links:
+<br>
+<br>
+<a href="inclk.kaz.html">nice explanation</a>
+by Kaz Kylheku
+<br>
+<br>
+An
+
+
+
+
+<a href="incl.970507.html">article</a>
+and a longer
+
+
+
+
+<a href="incl.970605.html">followup</a>
+I posted in 1997 exploring some of the finer points which
+sometimes arise in deciding between <TT>#include&nbsp;""</TT>and <TT>#include&nbsp;&lt;&gt;</TT>.
+(Warning:
+among the possibilities explored
+is that of using <TT>#include&nbsp;&lt;&gt;</TT> for your own header files
+under certain circumstances,
+a practice which is <em>not</em> standard
+and is not condoned by the readership of <TT>comp.lang.c</TT>.)
+<hr><hr><hr>
+<a name="cppsearchpath">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/cppsearchpath.html"><!-- qtag -->Question 10.8b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What are the complete rules for header file searching?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The exact behavior is implementation-defined
+(which means that it is supposed to be documented;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>).
+Typically, headers
+named with <TT>&lt;&gt;</TT>
+syntax
+are searched for
+in one or more standard places.
+<a href="bihdr.html" rel=subdocument>[footnote]</a>
+Header files named with <TT>""</TT>
+syntax
+are
+first searched for
+in the ``current directory,''
+then
+(if not found)
+in the same standard places.
+(This last rule,
+that
+<TT>""</TT> files
+are additionally searched
+for as if they were <TT>&lt;&gt;</TT> files,
+is
+the
+only rule
+specified by the Standard.)
+</p><p>Another distinction is the definition of ``current directory''
+for <TT>""</TT> files.
+Traditionally
+(especially under Unix compilers),
+the current directory is
+taken to be
+the directory
+containing the file
+containing
+the <TT>#include</TT> directive.
+Under other compilers, however,
+the current directory
+is the directory in which the compiler was initially invoked.
+(Compilers running on systems without directories
+or
+without
+the notion of a current directory
+may of course use still different rules.)
+</p><p>It is also common for there to be a way
+(usually a command line option involving capital I,
+or maybe an environment variable)
+to
+add additional directories
+to the list of standard places to
+search.
+Check your
+compiler
+documentation.
+</p><p>Additional links:
+<br>
+<br>
+
+
+
+
+<a href="include.dmr.html">further elaboration by Dennis Ritchie</a>
+<br>
+<br>
+
+
+
+
+A
+<a href="incl.970605.html">long article</a>
+of mine exploring some of the bore subtle implications of the search rules
+</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. A12.4 p. 231
+<br>
+ISO Sec. 6.8.2
+<br>
+H&amp;S Sec. 3.4 p. 55
+<hr><hr><hr>
+<a name="headerglom">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/headerglom.html"><!-- qtag -->Question 10.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm getting strange
+syntax errors
+on the very first
+declaration in
+a file,
+but it looks fine.
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Perhaps there's a missing semicolon at the end of the last
+declaration in the last header file you're #including.
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#retcrash">2.18</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#preansi">11.29a</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#emptyloop">16.1</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#unclosed">16.1b</a>.
+<hr><hr><hr>
+<a name="def3rdparty">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/def3rdparty.html"><!-- qtag -->Question 10.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm using header files
+which
+accompany two different third-party libraries,
+and they are ``helpfully'' defining
+common macros such as <TT>TRUE</TT>,
+<TT>FALSE</TT>,
+<TT>Min()</TT>,
+and <TT>Max()</TT>,
+
+but the definitions clash with each other
+and with definitions I'd
+
+already established in my own header files.
+What can I do?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This is indeed an annoying situation.
+It's a classic namespace problem;
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#semiglobal">1.9</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#namespace">1.29</a>.
+Ideally,
+third-party vendors would be conscientious when defining symbols
+(both preprocessor <TT>#define</TT>s and global variable and function names)
+to assure that namespace collisions were
+
+unlikely.
+The best solution
+
+is
+to get the vendor(s)
+to fix their header files.
+</p><p>As a workaround,
+
+
+
+you can
+sometimes
+undefine or redefine
+the
+offending
+macros
+between the conflicting <TT>#include</TT> directives.
+<hr><hr><hr>
+<a name="extlibs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/extlibs.html"><!-- qtag -->Question 10.10b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm #including the
+right
+header file for
+the library function I'm using,
+but the linker keeps saying it's undefined.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>.
+<hr><hr><hr>
+<a name="missinghdr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/missinghdr.html"><!-- qtag -->Question 10.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm compiling a program, and
+I seem to be missing
+one
+of the
+header files it
+requires.
+Can someone send me
+a copy?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are several situations, depending on what sort of header
+file it is that's ``missing''.
+</p><p>If the missing header file is
+truly
+a standard one
+(that is,
+one defined by the ANSI C Standard,
+such as <TT>&lt;stdio.h&gt;</TT>),
+there's a problem with your compiler.
+Either
+the compiler
+wasn't installed properly,
+or your project is somehow not configured
+to find the standard header files.
+You'll need to contact your vendor,
+or someone knowledgeable about your particular compiler,
+for help.
+</p><p>In
+the case of nonstandard headers,
+the situation is considerably more complicated.
+Some
+headers
+(such as <TT>&lt;dos.h&gt;</TT>)
+are completely system- or compiler-specific.
+Some
+are completely unnecessary,
+and should be replaced by
+their Standard equivalents.
+(For example,
+instead of
+the nonstandard
+<TT>&lt;malloc.h&gt;</TT>
+and
+<TT>&lt;memory.h&gt;</TT>,
+portable
+source code should instead <TT>#include</TT>
+<TT>&lt;stdlib.h&gt;</TT>
+and
+<TT>&lt;string.h&gt;</TT>,
+respectively.)
+Other
+headers,
+such as those associated with popular add-on libraries,
+may be reasonably portable.
+</p><p>If the missing header file is an OS-specific one,
+such as
+<TT>&lt;sgtty.h&gt;</TT>,
+<TT>&lt;sys/stat.h&gt;</TT>,
+<TT>&lt;netinet/in.h&gt;</TT>,
+or
+<TT>&lt;dos.h&gt;</TT>,
+it may be that the program you're compiling was
+tailored to
+an operating system other than the one you're using.
+(It's also possible that
+some conditional compilation settings need to be adjusted.)
+
+
+
+
+It likely won't be possible to get the program working
+without rewriting its system-dependent portions.
+Simply getting copies of the missing header files wouldn't help--they
+typically contain declarations of the interfaces
+to the various system calls and libraries.
+Obtaining copies of the header files wouldn't get you copies of the libraries,
+and the libraries wouldn't be of any use
+(that is, they wouldn't work)
+without the underlying system calls, anyway.
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#cbreak">19.1</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#termcap">19.4</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#modtime">19.12b</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#int86">19.40c</a>.
+</p><p>If the missing header file is for
+some external, add-on, third-party
+library,
+look for the header where you got the library.
+If you have some source code
+which #includes what appears to be an add-on header,
+but
+which
+
+you don't have,
+you probably don't have the library, either,
+and you'll need both.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+</p><p>If the header file is unique to
+(that is, part of)
+the program you're trying to compile,
+your search will obviously begin
+at the spot
+where you found the program.
+(Again, see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.)
+</p><p>In general, however, asking if someone can
+``send you a copy''
+of a missing header file is not likely to be productive.
+Standard headers exist in part so that definitions appropriate to your
+compiler,
+operating system,
+and
+processor
+can be supplied.
+You cannot
+just
+pick up a copy of someone else's header file
+and expect it to work,
+unless that person is using exactly the same environment.
+Nonstandard headers--such as
+those specific to
+a particular operating system
+or third-party library--aren't
+generally any more portable;
+the OS-specific ones are likely to be <em>very</em> specific
+to a particular version and release of the OS,
+and the third-party ones are likely to be equally tied
+to a particular version of the library.
+</p><p>The bottom line is that
+a random person on the net
+is unlikely to be able to send you a working copy
+of the header file you
+(seem to)
+need.
+You may actually have a
+portability problem
+
+(see section <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#index">19</a>),
+or a compiler problem
+(in which case you might be able to
+ask your compiler vendor why the file was not provided,
+or to send a replacement copy).
+Otherwise
+(if the header is third-party or application-specific),
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="ifstrcmp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/ifstrcmp.html"><!-- qtag -->Question 10.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I construct preprocessor <TT>#if</TT> expressions
+which compare strings?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can't do it directly;
+preprocessor <TT>#if</TT> arithmetic uses only
+
+integers.
+An alternative is to
+<TT>#define</TT>
+several
+macros with symbolic names and distinct
+integer
+values,
+and implement conditionals
+
+on those:
+<pre>
+	#define RED	1
+	#define BLUE	2
+	#define GREEN	3
+
+	#if COLOR == RED
+	/* red case */
+	#else
+	#if COLOR == BLUE
+	/* blue case */
+	#else
+	#if COLOR == GREEN
+	/* green case */
+	#else
+	/* default case */
+	#endif
+	#endif
+	#endif
+</pre>
+(Standard C
+specifies a new <TT>#elif</TT> directive
+which makes if/else chains like these a bit cleaner.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#strswitch">20.17</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 4.11.3 p. 91
+<br>
+ISO Sec. 6.8.1
+<br>
+H&amp;S Sec. 7.11.1 p. 225
+<hr><hr><hr>
+<a name="ifexpr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/ifexpr.html"><!-- qtag -->Question 10.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does the <TT>sizeof</TT> operator work in preprocessor <TT>#if</TT> directives?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+Preprocessing happens during an earlier
+phase of compilation,
+before type names have been parsed.
+
+Instead
+of <TT>sizeof</TT>,
+consider
+
+using the predefined constants in ANSI's <TT>&lt;limits.h&gt;</TT>,
+if applicable,
+
+or
+perhaps
+a ``configure'' script.
+(Better yet,
+try to write code which is inherently insensitive to type sizes;
+see also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#inttypes">1.1</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#int16">1.3</a>.)
+</p><p>Additional links:
+
+
+
+
+<a href="ifsizeof.ct.html">nice explanation by Chris Torek</a>
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 5.1.1.2, Sec. 6.8.1
+<br>
+H&amp;S Sec. 7.11.1 p. 225
+<hr><hr><hr>
+<a name="ifddef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/ifddef.html"><!-- qtag -->Question 10.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Can I use an <TT>#ifdef</TT> in a <TT>#define</TT> line,
+to define something two different
+ways,
+like this?
+<pre>
+	#define a b \
+	#ifdef whatever
+		c d
+	#else
+		e f g
+	#endif
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+You can't
+``run the preprocessor on itself,''
+so to speak.
+What you can do is
+use one of two
+completely separate
+<TT>#define</TT> lines,
+depending on
+the
+<TT>#ifdef</TT> setting:
+<pre>
+	#ifdef whatever
+	#define a b c d
+	#else
+	#define a b e f g
+	#endif
+</pre>
+
+
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.8.3, Sec. 6.8.3.4
+<br>
+H&amp;S Sec. 3.2 pp. 40-1
+<hr><hr><hr>
+<a name="iftypedef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/iftypedef.html"><!-- qtag -->Question 10.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there 
+
+
+
+anything like
+an <TT>#ifdef</TT> for <TT>typedef</TT>s?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Unfortunately, no.
+(There can't be,
+because types and <TT>typedef</TT>s
+haven't been parsed at preprocessing time.)
+You may have to keep
+sets of preprocessor macros
+(e.g. <TT>MY_TYPE_DEFINED</TT>)
+recording whether
+certain
+typedefs have been declared.
+</p><p>See
+also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#typedefvsdefine">1.13</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#ifexpr">10.13</a>.
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 5.1.1.2, Sec. 6.8.1
+<br>
+H&amp;S Sec. 7.11.1 p. 225
+<hr><hr><hr>
+<a name="ifendian">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/ifendian.html"><!-- qtag -->Question 10.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I use a preprocessor <TT>#if</TT> expression to
+tell
+whether a machine's byte order
+is big-endian or little-endian?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You probably can't.
+The
+usual techniques for detecting endianness
+involve pointers or arrays of <TT>char</TT>,
+or maybe unions,
+but
+preprocessor
+arithmetic uses only long integers,
+and
+
+
+there is no concept of
+
+addressing.
+Another tempting possibility is something like
+
+
+
+
+<pre>
+	#if 'ABCD' == 0x41424344
+</pre>
+but this isn't reliable, either.
+
+At any rate,
+the integer formats used in preprocessor <TT>#if</TT> expressions 
+are not necessarily
+the same as
+those that will be used at run time.
+</p><p>Are you
+sure you need to know the machine's endianness
+explicitly?
+Usually it's better to write code which doesn't care
+(see for example the code fragment in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#extconform">12.42</a>).
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#endiantest">20.9</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 6.8.1
+<br>
+H&amp;S Sec. 7.11.1 p. 225
+<hr><hr><hr>
+<a name="ifdefsyntax">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/ifdefsyntax.html"><!-- qtag -->Question 10.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm getting strange syntax errors inside
+lines
+I've
+<TT>#ifdef</TT>fed out.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#ifdefsyntax">11.19</a>.
+<hr><hr><hr>
+<a name="unifdef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/unifdef.html"><!-- qtag -->Question 10.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I inherited some code
+which contains far too many <TT>#ifdef</TT>'s for my taste.
+How can I preprocess
+the
+code
+to
+leave only one conditional compilation set,
+without running it through the preprocessor
+and expanding all of the <TT>#include</TT>'s and <TT>#define</TT>'s as well?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are programs
+floating around
+called <TT>unifdef</TT>,
+
+
+<TT>rmifdef</TT>,
+and
+
+
+<TT>scpp</TT>
+(``selective C preprocessor'')
+which do exactly this.
+See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="listpredef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/listpredef.html"><!-- qtag -->Question 10.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I list all of the predefined identifiers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There's no standard way, although it is a common need.
+<TT>gcc</TT> provides a <TT>-dM</TT> option which works with <TT>-E</TT>,
+and other compilers may provide something similar.
+If the compiler documentation
+is unhelpful,
+
+the
+most expedient way is probably to extract
+printable strings
+from the compiler or preprocessor executable
+with something like the
+Unix
+
+<TT>strings</TT> utility.
+Beware that many traditional
+system-specific
+predefined identifiers
+(e.g. ``<TT>unix</TT>'')
+are non-Standard
+(because they clash with the user's namespace)
+and are being removed or renamed.
+(In any case,
+as a general rule,
+it's
+considered wise to keep conditional compilation to a minimum.)
+</p><p>Additional links:
+<a href="sd8.html" rel=subdocument>sources!</a>
+<hr><hr><hr>
+<a name="oldpaste">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/oldpaste.html"><!-- qtag -->Question 10.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have some old code that tries to construct identifiers with a
+macro like
+<pre>
+#define Paste(a, b) a/**/b</pre>
+
+but it doesn't work any more.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+It
+was an undocumented feature of some early
+preprocessor implementations
+(notably
+
+Reiser's)
+that comments
+disappeared entirely and could therefore be used
+for token pasting.
+ANSI affirms
+(as did K&amp;R1)
+that comments are replaced with white space,
+so they cannot portably be used in a <TT>Paste()</TT> macro.
+However, since the need for pasting tokens was
+
+demonstrated and real,
+ANSI
+
+introduced a well-defined token-pasting operator, <TT>##</TT>,
+which can be used like this:
+<pre>
+	#define Paste(a, b) a##b
+</pre>
+</p><p>Here is one other
+
+
+
+method you could try for
+pasting tokens under
+a pre-ANSI compiler:
+<pre>
+	#define	XPaste(s)	s
+	#define	Paste(a, b)	XPaste(a)b
+</pre>
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a>.
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.8.3.3
+<br>
+Rationale Sec. 3.8.3.3
+<br>
+H&amp;S Sec. 3.3.9 p. 52
+<hr><hr><hr>
+<a name="charize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/charize.html"><!-- qtag -->Question 10.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have an old macro
+<pre>
+#define&nbsp;CTRL(c)&nbsp;('c'&nbsp;&amp;&nbsp;037)</pre>
+
+
+that doesn't
+seem to
+work any more.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The intended use of this macro
+is in code like
+<pre>
+	tchars.t_eofc = CTRL(D);
+</pre>
+which is expected to expand to
+<pre>
+	tchars.t_eofc = ('D' &amp; 037);
+</pre>
+based on the assumption
+that
+the actual value of
+the parameter <TT>c</TT> will be substituted
+even inside the single quotes of a character constant.
+Preprocessing was never supposed to work this way;
+it was somewhat of an accident
+that a <TT>CTRL()</TT> macro like this ever worked.
+</p><p>ANSI C defines a new ``stringizing'' operator
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a>),
+but there is no corresponding ``charizing'' operator.
+</p><p>The best solution to the problem is probably to move the single 
+quotes from the definition to the invocation,
+by rewriting the macro as
+<pre>
+	#define CTRL(c) ((c) &amp; 037)
+</pre>
+and invoking it as
+<pre>
+	CTRL('D')
+</pre>
+(Doing so also makes the macro ``syntactic'';
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#slm">10.2</a>.)
+</p><p>It may also be possible to use the stringizing operator
+and some indirection:
+<pre>
+	#define CTRL(c) (*#c &amp; 037)
+</pre>
+or
+<pre>
+	#define CTRL(c) (#c[0] &amp; 037)
+</pre>
+but neither of these would work as well as the original,
+since they wouldn't be valid in <TT>case</TT> labels
+or as global variable initializers.
+(Global variable initializers and <TT>case</TT> labels 
+require various flavors of constant expressions,
+and string literals and indirection aren't allowed.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#macstrexp">11.18</a>.
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.8.3
+<br>
+H&amp;S Secs. 7.11.2,7.11.3 pp. 226-7
+<hr><hr><hr>
+<a name="macstrexp2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/macstrexp2.html"><!-- qtag -->Question 10.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why is the macro
+<pre>
+	#define TRACE(n) printf("TRACE: %d\n", n)
+</pre>
+giving me the warning ``macro replacement within a string literal''?
+It seems to be expanding
+<pre>
+	TRACE(count);
+</pre>
+as
+<pre>
+	printf("TRACE: %d\count", count);
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#macstrexp">11.18</a>.
+<hr><hr><hr>
+<a name="macstrexp1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/macstrexp1.html"><!-- qtag -->Question 10.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I
+use
+a macro argument
+inside
+a string
+literal
+in the macro expansion?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#macstrexp">11.18</a>.
+
+<hr><hr><hr>
+<a name="stringize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/stringize.html"><!-- qtag -->Question 10.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to use
+the ANSI ``stringizing'' preprocessing operator
+`<TT>#</TT>'
+to insert the value of a symbolic constant into a message,
+but it keeps
+stringizing the macro's name rather than its
+value.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a>.
+<hr><hr><hr>
+<a name="notgeneral">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/notgeneral.html"><!-- qtag -->Question 10.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've got this tricky preprocessing I want to do
+and
+I can't figure out a way
+to do it.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+C's preprocessor
+is not intended as a general-purpose tool.
+(Note also that it is not guaranteed to be available
+as a separate program.)
+Rather than forcing it to do something inappropriate,
+you might want to
+write
+your own little special-purpose preprocessing tool, instead.
+You can easily get a utility like
+make(1)
+
+to run it for you automatically.
+</p><p>If you are trying to preprocess something other than C,
+consider using a general-purpose preprocessor.
+(One older one
+available on most Unix systems
+is <TT>m4</TT>.)
+<hr><hr><hr>
+<a name="varargs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/varargs.html"><!-- qtag -->Question 10.26</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a macro which takes a variable number of
+arguments,
+or use the preprocessor to ``turn off'' a function call with a
+variable number of arguments?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+One popular trick is to
+define and invoke the macro
+with a single, parenthesized ``argument''
+which in the macro expansion becomes the entire argument list,
+parentheses and all,
+for a function such as <TT>printf</TT>:
+<pre>
+	#define DEBUG(args) (printf("DEBUG: "), printf args)
+
+	if(n != 0) DEBUG(("n is %d\n", n));
+</pre>
+The obvious disadvantage
+is that the caller must
+always remember to use the extra parentheses.
+Another problem is that
+the macro expansion cannot insert any additional arguments
+(that is,
+<TT>DEBUG()</TT> couldn't expand to
+something like
+<TT>fprintf(debugfd,&nbsp;</TT>...<TT>)</TT>).
+</p><p><TT>gcc</TT> has an extension
+which allows a function-like macro to accept a variable number of arguments,
+but it's not standard.
+Other
+
+possible
+solutions are:
+<UL><li>Use
+
+
+different macros (<TT>DEBUG1</TT>, <TT>DEBUG2</TT>, etc.) depending on
+the number of arguments.
+<li>Play
+
+
+games
+with commas:
+<pre>
+	#define DEBUG(args) (printf("DEBUG: "), printf(args))
+	#define _ ,
+
+	DEBUG("i = %d" _ i);
+</pre>
+<li>Play horrendous games
+with mismatched parentheses:
+<pre>
+	#define DEBUG fprintf(stderr,
+
+	DEBUG "%d", x);
+</pre>
+</UL>(These all require care on the part of the user,
+and all of them are rather ugly.)
+</p><p>
+C99 introduces
+formal support for
+function-like
+macros with variable-length argument lists.
+The notation <TT>...</TT> can appear
+at the end of the macro ``prototype''
+(just as it does for varargs functions),
+and the pseudomacro <TT>__VA_ARGS__</TT>
+in the macro definition
+is replaced by
+the variable arguments during invocation.
+</p><p>Finally,
+you can always
+use a bona-fide function, which can
+take a variable number
+of arguments in a well-defined way.
+See questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#varargs1">15.4</a> 
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#vprintf">15.5</a>.
+(If you needed a macro replacement,
+try using a function plus a non-function-like macro,
+e.g. <TT>#define&nbsp;printf&nbsp;myprintf</TT>
+.)
+</p><p>When you want to turn the debugging printouts off,
+you can
+either use a different version of your debug macro:
+<pre>
+	#define DEBUG(args) /* empty */
+</pre>
+or,
+if you're using real function calls,
+use
+still more
+preprocessor tricks to remove the function
+name but not the arguments,
+such
+
+as
+
+<pre>
+	#define DEBUG (void)
+or<br>	#define DEBUG if(1) {} else printf
+or<br>	#define DEBUG 1 ? 0 : (void)
+</pre>
+(These
+tricks are
+predicated on the assumption that a good
+optimizer will remove any ``dead'' <TT>printf</TT> calls or
+degenerate cast-to-void parenthesized comma expressions.)
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#ifddef">10.14</a>.
+</p><p>Additional links:
+<a href="sd9.html" rel=subdocument>more ideas</a>
+</p>
+
+<p>References:
+
+C9X Sec. 6.8.3, Sec. 6.8.3.1
+<hr><hr><hr>
+<a name="debugmacs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../cpp/debugmacs.html"><!-- qtag -->Question 10.27</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I include expansions of the <TT>__FILE__</TT>
+and <TT>__LINE__</TT> macros
+in a general-purpose debugging macro?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This question tends to reduce to question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#varargs">10.26</a>.
+One solution
+
+
+involves writing your debug macro in terms of
+a varargs function
+(see questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#varargs1">15.4</a> 
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#vprintf">15.5</a>),
+and an auxiliary function which stashes the values of
+<TT>__FILE__</TT> and <TT>__LINE__</TT> away in static variables,
+
+as in:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+
+void debug(const char *, ...);
+void dbginfo(int, const char *);
+#define DEBUG dbginfo(__LINE__, __FILE__), debug
+
+static const char *dbgfile;
+static int dbgline;
+
+void dbginfo(int line, const char *file)
+{
+	dbgfile = file;
+	dbgline = line;
+}
+
+void debug(const char *fmt, ...)
+{
+	va_list argp;
+	fprintf(stderr, "DEBUG: \"%s\", line %d: ", dbgfile, dbgline);
+	va_start(argp, fmt);
+	vfprintf(stderr, fmt, argp);
+	va_end(argp);
+	fprintf(stderr, "\n");
+}
+</pre>
+With this machinery in place,
+a call to
+<pre>
+	DEBUG("i is %d", i);
+</pre>
+expands to
+<pre>
+	dbginfo(__LINE__, __FILE__), debug("i is %d", i);
+</pre>
+and prints something like
+<pre>
+	DEBUG: "x.c", line 10: i is 42
+</pre>
+</p><p>A cunning improvement
+is the idea of having
+the stashing function return a
+pointer
+to the bona-fide varargs function:
+<pre>
+void debug(const char *, ...);
+void (*dbginfo(int, const char *))(const char *, ...);
+#define DEBUG (*dbginfo(__LINE__, __FILE__))
+
+void (*dbginfo(int line, const char *file))(const char *, ...)
+{
+	dbgfile = file;
+	dbgline = line;
+	return debug;
+}
+</pre>
+With these definitions,
+<pre>
+	DEBUG("i is %d", i);
+</pre>
+gets expanded to
+<pre>
+	(*dbginfo(__LINE__, __FILE__))("i is %d", i);
+</pre>
+
+</p><p>Another,
+perhaps easier way might simply be to
+
+
+<pre>
+	#define DEBUG printf("DEBUG: \"%s\", line %d: ", \
+		__FILE__,__LINE__),printf
+</pre>
+Now,
+<pre>
+	DEBUG("i is %d", i);
+</pre>
+simply expands to
+<pre>
+	printf("DEBUG: \"%s\", line %d: ",
+		__FILE__,__LINE__),printf("i is %d", i);
+</pre>
+</p><p>Finally, you may be able to
+
+
+use the
+<pre>
+	#define _ ,
+</pre>
+trick
+from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#varargs">10.26</a>.
+</p><p>Additional links:
+<a href="sd10.html" rel=subdocument>another idea</a>
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

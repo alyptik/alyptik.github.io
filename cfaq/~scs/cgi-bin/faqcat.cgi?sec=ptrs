@@ -1,0 +1,1036 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file pointers.sgml dated Wed Dec 21 13:07:10 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/ptrs/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Pointers</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>4. Pointers</H1>
+<a name="goodfor">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/goodfor.html"><!-- qtag -->Question 4.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What are pointers really good for, anyway?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+They're good for
+lots
+of things,
+such as:
+
+<UL><li>dynamically-allocated arrays
+(see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynarray">6.14</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynmuldimary">6.16</a>)
+<li>generic access to several similar variables
+
+<li>(simulated)
+
+by-reference function parameters
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>)
+<li><TT>malloc</TT>'ed
+data structures
+of all kinds,
+
+
+
+especially
+trees and
+linked lists
+<li>walking over
+
+arrays
+(for example, while parsing strings)
+<li>
+efficient,
+by-reference
+``copies'' of arrays
+and structures,
+especially as function parameters
+
+</UL>(Note that
+this is hardly a comprehensive list!)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#practdiff">6.8</a>.
+<hr><hr><hr>
+<a name="mimic">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/mimic.html"><!-- qtag -->Question 4.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to declare a pointer and allocate some space for it,
+but it's
+not working.
+What's wrong with
+this code?
+<pre>
+char *p;
+*p = malloc(10);</pre>
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The pointer you declared is <TT>p</TT>,
+not <TT>*p</TT>.
+When you're manipulating the pointer itself
+(for example when you're setting it
+
+to make it point somewhere),
+you just use the name of the pointer:
+<pre>
+	p = malloc(10);
+</pre>
+It's when you're manipulating the pointed-to memory
+that you use <TT>*</TT> as an indirection operator:
+<pre>
+	*p = 'H';
+</pre>
+</p><p>(It's easy to make the mistake shown in the question,
+though,
+because if you had used the <TT>malloc</TT> call as an 
+initializer in the declaration
+of a
+local
+
+variable,
+it would have looked like this:
+<pre>
+	char *p = malloc(10);
+</pre>
+When you break an initialized pointer declaration up
+into a declaration and a later assignment,
+you have to remember to
+remove the <TT>*</TT>.)
+</p><p>In summary,
+in an expression,
+<TT>p</TT> is the pointer
+and
+<TT>*p</TT> is what it points to
+(a <TT>char</TT>, in this example).
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#cdecl1">1.21</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc1">7.1</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#ptrvaralloc">7.3c</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#assign">8.3</a>.
+</p>
+<p>References:
+
+CT&amp;P Sec. 3.1 p. 28
+<hr><hr><hr>
+<a name="unopprec2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/unopprec2.html"><!-- qtag -->Question 4.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does <TT>*p++</TT> increment <TT>p</TT>,
+or what it points to?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The postfix <TT>++</TT> and <TT>--</TT> operators
+essentially
+have higher precedence than the prefix unary operators.
+
+Therefore,
+<TT>*p++</TT>
+is equivalent to <TT>*(p++)</TT>;
+it
+increments <TT>p</TT>,
+and returns
+the value
+which <TT>p</TT> pointed to before <TT>p</TT> was incremented.
+To increment the value pointed to by <TT>p</TT>,
+use <TT>(*p)++</TT>
+(or perhaps <TT>++*p</TT>,
+if the
+evaluation
+order of the
+
+side effect
+doesn't matter).
+</p>
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 5.1 p. 91
+<br>
+K&amp;R2 Sec. 5.1 p. 95
+<br>
+ISO Sec. 6.3.2, Sec. 6.3.3
+<br>
+H&amp;S Sec. 7.4.4 pp. 192-3, Sec. 7.5 p. 193, Secs. 7.5.7,7.5.8 pp. 199-200
+<hr><hr><hr>
+<a name="explscale">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/explscale.html"><!-- qtag -->Question 4.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm
+trying to use
+pointers to
+manipulate an array of <TT>int</TT>s.
+
+What's wrong with this code?
+<pre>
+	int array[5], i, *ip;
+	for(i = 0; i &lt; 5; i++) array[i] = i;
+	ip = array;
+	printf("%d\n", *(ip + 3 * sizeof(int)));
+</pre>
+I expected the last line to print 3,
+but it printed garbage.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You're doing a bit more work than you have to,
+
+
+
+or should.
+Pointer arithmetic in C is always automatically scaled
+by the size of the objects pointed to.
+What you want to say is simply
+<pre>
+	printf("%d\n", *(ip + 3));	/* or ip[3] -- see Q <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrequiv">6.3</a> */
+</pre>
+which will print the third element of the array.
+In code like this,
+you don't need to worry
+about scaling by the size of the pointed-to
+elements--by
+attempting to do
+so explicitly,
+you inadvertently tried to access
+a nonexistent element
+past the end of the array
+(probably <TT>array[6]</TT> or <TT>array[12]</TT>,
+depending on <TT>sizeof(int)</TT> on your machine).
+</p><p>See, however, question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#noscale">7.19b</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 5.3 p. 94
+<br>
+K&amp;R2 Sec. 5.4 p. 103
+<br>
+ISO Sec. 6.3.6
+<br>
+H&amp;S Sec. 7.6.2 p. 204
+<hr><hr><hr>
+<a name="castincr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/castincr.html"><!-- qtag -->Question 4.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I
+have
+a <TT>char&nbsp;*</TT> pointer
+that happens to point to
+some <TT>int</TT>s,
+and I want to step it over them.
+Why doesn't
+<pre>
+((int *)p)++;</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In C, a cast operator
+does not mean
+``pretend these bits have a different type,
+and treat them accordingly'';
+it
+is a conversion operator,
+
+and by definition it yields an rvalue,
+
+which cannot be assigned to,
+
+or incremented with <TT>++</TT>.
+(It is
+either an accident
+or a deliberate but nonstandard extension
+if a particular compiler accepts
+expressions such as the above.)
+Say what you mean:
+use
+<pre>
+	p = (char *)((int *)p + 1);
+</pre>
+
+
+or
+(since <TT>p</TT> is a <TT>char *</TT>)
+simply
+<pre>
+	p += sizeof(int);
+</pre>
+or
+(to be really explicit)
+
+
+<pre>
+	int *ip = (int *)p;
+	p = (char *)(ip + 1);
+</pre>
+</p><p>When
+
+
+
+possible,
+however,
+you should choose appropriate
+pointer
+types
+in the first place,
+rather than
+trying to treat one type as another.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. A7.5 p. 205
+<br>
+ISO Sec. 6.3.4
+<br>
+Rationale Sec. 3.3.2.4
+<br>
+H&amp;S Sec. 7.1 pp. 179-80
+<hr><hr><hr>
+<a name="voidparith">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/voidparith.html"><!-- qtag -->Question 4.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why can't I perform arithmetic on a <TT>void&nbsp;*</TT> pointer?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#voidparith">11.24</a>.
+<hr><hr><hr>
+<a name="align">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/align.html"><!-- qtag -->Question 4.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've got some code that's trying to unpack external structures, 
+but it's crashing
+with a message about an ``unaligned access.''
+What does this mean?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>.
+<hr><hr><hr>
+<a name="passptrinit">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/passptrinit.html"><!-- qtag -->Question 4.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a function which accepts,
+and is supposed to initialize,
+a pointer:
+<pre>
+	void f(int *ip)
+	{
+		static int dummy = 5;
+		ip = &amp;dummy;
+	}
+</pre>
+But when I call it like this:
+<pre>
+	int *ip;
+	f(ip);
+</pre>
+the
+pointer in the caller remains unchanged.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Are you sure the function initialized what you thought it did?
+Remember that arguments in C are passed by value.
+In the code above,
+the
+called function
+alters
+only the passed copy of the pointer.
+To make it work as you expect,
+one fix is
+to pass the address of the pointer
+(the function
+ends
+up accepting a pointer-to-a-pointer;
+
+
+in this case,
+we're essentially simulating pass by reference):
+<pre>
+	void f(ipp)
+	int **ipp;
+	{
+		static int dummy = 5;
+		*ipp = &amp;dummy;
+	}
+
+	...
+
+	int *ip;
+	f(&amp;ip);
+</pre>
+
+</p><p>Another solution is to
+have the function return the pointer:
+<pre>
+	int *f()
+	{
+		static int dummy = 5;
+		return &amp;dummy;
+	}
+
+	...
+
+	int *ip = f();
+</pre>
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#genericpp">4.9</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passbyref">4.11</a>.
+
+<hr><hr><hr>
+<a name="genericpp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/genericpp.html"><!-- qtag -->Question 4.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Suppose I want to write a function that takes a generic pointer
+as an argument and I want to simulate passing it by reference.
+Can I give the formal parameter type <TT>void&nbsp;**</TT>,
+and do something like this?
+<pre>
+	void f(void **);
+	double *dp;
+	f((void **)&amp;dp);
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not portably.
+Code like this may work and is sometimes recommended,
+but it
+relies on
+all pointer types having the same internal representation
+(which is common, but not universal;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machexamp">5.17</a>).
+</p><p>There is no generic pointer-to-pointer type in C.
+<TT>void&nbsp;*</TT> acts as a generic pointer
+only because
+conversions
+(if necessary)
+are applied automatically when other pointer types
+are assigned to and from <TT>void&nbsp;*</TT>'s;
+these conversions cannot be performed
+if an attempt is made
+to indirect upon a <TT>void&nbsp;**</TT> value
+which points at
+a pointer type
+other than <TT>void&nbsp;*</TT>.
+
+When you make use of a <TT>void&nbsp;**</TT> pointer value
+(for instance, when you use the <TT>*</TT> operator
+to access the <TT>void&nbsp;*</TT> value
+to which the <TT>void&nbsp;**</TT> points),
+the compiler has no way of knowing
+whether that <TT>void&nbsp;*</TT> value
+was once converted from some other pointer type.
+It must assume that it is nothing more than a <TT>void&nbsp;*</TT>;
+it cannot perform any implicit conversions.
+</p><p>In other words,
+any <TT>void&nbsp;**</TT> value you play with
+must be the address of an actual <TT>void&nbsp;*</TT> value somewhere;
+casts like <TT>(void&nbsp;**)&amp;dp</TT>,
+though they may shut the compiler up,
+are
+nonportable
+(and may not even do what you want;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#qsort2">13.9</a>).
+If the pointer that the <TT>void&nbsp;**</TT> points to
+is not a <TT>void&nbsp;*</TT>,
+and if
+it
+has a different size or representation than a <TT>void&nbsp;*</TT>,
+then
+the compiler
+
+isn't going to be able to access it correctly.
+
+</p><p>To make the code fragment above work,
+you'd have to use an intermediate <TT>void&nbsp;*</TT> variable:
+<pre>
+	double *dp;
+	void *vp = dp;
+	f(&amp;vp);
+	dp = vp;
+</pre>
+The assignments to and from <TT>vp</TT>
+give the compiler the opportunity to perform any conversions,
+if necessary.
+</p><p>Again,
+
+the discussion so far assumes that different pointer types
+might have different sizes or representations,
+which is rare today,
+but not unheard of.
+To
+appreciate the
+problem with <TT>void&nbsp;**</TT> more clearly,
+compare the situation to an analogous one involving, say,
+types <TT>int</TT> and <TT>double</TT>,
+which probably have different sizes
+and certainly have different representations.
+If we have a function
+<pre>
+	void incme(double *p)
+	{
+		*p += 1;
+	}
+</pre>
+then we can do something like
+<pre>
+	int i = 1;
+	double d = i;
+	incme(&amp;d);
+	i = d;
+</pre>
+and <TT>i</TT> will be incremented by 1.
+(This is analogous to the correct <TT>void&nbsp;**</TT> code 
+involving the auxiliary <TT>vp</TT>.)
+If, on the other hand,
+we were to attempt something like
+<pre>
+	int i = 1;
+	incme((double *)&amp;i);	/* WRONG */
+</pre>
+(this code is analogous to the fragment in the question),
+it would be highly unlikely to work.
+<hr><hr><hr>
+<a name="refconst">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/refconst.html"><!-- qtag -->Question 4.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a function
+<pre>
+	extern int f(int *);
+</pre>
+which accepts a pointer to an <TT>int</TT>.
+How can I pass a constant
+by reference?
+A call like
+<pre>
+	f(&amp;5);
+</pre>
+doesn't seem to work.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In C99, you can use a ``compound literal'':
+<pre>
+	f((int[]){5});
+</pre>
+
+</p><p>Prior to C99,
+you couldn't
+do
+this
+directly;
+you had to
+declare a temporary variable,
+and then pass its address to the function:
+<pre>
+	int five = 5;
+	f(&amp;five);
+</pre>
+In C, a function that accepts a pointer to a value
+(rather than
+simply
+accepting
+the value itself)
+probably intends to modify the pointed-to value,
+so it may be a bad idea to pass pointers to constants.
+<a href="fn17.html" rel=subdocument>[footnote]</a>
+Indeed,
+if <TT>f</TT> is in fact declared as accepting an 
+<TT>int&nbsp;*</TT>,
+a diagnostic is required if you attempt to pass it a 
+pointer to a <TT>const&nbsp;int</TT>.
+(<TT>f</TT> could be declared as accepting a
+<TT>const&nbsp;int&nbsp;*</TT> if it promises not to modify the 
+pointed-to value.)
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#anonstruct">2.10</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>.
+<hr><hr><hr>
+<a name="passbyref">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/passbyref.html"><!-- qtag -->Question 4.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does C even have ``pass by reference''?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not really.
+</p><p>Strictly speaking, C always uses pass by value.
+You can simulate pass by reference yourself,
+by defining functions which accept pointers
+and then using the <TT>&amp;</TT> operator when calling,
+and
+
+the
+compiler will
+essentially
+simulate it
+
+for you when you pass an array to a function
+(by passing a pointer instead,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrparam">6.4</a> et al.).
+</p><p>Another way of looking at it is that
+
+
+
+
+if an parameter has type, say, <TT>int&nbsp;*</TT>
+then an integer is being passed by reference
+and a pointer to an integer is being passed by value.
+</p><p>Fundamentally,
+C has nothing truly
+
+equivalent to formal pass by reference
+or C++ reference parameters.
+(On the other hand,
+
+
+
+function-like preprocessor macros
+can
+provide a form of ``pass by name''.)
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#mymallocretp">7.9</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#fopenfp">12.27</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>.
+</p><p>Additional links:
+
+
+
+
+A
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passbyref2">message of mine</a>
+further explaining how a function can modify a caller's passed array.
+</p>
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 1.8 pp. 24-5, Sec. 5.2 pp. 91-3
+<br>
+K&amp;R2 Sec. 1.8 pp. 27-8, Sec. 5.2 pp. 95-7
+<br>
+ISO Sec. 6.3.2.2
+<br>
+H&amp;S Sec. 9.5 pp. 273-4
+<hr><hr><hr>
+<a name="funccall">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/funccall.html"><!-- qtag -->Question 4.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've seen different syntax used for calling functions via pointers.
+What's the story?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Originally, a pointer to a function had to be
+``turned into'' a ``real''
+
+function,
+with the <TT>*</TT> operator,
+before calling:
+<pre>
+	int r, (*fp)(), func();
+	fp = func;
+	r = (*fp)();
+</pre>
+The interpretation of the
+
+last line is clear:
+<TT>fp</TT> is a pointer to function,
+so <TT>*fp</TT> is the function;
+append an argument list in parentheses
+(and extra parentheses around <TT>*fp</TT> to get the precedence right),
+and you've got a function call.
+</p><p>It can also be argued
+that functions are always called via pointers,
+and
+that ``real'' function
+names
+
+always
+decay implicitly into pointers
+(in expressions, as they do in initializations;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#ptrfuncinit">1.34</a>).
+This reasoning
+means that
+<pre>
+	r = fp();
+</pre>
+is legal and works correctly,
+whether <TT>fp</TT> is
+the name of
+a function or a pointer to one.
+(The usage has always been unambiguous;
+there is nothing you ever could have done with a function pointer
+followed by an argument list
+except call
+the function pointed to.)
+</p><p>The ANSI C Standard essentially adopts the latter interpretation,
+meaning that the
+explicit <TT>*</TT> is
+not required,
+though it is
+still allowed.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#ptrfuncinit">1.34</a>.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 5.12 p. 116
+<br>
+K&amp;R2 Sec. 5.11 p. 120
+<br>
+ISO Sec. 6.3.2.2
+<br>
+Rationale Sec. 3.3.2.2
+<br>
+H&amp;S Sec. 5.8 p. 147, Sec. 7.4.3 p. 190
+<hr><hr><hr>
+<a name="generic">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/generic.html"><!-- qtag -->Question 4.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the total generic pointer type?
+My compiler complained
+when I tried to stuff function pointers into a <TT>void&nbsp;*</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There
+is no
+``total generic pointer type.''
+</p><p><TT>void&nbsp;*</TT>'s are only guaranteed to hold object
+(i.e. data)
+pointers;
+it is not portable to convert a function pointer to
+type
+<TT>void&nbsp;*</TT>.
+(On some machines, function addresses
+can be very large,
+bigger
+
+than any
+
+data pointers.)
+</p><p>It is guaranteed,
+however,
+that all function pointers
+can be interconverted,
+as long as they are converted back
+to an appropriate type 
+before calling.
+Therefore,
+you can pick any function type
+(usually <TT>int&nbsp;(*)()</TT>
+or <TT>void&nbsp;(*)()</TT>,
+that is,
+pointer to function
+of unspecified arguments
+returning <TT>int</TT> or <TT>void</TT>)
+as a generic function pointer.
+When you need
+a place
+to hold object and function pointers 
+interchangeably,
+the portable solution is to use a union of a
+<TT>void&nbsp;*</TT>
+and a
+generic function pointer
+(of whichever type you choose).
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#recurfuncp">1.22</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#fcnptr">5.8</a>.
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 6.1.2.5, Sec. 6.2.2.3, Sec. 6.3.4
+<br>
+Rationale Sec. 3.2.2.3
+<br>
+H&amp;S Sec. 5.3.3 p. 123
+<hr><hr><hr>
+<a name="int2ptr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/int2ptr.html"><!-- qtag -->Question 4.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How are integers converted to and from pointers?
+Can I temporarily stuff an integer into a pointer,
+or vice versa?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Once upon a time,
+it was guaranteed that a pointer could be converted to an integer
+(though one never knew
+whether an <TT>int</TT> or a <TT>long</TT> might be required),
+and that an integer could be converted to a pointer,
+and that a pointer remained unchanged when converted to a 
+(large enough)
+integer and back again,
+and
+
+that the conversions
+(and any
+
+mapping)
+were intended to be
+``unsurprising to those who know the addressing structure 
+of the machine.''
+In other words,
+there is
+some
+precedent and
+support for
+integer/pointer
+conversions,
+but
+they
+have always been machine dependent,
+and hence nonportable.
+Explicit casts have always been required
+(though early compilers rarely complained if you left them out).
+</p><p>The ANSI/ISO C Standard,
+in order to ensure that C is widely implementable,
+has
+weakened
+those earlier guarantees.
+Pointer-to-integer and integer-to-pointer conversions
+are implementation-defined
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a>),
+and
+there
+is no longer any guarantee that pointers can be converted 
+to integers and back, without change.
+</p><p>Forcing
+pointers into integers,
+or integers into pointers,
+has never been good practice.
+When you need a generic slot that can hold either
+kind of data,
+a union is a much better
+
+idea.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#int2charp">4.15</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#runtime0">5.18</a>,
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#rawmemadr">19.25</a>.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. A14.4 p. 210
+<br>
+K&amp;R2 Sec. A6.6 p. 199
+<br>
+ISO Sec. 6.3.4
+<br>
+Rationale Sec. 3.3.4
+<br>
+H&amp;S Sec. 6.2.3 p. 170, Sec. 6.2.7 pp. 171-2
+<hr><hr><hr>
+<a name="int2charp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/int2charp.html"><!-- qtag -->Question 4.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How do I convert an <TT>int</TT> to a <TT>char&nbsp;*</TT>?
+I tried a cast, but it's not working.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It depends
+on what you're trying to do.
+If you tried a cast
+but it's not working,
+you're probably trying to convert an integer to a string,
+in which case
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#itoa">13.1</a>.
+If you're trying to convert an integer to a character,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#asciivals">8.6</a>.
+If you're trying to set a pointer to point
+to
+a particular memory
+address,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#rawmemadr">19.25</a>.
+<hr><hr><hr>
+<a name="charstarws3">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/charstarws3.html"><!-- qtag -->Question 4.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's wrong with
+this
+declaration?
+<pre>
+char* p1, p2;</pre>
+
+
+
+
+I get errors when I try to
+use
+<TT>p2</TT>.
+
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#charstarws">1.5</a>.
+<hr><hr><hr>
+<a name="nearfar2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../ptrs/nearfar2.html"><!-- qtag -->Question 4.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What are ``near'' and ``far'' pointers?
+
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#nearfar">19.40d</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

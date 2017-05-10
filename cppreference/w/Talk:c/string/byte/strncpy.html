@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>Talk:c/string/byte/strncpy - cppreference.com</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.21.2" />
+<link rel="alternate" type="application/x-wiki" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit" />
+<link rel="edit" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit" />
+<link rel="shortcut icon" href="../../../../favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://en.cppreference.com/mwiki/opensearch_desc.php" title="cppreference.com (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://en.cppreference.com/mwiki/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="cppreference.com Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=ext.gadget.ColiruCompiler%257Cext.rtlcite%257Cmediawiki.legacy.commonPrint%252Cshared%257Cskins.cppreference2&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#toc{display:none}.editsection{display:none}
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-css:7:472787eddcf4605d11de8c7ef047234f */</style>
+
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"Talk","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":1,"wgPageName":"Talk:c/string/byte/strncpy","wgTitle":"c/string/byte/strncpy","wgCurRevisionId":83444,"wgArticleId":14467,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Talk:c/string/byte/strncpy","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":0,"showtoolbar":1,"skin":"cppreference2","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-ColiruCompiler":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});;},{},{});
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-js:7:ca03345b1e2c4d90a25d968753a73b92 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<style type="text/css">/*<![CDATA[*/
+.source-c {line-height: normal;}
+.source-c li, .source-c pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for c
+ * CSS class: source-c, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.c.source-c .de1, .c.source-c .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.c.source-c  {font-family:monospace;}
+.c.source-c .imp {font-weight: bold; color: red;}
+.c.source-c li, .c.source-c .li1 {font-weight: normal; vertical-align:top;}
+.c.source-c .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.c.source-c .li2 {font-weight: bold; vertical-align:top;}
+.c.source-c .kw1 {color: #0000dd;}
+.c.source-c .kw2 {color: #0000ff;}
+.c.source-c .kw3 {color: #0000dd;}
+.c.source-c .kw4 {color: #0000ff;}
+.c.source-c .co1 {color: #909090;}
+.c.source-c .co2 {color: #339900;}
+.c.source-c .coMULTI {color: #ff0000; font-style: italic;}
+.c.source-c .es0 {color: #008000; font-weight: bold;}
+.c.source-c .es1 {color: #008000; font-weight: bold;}
+.c.source-c .es2 {color: #008000; font-weight: bold;}
+.c.source-c .es3 {color: #008000; font-weight: bold;}
+.c.source-c .es4 {color: #008000; font-weight: bold;}
+.c.source-c .es5 {color: #008000; font-weight: bold;}
+.c.source-c .br0 {color: #008000;}
+.c.source-c .sy0 {color: #008000;}
+.c.source-c .sy1 {color: #000080;}
+.c.source-c .sy2 {color: #000040;}
+.c.source-c .sy3 {color: #000040;}
+.c.source-c .sy4 {color: #008080;}
+.c.source-c .st0 {color: #008000;}
+.c.source-c .nu0 {color: #000080;}
+.c.source-c .nu6 {color:#000080;}
+.c.source-c .nu8 {color:#000080;}
+.c.source-c .nu12 {color:#000080;}
+.c.source-c .nu16 {color:#000080;}
+.c.source-c .nu17 {color:#000080;}
+.c.source-c .nu18 {color:#000080;}
+.c.source-c .nu19 {color:#000080;}
+.c.source-c .ln-xtra, .c.source-c li.ln-xtra, .c.source-c div.ln-xtra {background-color: #ffc;}
+.c.source-c span.xtra { display:block; }
+
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/mwiki/skins/cppreference2/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-1 ns-talk page-Talk_c_string_byte_strncpy skin-cppreference2 action-view">
+        <!-- header -->
+        <div id="mw-head" class="noprint">
+            <div id="cpp-head-first-base">
+                <div id="cpp-head-first">
+                    <h5><a href="http://en.cppreference.com/">
+                        cppreference.com                        </a></h5>
+                    <div id="cpp-head-search">
+                        
+<!-- 0 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="http://en.cppreference.com/mwiki/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input name="search" title="Search cppreference.com [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search the pages for this text" id="searchButton"><img src="../../../../mwiki/skins/cppreference2/images/search-ltr.png%3F303" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /0 -->
+                    </div>
+                    <div id="cpp-head-personal">
+                        
+<!-- 0 -->
+<div id="p-personal" class="">
+<span id="pt-createaccount"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Talk%3Ac%2Fstring%2Fbyte%2Fstrncpy&amp;type=signup">Create account</a></span>	<div class="menu">
+        <ul>
+<li id="pt-login"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Talk%3Ac%2Fstring%2Fbyte%2Fstrncpy" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>        </ul>
+    </div>
+</div>
+
+<!-- /0 -->
+                    </div>
+
+                </div>
+            </div>
+            <div id="cpp-head-second-base">
+                <div id="cpp-head-second">
+                    <div id="cpp-head-tools-left">
+                        
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-main"><span><a href="../../../c/string/byte/strncpy.html"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+					<li  id="ca-talk" class="selected"><span><a href="strncpy.html"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="strncpy.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                    <div id="cpp-head-tools-right">
+                        
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="strncpy.html" >View</a></span></li>
+					<li id="ca-edit" class=" istalk"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit"  title="You can edit this page. Please use the preview button before saving [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-addsection" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit&amp;section=new"  title="Start a new section [+]" accesskey="+">+</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">History</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="strncpy.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /header -->
+        <!-- content -->
+        <div id="cpp-content-base">
+            <div id="content">
+                <a id="top"></a>
+                <div id="mw-js-message" style="display:none;"></div>
+                                <!-- firstHeading -->
+                <h1 id="firstHeading" class="firstHeading">Talk:c/string/byte/strncpy</h1>
+                <!-- /firstHeading -->
+                <!-- bodyContent -->
+                <div id="bodyContent">
+                                        <!-- tagline -->
+                    <div id="siteSub">From cppreference.com</div>
+                    <!-- /tagline -->
+                                        <!-- subtitle -->
+                    <div id="contentSub"><span class="subpages">&lt; <a href="../../../Talk:c.html" title="Talk:c">Talk:c</a>&lrm; | <a href="../byte.html" title="Talk:c/string/byte">string/byte</a></span></div>
+                    <!-- /subtitle -->
+                                                            <!-- bodycontent -->
+                    <div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit&amp;section=1" title="Edit section: UB of strncpy s">edit</a>]</span> <span class="mw-headline" id="UB_of_strncpy_s">UB of strncpy_s</span></h2>
+<p>Writing beyond the end of array <code>dest</code> is buffer overflow:
+</p>
+<pre>                                                        count
+        -------------------------------------------------
+ src:   |                    | \0 |                     |
+        ------------------------------------------------- 
+        |                         |
+        |                         | 
+        V                         V              destsz
+        -------------.............................
+dest:   |           |                            .
+        -------------.............................
+</pre>
+<p>Reading beyond the end of array <code>src</code> is buffer overflow:
+</p>
+<pre>                                      count
+        ---------------................
+ src:   |             |               .
+        ---------------................
+        |                             |
+        |                             | 
+        V                             V                destsz
+        ------------------------------------------------
+dest:   |                             | \0 |           |
+        ------------------------------------------------
+</pre>
+<p><a href="http://en.cppreference.com/mwiki/index.php?title=User:Newatthis&amp;action=edit&amp;redlink=1" class="new" title="User:Newatthis (page does not exist)">Newatthis</a> (<a href="../../../User_talk:Newatthis.html" title="User talk:Newatthis">talk</a>) 03:49, 18 September 2015 (PDT)
+</p>
+<dl><dd> could you please sign your posts to Talk pages? See the instructions above this edit box. (also, are you asking a question?) --<a href="../../../User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 19:16, 17 September 2015 (PDT)
+<dl><dd>With the diagrams, I am attempting to prompt a discussion about the cases leftover after the *_s functions finish testing for runtime constraint violations since case 2 in the essays lacked any mention of UB. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Newatthis&amp;action=edit&amp;redlink=1" class="new" title="User:Newatthis (page does not exist)">Newatthis</a> (<a href="../../../User_talk:Newatthis.html" title="User talk:Newatthis">talk</a>) 03:49, 18 September 2015 (PDT)
+<dl><dd> Of course there will be ways to trigger undefined behavior, the _s functions were never intended to have wide contracts. Why so much attention on strncpy_s and not the more common strncpy? --<a href="../../../User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 06:05, 18 September 2015 (PDT)
+<dl><dd> I lack the experience to know which string.h functions are more commonly used in the real world. I do understand that strncpy has been a part of the library forever while strncpy_s is an optional newcomer. I suppose that I can infer that the older strncpy appears in more programs than the optional strncpy_s. If my efforts appear to exhibit more attention on strncpy_s, it is only because I struggled to master the cases of UB of this function. My larger goal is to see the big UB picture of string.h and how *_s functions partially address the issue. Also, I noticed that the pages offered some sentences about UB for the unsecure versions but none for the secure versions. I wanted to learn enough to provide some explanation for the *_s versions. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Newatthis&amp;action=edit&amp;redlink=1" class="new" title="User:Newatthis (page does not exist)">Newatthis</a> (<a href="../../../User_talk:Newatthis.html" title="User talk:Newatthis">talk</a>) 06:06, 20 September 2015 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=edit&amp;section=2" title="Edit section: UB statements">edit</a>]</span> <span class="mw-headline" id="UB_statements"> UB statements </span></h2>
+<p>The statement regarding the UB of strncpy() was clearly in error. C99 clearly states (in footnote 260): "...if there is no null character in the first `n` characters of the array pointed to by s2, the result will not be null-terminated." The target buffer not being null-terminated is well-defined behaviour. Just continuing to use it as a C string is UB.
+</p><p>I cannot judge the corresponding statements regarding strncpy_s(), since I do not have the C11 document at hand and find the statement itself rather confusing, but I urge editors to have a close look at it as the edits were made close to each other, and by the same user. --<a href="http://en.cppreference.com/mwiki/index.php?title=User:DevSolar&amp;action=edit&amp;redlink=1" class="new" title="User:DevSolar (page does not exist)">DevSolar</a> (<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:DevSolar&amp;action=edit&amp;redlink=1" class="new" title="User talk:DevSolar (page does not exist)">talk</a>) 08:46, 8 February 2016 (PST)
+</p>
+<dl><dd> the note didn't say "target buffer is not null-terminated", it said "the behavior is undefined if the <code>dest</code> array is not large enough." - that's a simple buffer overrun:
+</dd></dl>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"><span class="kw4">char</span> src<span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy1">=</span> <span class="st0">&quot;abcde&quot;</span><span class="sy4">;</span>
+<span class="kw4">char</span> dest<span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="sy4">;</span> <span class="co1">// dest is not large enough</span>
+<a href="../../../c/string/byte/strncpy.html"><span class="kw554">strncpy</span></a><span class="br0">&#40;</span>dest, src, <span class="nu0">6</span><span class="br0">&#41;</span><span class="sy4">;</span></pre></div></div> --<a href="../../../User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 10:57, 8 February 2016 (PST)
+<dl><dd><dl><dd>You are correct that it was correct. My mistake; somehow I got the whole thing backwards (n being the size available in dest assumed a given, and n being less than the size in src resulting in UB). Yes I know. More sleeping, less caffeine-induced raging. My apologies. --<a href="http://en.cppreference.com/mwiki/index.php?title=User:DevSolar&amp;action=edit&amp;redlink=1" class="new" title="User:DevSolar (page does not exist)">DevSolar</a> (<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:DevSolar&amp;action=edit&amp;redlink=1" class="new" title="User talk:DevSolar (page does not exist)">talk</a>) 13:12, 9 February 2016 (PST)
+</dd></dl>
+</dd></dl>
+
+<!-- 
+NewPP limit report
+Preprocessor visited node count: 42/1000000
+Preprocessor generated node count: 191/1000000
+Post‐expand include size: 160/2097152 bytes
+Template argument size: 97/2097152 bytes
+Highest expansion depth: 6/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key mwiki1-mwiki_en_:pcache:idhash:14467-0!*!0!!*!*!* and timestamp 20160209211237 -->
+</div>                    <!-- /bodycontent -->
+                                        <!-- printfooter -->
+                    <div class="printfooter">
+                    Retrieved from "<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;oldid=83444">http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;oldid=83444</a>"                    </div>
+                    <!-- /printfooter -->
+                                                            <!-- catlinks -->
+                    <div id='catlinks' class='catlinks catlinks-allhidden'></div>                    <!-- /catlinks -->
+                                                            <div class="visualClear"></div>
+                    <!-- debughtml -->
+                                        <!-- /debughtml -->
+                </div>
+                <!-- /bodyContent -->
+            </div>
+        </div>
+        <!-- /content -->
+        <!-- footer -->
+        <div id="cpp-footer-base" class="noprint">
+            <div id="footer">
+                        <div id="cpp-navigation">
+            <h5>Navigation</h5>
+            <ul>
+<li id="n-Support-us"><a href="http://www.cppreference.com/support" rel="nofollow">Support us</a></li><li id="n-recentchanges"><a href="../../../Special:RecentChanges.html" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-FAQ"><a href="../../../Cppreference:About.html">FAQ</a></li><li id="n-Offline-version"><a href="../../../Cppreference:Archives.html">Offline version</a></li>            </ul>
+        </div>
+                        <div id="cpp-toolbox">
+            <h5><span>Toolbox</span><a href="strncpy.html#"></a></h5>
+            <ul>
+<li id="t-whatlinkshere"><a href="../../../Special:WhatLinksHere/Talk:c/string/byte/strncpy.html" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="../../../Special:RecentChangesLinked/Talk:c/string/byte/strncpy.html" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="http://upload.cppreference.com/w/Special:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="../../../Special:SpecialPages.html" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;oldid=83444" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:c/string/byte/strncpy&amp;action=info">Page information</a></li>            </ul>
+        </div>
+                            <ul id="footer-info">
+                                    <li id="footer-info-lastmod"> This page was last modified on 9 February 2016, at 13:12.</li>
+                                    <li id="footer-info-viewcount">This page has been accessed 284 times.</li>
+                            </ul>
+                    <ul id="footer-places">
+                                    <li id="footer-places-privacy"><a href="../../../Cppreference:Privacy_policy.html" title="Cppreference:Privacy policy">Privacy policy</a></li>
+                                    <li id="footer-places-about"><a href="../../../Cppreference:About.html" title="Cppreference:About">About cppreference.com</a></li>
+                                    <li id="footer-places-disclaimer"><a href="../../../Cppreference:General_disclaimer.html" title="Cppreference:General disclaimer">Disclaimers</a></li>
+                            </ul>
+                                    <ul id="footer-icons" class="noprint">
+                                    <li id="footer-poweredbyico">
+                                            <a href="http://www.mediawiki.org/"><img src="../../../../mwiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>                                            <a href="http://qbnz.com/highlighter/"><img src="http://upload.cppreference.com/mwiki/images/2/2b/powered_by_geshi_88x31.png" alt="Powered by GeSHi" height="31" width="88" /></a>                                            <a href="http://www.tigertech.net/referral/cppreference.com"><img src="http://upload.cppreference.com/mwiki/images/9/94/powered_by_tigertech_88x31.png" alt="Hosted by Tiger Technologies" height="31" width="88" /></a>                                        </li>
+                                </ul>
+                        <div style="clear:both">
+            </div>
+            </div>
+        </div>
+        <!-- /footer -->
+        <script>if(window.mw){
+mw.loader.state({"site":"loading","user":"missing","user.groups":"ready"});
+}</script>
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=skins.cppreference2&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.page.ready","mediawiki.searchSuggest","mediawiki.hidpi","ext.gadget.ColiruCompiler"], null, true);
+}</script>
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2828341-1']);
+_gaq.push(['_setDomainName', 'cppreference.com']);
+_gaq.push(['_trackPageview']);
+</script><!-- Served in 0.054 secs. -->
+	</body>
+<!-- Cached 20160210064301 -->
+</html>

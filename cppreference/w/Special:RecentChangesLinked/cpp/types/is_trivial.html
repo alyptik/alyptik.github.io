@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>Changes related to "cpp/types/is trivial" - cppreference.com</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.21.2" />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="shortcut icon" href="../../../../favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://en.cppreference.com/mwiki/opensearch_desc.php" title="cppreference.com (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://en.cppreference.com/mwiki/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="&quot;Special:RecentChangesLinked/cpp/types/is trivial&quot; Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked/cpp/types/is_trivial&amp;feed=atom&amp;target=cpp%2Ftypes%2Fis_trivial" />
+<link rel="alternate" type="application/atom+xml" title="cppreference.com Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="http://en.cppreference.com/mwiki/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.ColiruCompiler%7Cext.rtlcite%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.special.changeslist%7Cskins.cppreference2&amp;only=styles&amp;skin=cppreference2&amp;*" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#toc{display:none}.editsection{display:none}
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-css:7:472787eddcf4605d11de8c7ef047234f */</style>
+
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"Special","wgCanonicalSpecialPageName":"Recentchangeslinked","wgNamespaceNumber":-1,"wgPageName":"Special:RecentChangesLinked/cpp/types/is_trivial","wgTitle":"RecentChangesLinked/cpp/types/is trivial","wgCurRevisionId":0,"wgArticleId":0,"wgIsArticle":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":true,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Special:RecentChangesLinked/cpp/types/is_trivial"});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":0,"showtoolbar":1,"skin":"cppreference2","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-ColiruCompiler":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});;},{},{});
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-js:7:ca03345b1e2c4d90a25d968753a73b92 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.special.recentchanges","mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/mwiki/skins/cppreference2/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns--1 ns-special mw-special-Recentchangeslinked page-Special_RecentChangesLinked_cpp_types_is_trivial skin-cppreference2 action-view">
+        <!-- header -->
+        <div id="mw-head" class="noprint">
+            <div id="cpp-head-first-base">
+                <div id="cpp-head-first">
+                    <h5><a href="http://en.cppreference.com/">
+                        cppreference.com                        </a></h5>
+                    <div id="cpp-head-search">
+                        
+<!-- 0 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="http://en.cppreference.com/mwiki/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input name="search" title="Search cppreference.com [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search the pages for this text" id="searchButton"><img src="../../../../mwiki/skins/cppreference2/images/search-ltr.png%3F303" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /0 -->
+                    </div>
+                    <div id="cpp-head-personal">
+                        
+<!-- 0 -->
+<div id="p-personal" class="">
+<span id="pt-createaccount"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Special%3ARecentChangesLinked%2Fcpp%2Ftypes%2Fis+trivial&amp;type=signup">Create account</a></span>	<div class="menu">
+        <ul>
+<li id="pt-login"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Special%3ARecentChangesLinked%2Fcpp%2Ftypes%2Fis+trivial" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>        </ul>
+    </div>
+</div>
+
+<!-- /0 -->
+                    </div>
+
+                </div>
+            </div>
+            <div id="cpp-head-second-base">
+                <div id="cpp-head-second">
+                    <div id="cpp-head-tools-left">
+                        
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-special" class="selected"><span><a href="is_trivial.html"  title="This is a special page, you cannot edit the page itself">Special page</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="is_trivial.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                    <div id="cpp-head-tools-right">
+                        
+<!-- 0 -->
+<div id="p-views" class="vectorTabs emptyPortlet">
+	<h5>Views</h5>
+	<ul>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="is_trivial.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /header -->
+        <!-- content -->
+        <div id="cpp-content-base">
+            <div id="content">
+                <a id="top"></a>
+                <div id="mw-js-message" style="display:none;"></div>
+                                <!-- firstHeading -->
+                <h1 id="firstHeading" class="firstHeading">Changes related to "cpp/types/is trivial"</h1>
+                <!-- /firstHeading -->
+                <!-- bodyContent -->
+                <div id="bodyContent">
+                                        <!-- subtitle -->
+                    <div id="contentSub">← <a href="../../../cpp/types/is_trivial.html" title="cpp/types/is trivial">cpp/types/is trivial</a></div>
+                    <!-- /subtitle -->
+                                                            <!-- bodycontent -->
+                    <div id="mw-content-text"><div class="mw-specialpage-summary">
+<p>This is a list of changes made recently to pages linked from a specified page (or to members of a specified category).
+Pages on <a href="http://en.cppreference.com/w/Special:Watchlist" title="Special:Watchlist">your watchlist</a> are <b>bold</b>.
+</p>
+</div>
+<fieldset class="rcoptions">
+<legend>Recent changes options</legend>
+Show last <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;limit=50&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked"><strong>50</strong></a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;limit=100&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">100</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;limit=250&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">250</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;limit=500&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">500</a> changes in last <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;days=1&amp;from=&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">1</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;days=3&amp;from=&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">3</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;days=7&amp;from=&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked"><strong>7</strong></a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;days=14&amp;from=&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">14</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;days=30&amp;from=&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">30</a> days<br /><a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;hideminor=1&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">Hide</a> minor edits | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;hidebots=0&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">Show</a> bots | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;hideanons=1&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">Hide</a> anonymous users | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;hideliu=1&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">Hide</a> logged-in users | <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;hidemyself=1&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">Hide</a> my edits<br />Show new changes starting from <a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked&amp;from=20161227230431&amp;target=cpp%2Ftypes%2Fis_trivial" title="Special:RecentChangesLinked">15:04, 27 December 2016</a>
+<hr />
+<form action="http://en.cppreference.com/mwiki/index.php"><table class="mw-recentchanges-table"><tr><td class="mw-label mw-namespace-label"><label for="namespace">Namespace:</label></td><td class="mw-input"><select id="namespace" name="namespace">
+<option value="" selected="">all</option>
+<option value="0">(Main)</option>
+<option value="1">Talk</option>
+<option value="2">User</option>
+<option value="3">User talk</option>
+<option value="4">Cppreference</option>
+<option value="5">Cppreference talk</option>
+<option value="6">File</option>
+<option value="7">File talk</option>
+<option value="8">MediaWiki</option>
+<option value="9">MediaWiki talk</option>
+<option value="10">Template</option>
+<option value="11">Template talk</option>
+<option value="12">Help</option>
+<option value="13">Help talk</option>
+<option value="14">Category</option>
+<option value="15">Category talk</option>
+</select> <input name="invert" type="checkbox" value="1" id="nsinvert" title="Check this box to hide changes to pages within the selected namespace (and the associated namespace if checked)" />&#160;<label for="nsinvert" title="Check this box to hide changes to pages within the selected namespace (and the associated namespace if checked)">Invert selection</label> <input name="associated" type="checkbox" value="1" id="nsassociated" title="Check this box to also include the talk or subject namespace associated with the selected namespace" />&#160;<label for="nsassociated" title="Check this box to also include the talk or subject namespace associated with the selected namespace">Associated namespace</label></td></tr><tr><td class="mw-label mw-target-label">Page name:</td><td class="mw-input"><input name="target" size="40" value="cpp/types/is trivial" /><input name="showlinkedto" type="checkbox" value="1" id="showlinkedto" /> <label for="showlinkedto">Show changes to pages linked to the given page instead</label> <input type="submit" value="Go" /></td></tr></table><input type="hidden" value="Special:RecentChangesLinked" name="title" /></form>
+</fieldset>
+<h4>27 December 2016</h4>
+<ul class="special"><li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89083&amp;oldid=89082" title="cpp/types/common type" tabindex="1">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span> <abbr class='minoredit' title='This is a minor edit'>m</abbr> <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">13:23</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="5,939 bytes after change">(+10)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Defect_reports" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Defect reports</span></span>)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89082&amp;oldid=89080" title="cpp/types/common type" tabindex="2">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span> <abbr class='minoredit' title='This is a minor edit'>m</abbr> <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">13:22</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-neg" title="5,929 bytes after change">(-8)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Defect_reports" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Defect reports</span></span>)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89080&amp;oldid=89079" title="cpp/types/common type" tabindex="3">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">12:51</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="5,937 bytes after change">(+6)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Possible_implementation" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Possible implementation: </span> T1, T2 throughout</span>)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89079&amp;oldid=89078" title="cpp/types/common type" tabindex="4">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span> <abbr class='minoredit' title='This is a minor edit'>m</abbr> <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">12:30</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="5,931 bytes after change">(+11)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Possible_implementation" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Possible implementation</span></span>)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89078&amp;oldid=89077" title="cpp/types/common type" tabindex="5">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">12:21</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-neg" title="5,920 bytes after change">(-4)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Possible_implementation" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Possible implementation: </span> move ?: into an alias template</span>)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89077&amp;oldid=89075" title="cpp/types/common type" tabindex="6">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">12:17</span> <span class="mw-changeslist-separator">. .</span> <strong dir="ltr" class="mw-plusminus-pos" title="5,924 bytes after change">(+990)</strong>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(<a href="../../../cpp/types/common_type.html#Possible_implementation" title="cpp/types/common type">→</a>‎<span dir="auto"><span class="autocomment">Possible implementation: </span> update implementation</span>)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89075&amp;oldid=89074" title="cpp/types/common type" tabindex="7">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">11:55</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-neg" title="4,934 bytes after change">(-136)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(move specialization rules down)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;diff=89074&amp;oldid=79004" title="cpp/types/common type" tabindex="8">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/common_type&amp;curid=3135&amp;action=history" title="cpp/types/common type">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/common_type.html" title="cpp/types/common type" class="mw-changeslist-title">cpp/types/common type</a></span>‎; <span class="mw-changeslist-date">11:53</span> <span class="mw-changeslist-separator">. .</span> <strong dir="ltr" class="mw-plusminus-pos" title="5,070 bytes after change">(+1,573)</strong>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:T._Canens.html" title="User:T. Canens" class="mw-userlink">T. Canens</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:T._Canens.html" title="User talk:T. Canens">Talk</a> | <a href="../../../Special:Contributions/T._Canens.html" title="Special:Contributions/T. Canens">contribs</a>)</span>‎ <span class="comment">(P0435R1, unrevbox remainder and {{dr list}} them instead. 8 years after the first proposal in N2661, we finally get a 98% sane specification)</span></li>
+</ul>
+<h4>22 December 2016</h4>
+<ul class="special"><li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;diff=89035&amp;oldid=89031" title="cpp/thread" tabindex="9">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;action=history" title="cpp/thread">hist</a>) <span class="mw-changeslist-separator">. .</span> <abbr class='minoredit' title='This is a minor edit'>m</abbr> <span class="mw-title"><a href="../../../cpp/thread.html" title="cpp/thread" class="mw-changeslist-title">cpp/thread</a></span>‎; <span class="mw-changeslist-date">13:54</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="4,001 bytes after change">(+41)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:Cubbi.html" title="User:Cubbi" class="mw-userlink">Cubbi</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">Talk</a> | <a href="../../../Special:Contributions/Cubbi.html" title="Special:Contributions/Cubbi">contribs</a>)</span>‎ <span class="comment">(+scoped_lock entry)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;diff=89031&amp;oldid=89026" title="cpp/thread" tabindex="10">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;action=history" title="cpp/thread">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/thread.html" title="cpp/thread" class="mw-changeslist-title">cpp/thread</a></span>‎; <span class="mw-changeslist-date">13:47</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-neg" title="3,960 bytes after change">(-41)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="http://en.cppreference.com/mwiki/index.php?title=User:Ncm&amp;action=edit&amp;redlink=1" class="new mw-userlink" title="User:Ncm (page does not exist)">Ncm</a> <span class="mw-usertoollinks">(<a href="http://en.cppreference.com/w/User_talk:Ncm" title="User talk:Ncm">Talk</a> | <a href="http://en.cppreference.com/w/Special:Contributions/Ncm" title="Special:Contributions/Ncm">contribs</a>)</span>‎ <span class="comment">(fix prev)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;diff=89026&amp;oldid=83887" title="cpp/thread" tabindex="11">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/thread&amp;curid=1774&amp;action=history" title="cpp/thread">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/thread.html" title="cpp/thread" class="mw-changeslist-title">cpp/thread</a></span>‎; <span class="mw-changeslist-date">13:22</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="4,001 bytes after change">(+41)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="http://en.cppreference.com/mwiki/index.php?title=User:Ncm&amp;action=edit&amp;redlink=1" class="new mw-userlink" title="User:Ncm (page does not exist)">Ncm</a> <span class="mw-usertoollinks">(<a href="http://en.cppreference.com/w/User_talk:Ncm" title="User talk:Ncm">Talk</a> | <a href="http://en.cppreference.com/w/Special:Contributions/Ncm" title="Special:Contributions/Ncm">contribs</a>)</span>‎ <span class="comment">(add new &quot;scoped_lock&quot; per Issaquah &#039;16.)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/is_convertible&amp;curid=3188&amp;diff=89023&amp;oldid=81887" title="cpp/types/is convertible" tabindex="12">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/is_convertible&amp;curid=3188&amp;action=history" title="cpp/types/is convertible">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/is_convertible.html" title="cpp/types/is convertible" class="mw-changeslist-title">cpp/types/is convertible</a></span>‎; <span class="mw-changeslist-date">11:12</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="2,222 bytes after change">(+49)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="http://en.cppreference.com/w/Special:Contributions/223.3.187.195" title="Special:Contributions/223.3.187.195" class="mw-userlink">223.3.187.195</a> <span class="mw-usertoollinks">(<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:223.3.187.195&amp;action=edit&amp;redlink=1" class="new" title="User talk:223.3.187.195 (page does not exist)">Talk</a>)</span>‎</li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/is_default_constructible&amp;curid=3256&amp;diff=89018&amp;oldid=82096" title="cpp/types/is default constructible" tabindex="13">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/is_default_constructible&amp;curid=3256&amp;action=history" title="cpp/types/is default constructible">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/is_default_constructible.html" title="cpp/types/is default constructible" class="mw-changeslist-title">cpp/types/is default constructible</a></span>‎; <span class="mw-changeslist-date">00:26</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="4,057 bytes after change">(+1)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="http://en.cppreference.com/w/Special:Contributions/109.43.0.132" title="Special:Contributions/109.43.0.132" class="mw-userlink">109.43.0.132</a> <span class="mw-usertoollinks">(<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:109.43.0.132&amp;action=edit&amp;redlink=1" class="new" title="User talk:109.43.0.132 (page does not exist)">Talk</a>)</span>‎ <span class="comment">(fixed spelling error &quot;noexept&quot;)</span></li>
+</ul>
+<h4>20 December 2016</h4>
+<ul class="special"><li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;diff=89004&amp;oldid=89003" title="cpp/types/climits" tabindex="14">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;action=history" title="cpp/types/climits">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/climits.1.html" title="cpp/types/climits" class="mw-changeslist-title">cpp/types/climits</a></span>‎; <span class="mw-changeslist-date">14:07</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="2,188 bytes after change">(+149)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:Cubbi.html" title="User:Cubbi" class="mw-userlink">Cubbi</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">Talk</a> | <a href="../../../Special:Contributions/Cubbi.html" title="Special:Contributions/Cubbi">contribs</a>)</span>‎ <span class="comment">(note from [climits.syn]p1 about min/max constants having wrong types)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;diff=89003&amp;oldid=88968" title="cpp/types/climits" tabindex="15">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;action=history" title="cpp/types/climits">hist</a>) <span class="mw-changeslist-separator">. .</span> <abbr class='minoredit' title='This is a minor edit'>m</abbr> <span class="mw-title"><a href="../../../cpp/types/climits.1.html" title="cpp/types/climits" class="mw-changeslist-title">cpp/types/climits</a></span>‎; <span class="mw-changeslist-date">14:04</span> <span class="mw-changeslist-separator">. .</span> <span dir="ltr" class="mw-plusminus-pos" title="2,039 bytes after change">(+12)</span>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:Cubbi.html" title="User:Cubbi" class="mw-userlink">Cubbi</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">Talk</a> | <a href="../../../Special:Contributions/Cubbi.html" title="Special:Contributions/Cubbi">contribs</a>)</span>‎ <span class="comment">(copypaste fix)</span></li>
+<li class="mw-line-odd mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/integer&amp;curid=2031&amp;diff=89000&amp;oldid=87650" title="cpp/types/integer" tabindex="16">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/integer&amp;curid=2031&amp;action=history" title="cpp/types/integer">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/integer.html" title="cpp/types/integer" class="mw-changeslist-title">cpp/types/integer</a></span>‎; <span class="mw-changeslist-date">13:27</span> <span class="mw-changeslist-separator">. .</span> <strong dir="ltr" class="mw-plusminus-neg" title="6,506 bytes after change">(-3,935)</strong>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:Cubbi.html" title="User:Cubbi" class="mw-userlink">Cubbi</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">Talk</a> | <a href="../../../Special:Contributions/Cubbi.html" title="Special:Contributions/Cubbi">contribs</a>)</span>‎ <span class="comment">(templatized)</span></li>
+<li class="mw-line-even mw-changeslist-line-not-watched">(<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;diff=88968&amp;oldid=87742" title="cpp/types/climits" tabindex="17">diff</a> | <a href="http://en.cppreference.com/mwiki/index.php?title=cpp/types/climits&amp;curid=2027&amp;action=history" title="cpp/types/climits">hist</a>) <span class="mw-changeslist-separator">. .</span>  <span class="mw-title"><a href="../../../cpp/types/climits.1.html" title="cpp/types/climits" class="mw-changeslist-title">cpp/types/climits</a></span>‎; <span class="mw-changeslist-date">13:07</span> <span class="mw-changeslist-separator">. .</span> <strong dir="ltr" class="mw-plusminus-neg" title="2,027 bytes after change">(-4,755)</strong>‎  <span class="mw-changeslist-separator">. .</span> ‎<a href="../../../User:Cubbi.html" title="User:Cubbi" class="mw-userlink">Cubbi</a> <span class="mw-usertoollinks">(<a href="../../../User_talk:Cubbi.html" title="User talk:Cubbi">Talk</a> | <a href="../../../Special:Contributions/Cubbi.html" title="Special:Contributions/Cubbi">contribs</a>)</span>‎ <span class="comment">(templetized)</span></li>
+</ul>
+</div>                    <!-- /bodycontent -->
+                                        <!-- printfooter -->
+                    <div class="printfooter">
+                    Retrieved from "<a href="is_trivial.html">http://en.cppreference.com/w/Special:RecentChangesLinked/cpp/types/is_trivial</a>"                    </div>
+                    <!-- /printfooter -->
+                                                            <!-- catlinks -->
+                    <div id='catlinks' class='catlinks catlinks-allhidden'></div>                    <!-- /catlinks -->
+                                                            <div class="visualClear"></div>
+                    <!-- debughtml -->
+                                        <!-- /debughtml -->
+                </div>
+                <!-- /bodyContent -->
+            </div>
+        </div>
+        <!-- /content -->
+        <!-- footer -->
+        <div id="cpp-footer-base" class="noprint">
+            <div id="footer">
+                        <div id="cpp-navigation">
+            <h5>Navigation</h5>
+            <ul>
+<li id="n-Support-us"><a href="http://www.cppreference.com/support" rel="nofollow">Support us</a></li><li id="n-recentchanges"><a href="../../../Special:RecentChanges.html" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-FAQ"><a href="../../../Cppreference:About.html">FAQ</a></li><li id="n-Offline-version"><a href="../../../Cppreference:Archives.html">Offline version</a></li>            </ul>
+        </div>
+                        <div id="cpp-toolbox">
+            <h5><span>Toolbox</span><a href="is_trivial.html#"></a></h5>
+            <ul>
+<li id="feedlinks"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChangesLinked/cpp/types/is_trivial&amp;feed=atom&amp;target=cpp%2Ftypes%2Fis_trivial" id="feed-atom" rel="alternate" type="application/atom+xml" class="feedlink" title="Atom feed for this page">Atom</a></li><li id="t-upload"><a href="http://upload.cppreference.com/w/Special:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="../../../Special:SpecialPages.html" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>            </ul>
+        </div>
+                            <ul id="footer-places">
+                                    <li id="footer-places-privacy"><a href="../../../Cppreference:Privacy_policy.html" title="Cppreference:Privacy policy">Privacy policy</a></li>
+                                    <li id="footer-places-about"><a href="../../../Cppreference:About.html" title="Cppreference:About">About cppreference.com</a></li>
+                                    <li id="footer-places-disclaimer"><a href="../../../Cppreference:General_disclaimer.html" title="Cppreference:General disclaimer">Disclaimers</a></li>
+                            </ul>
+                                    <ul id="footer-icons" class="noprint">
+                                    <li id="footer-poweredbyico">
+                                            <a href="http://www.mediawiki.org/"><img src="../../../../mwiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>                                            <a href="http://qbnz.com/highlighter/"><img src="http://upload.cppreference.com/mwiki/images/2/2b/powered_by_geshi_88x31.png" alt="Powered by GeSHi" height="31" width="88" /></a>                                            <a href="http://www.tigertech.net/referral/cppreference.com"><img src="http://upload.cppreference.com/mwiki/images/9/94/powered_by_tigertech_88x31.png" alt="Hosted by Tiger Technologies" height="31" width="88" /></a>                                        </li>
+                                </ul>
+                        <div style="clear:both">
+            </div>
+            </div>
+        </div>
+        <!-- /footer -->
+        <script>if(window.mw){
+mw.loader.state({"site":"loading","user":"missing","user.groups":"ready"});
+}</script>
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=skins.cppreference2&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready","mediawiki.searchSuggest","mediawiki.hidpi","ext.gadget.ColiruCompiler"], null, true);
+}</script>
+<script src="../../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2828341-1']);
+_gaq.push(['_setDomainName', 'cppreference.com']);
+_gaq.push(['_trackPageview']);
+</script><!-- Served in 0.106 secs. -->
+	</body>
+</html>

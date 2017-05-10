@@ -1,0 +1,1029 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file varargs.sgml dated Sun Nov 25 08:09:42 2001 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/varargs/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Variable-Length Argument Lists</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>15. Variable-Length Argument Lists</H1>
+<a name="protos">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/protos.html"><!-- qtag -->Question 15.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I heard that you have to <TT>#include</TT> <TT>&lt;stdio.h&gt;</TT>
+before calling <TT>printf</TT>.
+Why?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+So that a proper prototype for <TT>printf</TT> will be in scope.
+</p><p>A compiler may use a different
+calling sequence for functions 
+which accept variable-length argument lists.
+(It might do so if calls using variable-length argument lists
+were less efficient than those using fixed-length.)
+Therefore,
+a prototype
+(indicating,
+using the ellipsis notation
+``<TT>...</TT>'',
+that
+the argument list
+is of variable length)
+must be in scope whenever a varargs function is called,
+so that the compiler knows to use the varargs calling mechanism.
+
+</p>
+
+
+
+
+
+<p>References:
+
+ISO Sec. 6.3.2.2, Sec. 7.1.7
+<br>
+Rationale Sec. 3.3.2.2, Sec. 4.1.6
+<br>
+H&amp;S Sec. 9.2.4 pp. 268-9, Sec. 9.6 pp. 275-6
+<hr><hr><hr>
+<a name="promos">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/promos.html"><!-- qtag -->Question 15.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can <TT>%f</TT> be used
+for both <TT>float</TT> and <TT>double</TT> arguments
+in <TT>printf</TT>?
+Aren't they different types?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In
+the variable-length part of a
+variable-length argument list,
+the ``default argument promotions'' apply:
+types <TT>char</TT> and <TT>short&nbsp;int</TT> are promoted to <TT>int</TT>,
+and <TT>float</TT> is promoted to <TT>double</TT>.
+(These are the same promotions that apply to
+function calls without a prototype in scope,
+also known as ``old style'' function calls;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>.)
+Therefore, <TT>printf</TT>'s <TT>%f</TT> format
+always sees a <TT>double</TT>.
+(Similarly, <TT>%c</TT> always sees an <TT>int</TT>,
+as does <TT>%hd</TT>.)
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfvsprintf">12.9</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanf2">12.13</a>.
+
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.3.2.2
+<br>
+H&amp;S Sec. 6.3.5 p. 177, Sec. 9.4 pp. 272-3
+<hr><hr><hr>
+<a name="proto2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/proto2.html"><!-- qtag -->Question 15.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I had a frustrating problem which turned out to be caused by the line
+<pre>
+	printf("%d", n);
+</pre>
+where <TT>n</TT> was actually a <TT>long&nbsp;int</TT>.
+I thought that ANSI function prototypes
+were supposed to guard against argument type mismatches like this.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When
+a function
+accepts
+a variable number of arguments,
+
+its
+prototype does not
+(and cannot)
+provide any information
+about the number and types of
+those
+variable arguments.
+Therefore,
+the usual protections do <em>not</em> apply
+in the variable-length part of variable-length argument lists:
+the compiler cannot
+perform implicit conversions or
+(in general)
+warn about mismatches.
+The programmer must make sure that arguments match,
+or must manually insert explicit casts.
+</p><p>In the case of <TT>printf</TT>-like functions,
+some compilers
+(including <TT>gcc</TT>)
+
+and some versions of <TT>lint</TT>
+are able to check the actual arguments against the format string,
+as long as the format string is
+an immediate
+string literal.
+
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfvsprintf">12.9</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#promos">15.2</a>.
+<hr><hr><hr>
+<a name="varargs1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/varargs1.html"><!-- qtag -->Question 15.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a function that takes a variable number of
+arguments?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Use
+the facilities of
+the <TT>&lt;stdarg.h&gt;</TT>
+header.
+</p><p>
+
+
+Here is a function which concatenates an arbitrary number of
+strings into <TT>malloc</TT>'ed memory:
+</p><pre>
+#include &lt;stdlib.h&gt;		/* for malloc, NULL, size_t */
+#include &lt;stdarg.h&gt;		/* for va_ stuff */
+#include &lt;string.h&gt;		/* for strcat et al. */
+
+char *vstrcat(const char *first, ...)
+{
+	size_t len;
+	char *retbuf;
+	va_list argp;
+	char *p;
+
+	if(first == NULL)
+		return NULL;
+
+	len = strlen(first);
+
+	va_start(argp, first);
+
+	while((p = va_arg(argp, char *)) != NULL)
+		len += strlen(p);
+
+	va_end(argp);
+
+	retbuf = malloc(len + 1);	/* +1 for trailing \0 */
+
+	if(retbuf == NULL)
+		return NULL;		/* error */
+
+	(void)strcpy(retbuf, first);
+
+	va_start(argp, first);		/* restart; 2nd scan */
+
+	while((p = va_arg(argp, char *)) != NULL)
+		(void)strcat(retbuf, p);
+
+	va_end(argp);
+
+	return retbuf;
+}
+</pre>
+(Note that
+a second call to <TT>va_start</TT> is needed
+to re-start the scan
+when the argument list is processed a second time.
+Note the calls to <TT>va_end</TT>:
+they're important for portability,
+even if they don't seem to do anything.)
+<p>A call to <TT>vstrcat</TT> looks 
+something like
+<pre>
+	char *str = vstrcat("Hello, ", "world!", (char *)NULL);
+</pre>
+Note the cast on the last argument;
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#proto2">15.3</a>.
+(Also note that the caller must free the returned,
+<TT>malloc</TT>'ed storage.)
+</p><p><TT>vstrcat</TT> accepts
+a variable number of arguments,
+all of type <TT>char&nbsp;*</TT>.
+Here is an example which 
+accepts a variable number of arguments of different types;
+it is a stripped-down version
+of the familiar <TT>printf</TT> function.
+Note that each invocation of <TT>va_arg()</TT> 
+specifies the type of the argument
+being
+
+
+
+retrieved
+from the argument list.
+</p><p>(The <TT>miniprintf</TT> function here uses
+<TT>baseconv</TT>
+from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#hexio">20.10</a> to format
+
+numbers.
+It
+
+is
+significantly
+imperfect
+in that it will not usually be able to print
+
+the smallest integer, <TT>INT_MIN</TT>, properly.)
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+#ifdef MAIN
+
+void miniprintf(const char *, ...);
+
+main()
+{
+	miniprintf("Hello, world!\n");
+	miniprintf("%c %d %s\n", '1', 2, "three");
+	miniprintf("%o %d %x\n", 10, 10, 10);
+	miniprintf("%u\n", 0xffff);
+	return 0;
+}
+
+#endif
+
+extern char *baseconv(unsigned int, int);
+
+void
+miniprintf(const char *fmt, ...)
+{
+	const char *p;
+	int i;
+	unsigned u;
+	char *s;
+	va_list argp;
+
+	va_start(argp, fmt);
+
+	for(p = fmt; *p != '\0'; p++) {
+		if(*p != '%') {
+			putchar(*p);
+			continue;
+		}
+
+		switch(*++p) {
+		case 'c':
+			i = va_arg(argp, int);
+			/* *not* va_arg(argp, char); see Q <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#float">15.10</a> */
+			putchar(i);
+			break;
+
+		case 'd':
+			i = va_arg(argp, int);
+			if(i &lt; 0) {
+				/* XXX won't handle INT_MIN */
+				i = -i;
+				putchar('-');
+			}
+			fputs(baseconv(i, 10), stdout);
+			break;
+
+		case 'o':
+			u = va_arg(argp, unsigned int);
+			fputs(baseconv(u, 8), stdout);
+			break;
+
+		case 's':
+			s = va_arg(argp, char *);
+			fputs(s, stdout);
+			break;
+
+		case 'u':
+			u = va_arg(argp, unsigned int);
+			fputs(baseconv(u, 10), stdout);
+			break;
+
+		case 'x':
+			u = va_arg(argp, unsigned int);
+			fputs(baseconv(u, 16), stdout);
+			break;
+
+		case '%':
+			putchar('%');
+			break;
+		}
+	}
+
+	va_end(argp);
+}
+</pre>
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#oldvarargs">15.7</a>.
+</p>
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 7.3 p. 155, Sec. B7 p. 254
+<br>
+ISO Sec. 7.8
+<br>
+Rationale Sec. 4.8
+<br>
+H&amp;S Sec. 11.4 pp. 296-9
+<br>
+CT&amp;P Sec. A.3 pp. 139-141
+<br>
+PCS Sec. 11 pp. 184-5, Sec. 13 p. 242
+<hr><hr><hr>
+<a name="vprintf">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/vprintf.html"><!-- qtag -->Question 15.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a function that takes a format string and a
+variable number of arguments, like <TT>printf</TT>, and passes them to
+<TT>printf</TT> to do most of the work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Use <TT>vprintf</TT>, <TT>vfprintf</TT>,
+or <TT>vsprintf</TT>.
+These routines are like their counterparts
+<TT>printf</TT>, <TT>fprintf</TT>, and <TT>sprintf</TT>,
+except that instead of a variable-length argument list,
+they accept a single <TT>va_list</TT> pointer.
+</p><p>As an example,
+here
+is an <TT>error</TT>
+function which prints an error message,
+preceded by the string ``error: '' and terminated with a newline:
+</p><pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+
+void error(const char *fmt, ...)
+{
+	va_list argp;
+	fprintf(stderr, "error: ");
+	va_start(argp, fmt);
+	vfprintf(stderr, fmt, argp);
+	va_end(argp);
+	fprintf(stderr, "\n");
+}
+</pre>
+<p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#oldvarargs">15.7</a>.
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 8.3 p. 174, Sec. B1.2 p. 245
+<br>
+ISO Secs. 7.9.6.7,7.9.6.8,7.9.6.9
+<br>
+H&amp;S Sec. 15.12 pp. 379-80
+<br>
+PCS Sec. 11 pp. 186-7
+<hr><hr><hr>
+<a name="vscanf">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/vscanf.html"><!-- qtag -->Question 15.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a function analogous to <TT>scanf</TT>,
+i.e. that accepts similar arguments,
+and
+calls <TT>scanf</TT> to do most of the work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+C99
+(but <em>not</em> any earlier C Standard)
+supports
+<TT>vscanf</TT>,
+<TT>vfscanf</TT>,
+and
+<TT>vsscanf</TT>.
+</p>
+<p>References:
+
+C9X Secs. 7.3.6.12-14
+<hr><hr><hr>
+<a name="oldvarargs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/oldvarargs.html"><!-- qtag -->Question 15.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have
+a pre-ANSI
+compiler,
+without <TT>&lt;stdarg.h&gt;</TT>.
+What can I do?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There's an older header, <TT>&lt;varargs.h&gt;</TT>,
+which offers about the same functionality.
+</p><p>Here is
+the <TT>vstrcat</TT> function from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#varargs1">15.4</a>,
+rewritten to use <TT>&lt;varargs.h&gt;</TT>:
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;varargs.h&gt;
+#include &lt;string.h&gt;
+
+extern char *malloc();
+
+char *vstrcat(va_alist)
+va_dcl		/* no semicolon */
+{
+	int len = 0;
+	char *retbuf;
+	va_list argp;
+	char *p;
+
+	va_start(argp);
+
+	while((p = va_arg(argp, char *)) != NULL)	/* includes first */
+		len += strlen(p);
+
+	va_end(argp);
+
+	retbuf = malloc(len + 1);		/* +1 for trailing \0 */
+
+	if(retbuf == NULL)
+		return NULL;			/* error */
+
+	retbuf[0] = '\0';
+
+	va_start(argp);			/* restart for second scan */
+
+	while((p = va_arg(argp, char *)) != NULL)	/* includes first */
+		strcat(retbuf, p);
+
+	va_end(argp);
+
+	return retbuf;
+}
+</pre>
+(Note
+that there is no semicolon after <TT>va_dcl</TT>.
+Note that in this case,
+no special treatment for the first argument is necessary.)
+
+You may also have to
+declare the string functions by hand
+rather than using <TT>&lt;string.h&gt;</TT>.
+</p><p>If you can manage to find a system with <TT>vfprintf</TT>
+but without <TT>&lt;stdarg.h&gt;</TT>,
+here is a version of the <TT>error</TT> function
+(from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#vprintf">15.5</a>)
+using <TT>&lt;varargs.h&gt;</TT>:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;varargs.h&gt;
+
+void error(va_alist)
+va_dcl		/* no semicolon */
+	{
+	char *fmt;
+	va_list argp;
+	fprintf(stderr, "error: ");
+	va_start(argp);
+	fmt = va_arg(argp, char *);
+	vfprintf(stderr, fmt, argp);
+	va_end(argp);
+	fprintf(stderr, "\n");
+}
+</pre>
+(Note
+that
+in contrast to <TT>&lt;stdarg.h&gt;</TT>,
+under <TT>&lt;varargs.h&gt;</TT> <em>all</em> arguments are variable,
+so
+
+
+
+
+the <TT>fmt</TT> argument must also be picked up via <TT>va_arg</TT>.)
+</p>
+
+
+
+<p>References:
+
+H&amp;S Sec. 11.4 pp. 296-9
+<br>
+CT&amp;P Sec. A.2 pp. 134-139
+<br>
+PCS Sec. 11 pp. 184-5, Sec. 13 p. 250
+<hr><hr><hr>
+<a name="nargs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/nargs.html"><!-- qtag -->Question 15.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I discover how many arguments a function was actually
+called with?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This information is not available to a portable program.
+Some old systems provided a nonstandard <TT>nargs</TT>
+function,
+but its use was always questionable,
+since it typically returned the number
+of words passed,
+not the number of arguments.
+(Structures,
+<TT>long int</TT>s,
+and
+floating point values
+are usually passed as
+several words.)
+</p><p>Any function which takes a variable number of arguments must be
+able to determine
+
+<em>from the arguments themselves</em>
+how many of them
+there are.
+
+<TT>printf</TT>-like functions do this by looking for formatting
+specifiers (<TT>%d</TT> and the like) in the format string (which is why
+these functions fail badly if the format string does not match
+the argument list).
+Another common technique,
+applicable
+when the arguments are all of the same type,
+is to use a sentinel
+value
+(often 0, -1, or an appropriately-cast null pointer)
+at the end of the list
+(see the
+<TT>execl</TT>
+and
+<TT>vstrcat</TT>
+examples
+in
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#varargs1">15.4</a>).
+Finally,
+
+
+
+if the
+types are predictable,
+you can pass an explicit count of the number of variable arguments
+(although it's usually a nuisance for the caller to supply).
+
+
+</p>
+<p>References:
+
+PCS Sec. 11 pp. 167-8
+<hr><hr><hr>
+<a name="onefixedarg">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/onefixedarg.html"><!-- qtag -->Question 15.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My compiler isn't letting me declare a function
+<pre>
+	int f(...)
+	{
+	}
+</pre>
+i.e. accepting a variable number of arguments,
+but
+with no fixed arguments at all.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Standard C requires at least one fixed argument,
+in part so that you can hand it
+
+to <TT>va_start</TT>.
+(In any case,
+you often need a fixed argument
+to determine the number,
+and perhaps the types,
+of the variable arguments.)
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#float">15.10</a>.
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 6.5.4, Sec. 6.5.4.3, Sec. 7.8.1.1
+<br>
+H&amp;S Sec. 9.2 p. 263
+<hr><hr><hr>
+<a name="float">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/float.html"><!-- qtag -->Question 15.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a varargs function which accepts a <TT>float</TT> parameter.
+Why isn't
+<pre>
+va_arg(argp,&nbsp;float)</pre>
+
+working?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In the variable-length part of variable-length argument lists,
+the
+old
+``default argument promotions''
+apply:
+
+arguments of type <TT>float</TT> are always promoted
+(widened)
+to type <TT>double</TT>,
+and types <TT>char</TT> and <TT>short int</TT> are promoted to <TT>int</TT>.
+Therefore, it is never correct to invoke
+<TT>va_arg(argp,&nbsp;float)</TT>;
+instead
+you should
+always use
+<TT>va_arg(argp,&nbsp;double)</TT>.
+
+
+
+Similarly, use
+<TT>va_arg(argp,&nbsp;int)</TT>
+to retrieve arguments which were originally
+<TT>char</TT>, <TT>short</TT>, or <TT>int</TT>.
+(For analogous reasons,
+the last ``fixed'' argument,
+as handed to <TT>va_start</TT>,
+should not be widenable,
+either.)
+See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#argpromos">11.3</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#promos">15.2</a>.
+
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.3.2.2
+<br>
+Rationale Sec. 4.8.1.2
+<br>
+H&amp;S Sec. 11.4 p. 297
+<hr><hr><hr>
+<a name="funcptr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/funcptr.html"><!-- qtag -->Question 15.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I can't get <TT>va_arg</TT> to pull in an argument
+of type pointer-to-function.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Try using a <TT>typedef</TT> for the function pointer type.
+</p><p>The type-rewriting games which
+the <TT>va_arg</TT> macro
+typically
+plays are stymied
+by overly-complicated types such as
+pointer-to-function.
+To illustrate,
+a simplified implementation of <TT>va_arg</TT> is
+<pre>
+	#define va_arg(argp, type) \
+		(*(type *)(((argp) += sizeof(type)) - sizeof(type)))
+</pre>
+where <TT>argp</TT>'s
+type
+(<TT>va_list</TT>)
+is <TT>char&nbsp;*</TT>.
+When you attempt to invoke
+<pre>
+	va_arg(argp, int (*)())
+</pre>
+the expansion is
+<pre>
+	(*(int (*)() *)(((argp) += sizeof(int (*)())) - sizeof(int (*)())))
+</pre>
+which is a syntax error
+(the first cast <TT>(int&nbsp;(*)()&nbsp;*)</TT> is meaningless).
+<a href="opaque.html" rel=subdocument>[footnote]</a>
+</p><p>If you
+use
+a <TT>typedef</TT>
+for the function pointer type, however, all will be well.
+Given
+<pre>
+	typedef int (*funcptr)();
+</pre>
+the expansion of
+<pre>
+	va_arg(argp, funcptr)
+</pre>
+is
+<pre>
+	(*(funcptr *)(((argp) += sizeof(funcptr)) - sizeof(funcptr)))
+</pre>
+which works correctly.
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#typedefvsdefine">1.13</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#pfitypedef">1.17</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#cdecl1">1.21</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 7.8.1.2
+<br>
+Rationale Sec. 4.8.1.2
+<hr><hr><hr>
+<a name="handoff">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/handoff.html"><!-- qtag -->Question 15.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write a function which takes a variable number of
+arguments and passes them to some other function 
+(which takes a variable number of arguments)?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In general, you cannot.
+Ideally,
+you should provide a version of that other function which accepts a
+<TT>va_list</TT> pointer.
+</p><p>Suppose you want to write a <TT>faterror</TT> function
+which will print a fatal error message, then exit.
+You might like to write it in terms of the <TT>error</TT> 
+function of question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#vprintf">15.5</a>:
+<pre>
+	void faterror(const char *fmt, ...)
+	{
+		error(fmt, <I>what goes here?</I> );
+		exit(EXIT_FAILURE);
+	}
+</pre>
+but it's not obvious how to hand <TT>faterror</TT>'s arguments 
+off to <TT>error</TT>.
+</p><p>Proceed as follows.
+First split up the existing <TT>error</TT> function
+to create a new <TT>verror</TT>
+which accepts not a variable argument list
+but a single <TT>va_list</TT> pointer.
+(Note that doing so is little
+extra work,
+because <TT>verror</TT> contains much of the code
+that used to be in <TT>error</TT>,
+and the new <TT>error</TT> becomes a simple wrapper
+around <TT>verror</TT>.)
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+
+void verror(const char *fmt, va_list argp)
+{
+	fprintf(stderr, "error: ");
+	vfprintf(stderr, fmt, argp);
+	fprintf(stderr, "\n");
+}
+
+void error(const char *fmt, ...)
+{
+	va_list argp;
+	va_start(argp, fmt);
+	verror(fmt, argp);
+	va_end(argp);
+}
+</pre>
+</p><p>Now you can write <TT>faterror</TT>,
+and have it call <TT>verror</TT>, too:
+<pre>
+#include &lt;stdlib.h&gt;
+
+void faterror(const char *fmt, ...)
+{
+	va_list argp;
+	va_start(argp, fmt);
+	verror(fmt, argp);
+	va_end(argp);
+	exit(EXIT_FAILURE);
+}
+</pre>
+Note that the
+relation
+between <TT>error</TT> and <TT>verror</TT>
+is exactly that which holds between
+e.g. <TT>printf</TT> and <TT>vprintf</TT>.
+In fact,
+as Chris Torek has observed,
+
+whenever you find yourself writing a varargs function,
+it's a good idea to write two versions of it:
+one
+(like <TT>verror</TT>)
+which
+accepts a <TT>va_list</TT> and does the work,
+and one
+(like the revised <TT>error</TT>)
+which is a simple wrapper.
+
+
+
+The only real restriction on this technique
+is that
+a function like <TT>verror</TT>
+can scan the arguments just once;
+there is no way for it to reinvoke va_start.
+</p><p>If you do not have the option
+of rewriting
+the lower-level function
+(<TT>error</TT>, in this example)
+to accept a <TT>va_list</TT>,
+such that you find yourself needing to pass
+the variable arguments that
+one function
+(e.g. <TT>faterror</TT>)
+receives
+on to another as actual arguments,
+no portable solution is possible.
+(The problem
+could perhaps
+be solved by resorting to machine-specific
+assembly language;
+see also
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#invvarargs">15.13</a>.)
+</p><p>One approach that would <em>not</em> work would be something like
+<pre>
+	void faterror(const char *fmt, ...)
+	{
+		va_list argp;
+		va_start(argp, fmt);
+		error(fmt, argp);		/* WRONG */
+		va_end(argp);
+		exit(EXIT_FAILURE);
+	}
+</pre>
+A
+<TT>va_list</TT> is
+<em>not</em>
+itself a variable argument list;
+it's really sort of a pointer to one.
+That is, a function which accepts a <TT>va_list</TT> is not itself varargs,
+nor vice versa.
+</p><p>Another kludge that is sometimes used,
+and which sometimes works even though it is grossly nonportable,
+is to use a lot of <TT>int</TT> arguments,
+hoping that there are enough of them and that they can somehow 
+pass through pointer, floating-point, and other arguments as well:
+<pre>
+	void faterror(fmt, a1, a2, a3, a4, a5, a6)
+	char *fmt;
+	int a1, a2, a3, a4, a5, a6;
+	{
+		error(fmt, a1, a2, a3, a4, a5, a6);	/* VERY WRONG */
+		exit(EXIT_FAILURE);
+	}
+</pre>
+
+This example is presented
+only for the purpose of urging you <em>not</em> to use it;
+please don't try it just because you saw it here.
+<hr><hr><hr>
+<a name="invvarargs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../varargs/invvarargs.html"><!-- qtag -->Question 15.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I call a function with an argument list built up at run time?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is no guaranteed or portable way to do this.
+If you're curious,
+this list's editor
+
+has a few
+<a href="wacky.html" rel=subdocument>wacky ideas</a>
+you could try...
+</p><p>Instead of an actual argument list,
+you might consider
+
+
+
+passing an array of generic
+(<TT>void&nbsp;*</TT>)
+pointers.
+
+The called function can then step through the array,
+much like <TT>main()</TT> might step through <TT>argv</TT>.
+(Obviously this works only
+if you have control over all the called functions.)
+</p><p>(See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#dynlink">19.36</a>.)
+</p><p>Additional links:
+<a href="wacky.html" rel=subdocument>&ldquo;wacky ideas&rdquo;</a>
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file charstring.sgml dated Sat Feb  7 18:22:16 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/charstring/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Characters and Strings</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>8. Characters and Strings</H1>
+<a name="strvschar">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/strvschar.html"><!-- qtag -->Question 8.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+Why doesn't
+<pre>
+strcat(string,&nbsp;'!');</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is a very real
+difference
+between characters and strings,
+and
+<TT>strcat</TT> concatenates
+<em>strings</em>.
+</p><p>A
+character constant
+like
+<TT>'!'</TT> represents a single character.
+A string literal between double quotes
+usually represents multiple characters.
+
+A string literal like <TT>"!"</TT> seems to represent a single character,
+but it actually contains two:
+the <TT>!</TT> you requested,
+
+and the <TT>\0</TT> which terminates all strings in C.
+</p><p>Characters in C are represented by small integers corresponding 
+to their character set values
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#asciivals">8.6</a>).
+Strings are represented by arrays of characters;
+you usually manipulate a pointer
+to the first character of the array.
+It is never correct to use one when the other is expected.
+To
+append a <TT>!</TT> to a string,
+use
+<pre>
+	strcat(string, "!");
+</pre>
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc2">7.2</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#strlitnomod">16.6</a>.
+</p>
+<p>References:
+
+CT&amp;P Sec. 1.5 pp. 9-10
+<hr><hr><hr>
+<a name="stringeq">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/stringeq.html"><!-- qtag -->Question 8.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm checking a string to see if it matches a particular value.
+Why isn't this code working?
+<pre>
+	char *string;
+	...
+	if(string == "value") {
+		/* string matches "value" */
+		...
+	}
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Strings in C are represented as arrays of characters,
+and C never manipulates
+(assigns, compares, etc.)
+arrays as a whole.<a href="fn44.html" rel=subdocument>[footnote]</a>
+The <TT>==</TT> operator in the code fragment above compares two
+pointers--the
+value of the pointer variable <TT>string</TT>
+and a pointer to the string literal
+<TT>"value"</TT>--to
+see if they are equal,
+that is,
+if they point to the same place.
+They probably don't,
+so the comparison never succeeds.
+</p><p>To compare two strings,
+you generally
+use
+the library function
+<TT>strcmp</TT>:
+<pre>
+	if(strcmp(string, "value") == 0) {
+		/* string matches "value" */
+		...
+	}
+</pre>
+<hr><hr><hr>
+<a name="assign">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/assign.html"><!-- qtag -->Question 8.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If I can say
+<pre>
+	char a[] = "Hello, world!";
+</pre>
+why can't I say
+<pre>
+	char a[14];
+	a = "Hello, world!";
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Strings are arrays, and you can't assign arrays directly.
+Use <TT>strcpy</TT> instead:
+<pre>
+	strcpy(a, "Hello, world!");
+</pre>
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#mimic">4.2</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#arrayassign">6.5</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc2">7.2</a>.
+<hr><hr><hr>
+<a name="malloc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/malloc.html"><!-- qtag -->Question 8.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I can't get <TT>strcat</TT> to work.
+I tried
+<pre>
+	char *s1 = "Hello, ";
+	char *s2 = "world!";
+	char *s3 = strcat(s1, s2);
+</pre>
+but I got strange results.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc2">7.2</a>.
+<hr><hr><hr>
+<a name="strlitinit">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/strlitinit.html"><!-- qtag -->Question 8.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What is the difference between
+these initializations?
+<pre>
+char a[] = "string literal";
+char *p  = "string literal";
+</pre>
+My program
+crashes if
+I try to
+assign a new value to <TT>p[i]</TT>.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>.
+<hr><hr><hr>
+<a name="asciivals">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/asciivals.html"><!-- qtag -->Question 8.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I get the
+numeric
+
+value
+(i.e. ASCII or other character set code)
+corresponding to a
+character,
+or vice versa?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In C,
+characters are represented by small integers
+corresponding to their values
+in the machine's character set.
+Therefore,
+you don't need a conversion
+function:
+if you have the character,
+you have its value.
+The following fragment:
+<pre>
+	int c1 = 'A', c2 = 65;
+	printf("%c %d %c %d\n", c1, c1, c2, c2);
+</pre>
+prints
+<pre>
+	A 65 A 65
+</pre>
+on an ASCII machine.
+</p><p>To convert back and forth between the digit characters and the
+corresponding integers in the range 0-9,
+add or subtract the constant <TT>'0'</TT>
+(that is, the character value <TT>'0'</TT>).
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#sizeofchar">8.9</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#itoa">13.1</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#hexio">20.10</a>.
+
+<hr><hr><hr>
+<a name="substr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/substr.html"><!-- qtag -->Question 8.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does C have anything like the ``substr''
+(extract substring)
+routine present in other languages?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#substr">13.3</a>.
+<hr><hr><hr>
+<a name="runtimesc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/runtimesc.html"><!-- qtag -->Question 8.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm reading
+strings
+typed by
+the user
+into an array,
+and then printing them out later.
+When the user types
+a sequence like <TT>\n</TT>,
+why
+isn't it being
+handled properly?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Character sequences like <TT>\n</TT>
+are interpreted at compile time.
+When
+a backslash and an adjacent <TT>n</TT>
+appear
+in a character constant or string 
+literal,
+
+they
+are translated immediately into a single newline 
+character.
+(Analogous translations occur,
+of course,
+for the other character escape sequences.)
+When you're reading strings from the user or a file,
+however,
+no interpretation like this is performed:
+a backslash
+is read
+and printed
+just like any other character, 
+with no particular interpretation.
+</p><p>(Some interpretation of the newline character may be done during run-time I/O,
+but for a completely different reason;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#textvsbinary">12.40</a>.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#printfpercent">12.6</a>.
+</p><p>Additional links:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#cescapes">further reading</a>
+<hr><hr><hr>
+<a name="sizeofchar">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/sizeofchar.html"><!-- qtag -->Question 8.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I think something's wrong with my compiler:
+I just noticed that <TT>sizeof('a')</TT> is 2, not 1
+(i.e. not <TT>sizeof(char)</TT>).
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Perhaps surprisingly,
+character
+constants in C
+are of type <TT>int</TT>,
+so <TT>sizeof('a')</TT> is <TT>sizeof(int)</TT>
+(though
+this is another area
+where C++ differs).
+See also
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizeofchar">7.8</a>,
+and
+<a href="sd5.html" rel=subdocument>this footnote</a>
+.
+</p>
+
+
+<p>References:
+
+ISO Sec. 6.1.3.4
+<br>
+H&amp;S Sec. 2.7.3 p. 29
+<hr><hr><hr>
+<a name="wchar">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../charstring/wchar.html"><!-- qtag -->Question 8.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm starting to think about multinational character sets,
+and I'm worried about the implications
+of making <TT>sizeof(char)</TT> be 2
+so that 16-bit character sets can be represented.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+If type <TT>char</TT> were made 16 bits,
+<TT>sizeof(char)</TT> would still be 1,
+and <TT>CHAR_BIT</TT> in <TT>&lt;limits.h&gt;</TT> would be 16,
+and it would simply be impossible to declare
+(or allocate with <TT>malloc</TT>)
+a single 8-bit object.
+</p><p>
+
+
+Traditionally, a byte is not necessarily 8 bits, but
+merely a smallish region of memory,
+usually
+suitable
+for storing one character.
+The C Standard
+follows this usage, so
+the bytes used by <TT>malloc</TT>
+and <TT>sizeof</TT> can be more than 8 bits.
+<a href="octet.html" rel=subdocument>[footnote]</a>
+
+(The Standard does not allow them to be less.)
+</p><p>To allow manipulation of multinational character sets
+without requiring
+an expansion of type <TT>char</TT>,
+ANSI/ISO C defines the ``wide'' character type <TT>wchar_t</TT>,
+and corresponding wide
+string literals,
+and
+functions
+for manipulating
+and converting
+strings of wide characters.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizeofchar">7.8</a>.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<p>References:
+
+ISO Sec. 5.2.1.2, Sec. 6.1.3.4, Sec. 6.1.4, Sec. 7.1.6, Sec. 7.10.7, Sec. 7.10.8
+<br>
+Rationale Sec. 2.2.1.2
+<br>
+H&amp;S Sec. 2.7.3 pp. 29-30, Sec. 2.7.4 p. 33, Sec. 11.1 p. 293, Secs. 11.7,11.8 pp. 303-310
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

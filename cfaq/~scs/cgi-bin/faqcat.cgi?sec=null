@@ -1,0 +1,1406 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file null.sgml dated Wed Dec 21 13:03:25 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/null/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Null Pointers</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>5. Null Pointers</H1>
+<a name="null1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/null1.html"><!-- qtag -->Question 5.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+What is this infamous null pointer, anyway?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The language definition states that for
+each pointer type,
+
+there
+is a special value--the ``null pointer''--which is
+distinguishable from all
+other pointer values and
+which is
+``guaranteed to compare unequal to a pointer to
+any object or function.''
+
+That is,
+a null pointer points definitively nowhere;
+it is not the address of
+
+any object or function.
+The
+address-of operator <TT>&amp;</TT> will never yield a null pointer,
+nor will a successful call to
+<TT>malloc</TT>.<a href="nullsuccess.html" rel=subdocument>[footnote]</a>
+(<TT>malloc</TT>
+does return
+a null pointer when it fails,
+and this is a typical use of null pointers:
+as a ``special'' pointer value with some other meaning,
+usually ``not allocated'' or ``not pointing anywhere yet.'')
+</p><p>
+A null pointer is conceptually different from an uninitialized pointer.
+A null pointer is known not to point to any object
+or function;
+an uninitialized pointer might point anywhere.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#initval">1.30</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc1">7.1</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#calloc">7.31</a>.
+</p><p>As mentioned above,
+there is
+a null pointer for each pointer type,
+and the internal values of null pointers for
+different types
+may be different.
+Although programmers need not know the internal values, the
+compiler must always be informed which type of null pointer is required,
+so that it can make the distinction if necessary
+(see
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machnon0">5.5</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#safermacs">5.6</a>).
+</p>
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 5.4 pp. 97-8
+<br>
+K&amp;R2 Sec. 5.4 p. 102
+<br>
+ISO Sec. 6.2.2.3
+<br>
+Rationale Sec. 3.2.2.3
+<br>
+H&amp;S Sec. 5.3.2 pp. 121-3
+<hr><hr><hr>
+<a name="null2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/null2.html"><!-- qtag -->Question 5.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+How do I get a null pointer in my programs?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+With a <a href="../sx1/index.html#null pointer constant"><dfn>null pointer constant</dfn></a>.
+</p><p>According to the language definition,
+an
+``integral constant expression with the value 0''
+in a pointer context
+is converted into a null pointer at compile
+time.
+That is, in an
+initialization,
+assignment, or comparison
+
+
+when one side is a
+variable or expression
+of pointer type, the compiler can tell that a constant <TT>0</TT>
+on the other side requests a null pointer,
+and generate the correctly-typed null pointer value.
+Therefore, the following fragments are perfectly legal:
+<pre>
+	char *p = 0;
+	if(p != 0)
+</pre>
+(See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#ptrtest">5.3</a>.)
+</p><p>However, an argument being passed to a function is not
+necessarily
+
+recognizable as
+a pointer context,
+and the compiler
+may not be able to tell that an unadorned <TT>0</TT> ``means''
+
+a null
+pointer.
+To generate a null pointer in a function call context, an
+explicit cast
+may be
+required,
+to force the <TT>0</TT> to be
+recognized as a pointer.
+For example, the
+Unix
+system call
+<TT>execl</TT>
+takes a
+variable-length, null-pointer-terminated list of character pointer arguments,
+and is correctly called like this:
+<pre>
+	execl("/bin/sh", "sh", "-c", "date", (char *)0);
+</pre>
+
+If the <TT>(char&nbsp;*)</TT> cast
+on the last argument
+were omitted,
+the compiler would not know to pass a null pointer,
+and would pass an integer <TT>0</TT> instead.
+(Note that many
+Unix
+manuals
+
+get this example wrong;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullreq">5.11</a>.)
+</p><p>When function prototypes are in scope, argument passing becomes
+an ``assignment context,''
+and most casts may safely be omitted,
+since the prototype tells the
+compiler that a pointer is required,
+and of which type,
+enabling it
+
+to correctly
+convert an unadorned <TT>0</TT>.
+Function prototypes cannot provide the types for variable
+arguments in variable-length argument lists
+however,
+so explicit casts are still required for those arguments.
+(See also
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#proto2">15.3</a>.)
+It
+is
+probably
+safest to
+properly
+cast
+all null pointer
+constants in function calls,
+to
+guard against varargs functions or those without prototypes.
+</p><p>Here is a summary of the rules
+for when
+
+null pointer constants may be used by themselves,
+and when they require explicit casts:
+<blockquote>[TABLE GOES HERE]
+</blockquote></p>
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. A7.7 p. 190, Sec. A7.14 p. 192
+<br>
+K&amp;R2 Sec. A7.10 p. 207, Sec. A7.17 p. 209
+<br>
+ISO Sec. 6.2.2.3
+<br>
+H&amp;S Sec. 4.6.3 p. 95, Sec. 6.2.7 p. 171
+<hr><hr><hr>
+<a name="ptrtest">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/ptrtest.html"><!-- qtag -->Question 5.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is the abbreviated pointer comparison ``<TT>if(p)</TT>'' to test for
+non-null pointers valid?
+What if the internal representation for null pointers is nonzero?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is always valid.
+</p><p>When C requires the Boolean
+
+value of an expression,
+a false value is
+inferred
+
+
+when the expression compares
+equal to zero, and a true value otherwise.
+That is, whenever
+one writes
+<pre>
+	if(expr)
+</pre>
+where
+``expr''
+is any expression at all, the compiler
+essentially acts as if it had been written as
+<pre>
+	if((expr) != 0)
+</pre>
+Substituting the trivial pointer expression
+``p''
+for
+``expr'',
+we have
+<pre>
+	if(p)	is equivalent to	if(p != 0)
+</pre>
+and this is a comparison context, so the compiler can tell
+that the (implicit) <TT>0</TT> is actually a null pointer constant,
+
+and
+use the correct null pointer value.
+There is no trickery involved here;
+compilers do work this way,
+and generate identical code for both constructs.
+The internal representation of a null pointer does
+<em>not</em>
+matter.
+</p><p>
+The boolean negation operator, <TT>!</TT>, can be described
+
+as follows:
+<pre>
+	!expr	is essentially equivalent to	(expr)?0:1
+		or to	((expr) == 0)
+</pre>
+which leads to the conclusion that
+<pre>
+	if(!p)	is equivalent to	if(p == 0)
+</pre>
+</p><p>``Abbreviations'' such as <TT>if(p)</TT>,
+though perfectly legal<a href="assertptr.html" rel=subdocument>[footnote]</a>
+,
+are considered by some to be bad style
+(and by others to be good style;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=style#stylewars">17.10</a>).
+</p><p>See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#bool2">9.2</a>.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. A7.4.7 p. 204
+<br>
+ISO Sec. 6.3.3.3, Sec. 6.3.9, Sec. 6.3.13, Sec. 6.3.14, Sec. 6.3.15, Sec. 6.6.4.1, Sec. 6.6.5
+<br>
+H&amp;S Sec. 5.3.2 p. 122
+<hr><hr><hr>
+<a name="macro">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/macro.html"><!-- qtag -->Question 5.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What is <TT>NULL</TT> and how is it
+defined?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+As a matter of style,
+many programmers prefer not to have
+unadorned <TT>0</TT>'s scattered through their programs,
+some representing numbers
+and some representing pointers.
+Therefore, the preprocessor macro <TT>NULL</TT> is
+defined
+(by
+several headers, including
+<TT>&lt;stdio.h&gt;</TT>
+and
+<TT>&lt;stddef.h&gt;</TT>)
+
+
+
+
+
+as a null pointer constant,
+typically
+<TT>0</TT>
+or <TT>((void&nbsp;*)0)</TT>
+(see also 
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#safermacs">5.6</a>).
+
+A programmer who wishes to make explicit the distinction between
+<TT>0</TT> the integer and <TT>0</TT> the null pointer constant
+can then use <TT>NULL</TT> whenever a
+null pointer is required.
+</p><p>Using <TT>NULL</TT>
+is a stylistic convention only; the preprocessor turns <TT>NULL</TT>
+back into
+
+<TT>0</TT> which is then recognized by the compiler,
+in pointer contexts,
+as before.
+In particular, a cast may still be necessary before <TT>NULL</TT> (as
+before <TT>0</TT>) in a function call argument.
+The table under question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a> 
+above applies for
+
+<TT>NULL</TT> as well as <TT>0</TT>
+(an unadorned <TT>NULL</TT>
+is equivalent to an unadorned 0).
+</p><p><TT>NULL</TT>
+should be used
+<em>only</em>
+as a pointer constant;
+
+see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>.
+</p>
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 5.4 pp. 97-8
+<br>
+K&amp;R2 Sec. 5.4 p. 102
+<br>
+ISO Sec. 7.1.6, Sec. 6.2.2.3
+<br>
+Rationale Sec. 4.1.5
+<br>
+H&amp;S Sec. 5.3.2 p. 122, Sec. 11.1 p. 292
+<hr><hr><hr>
+<a name="machnon0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/machnon0.html"><!-- qtag -->Question 5.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How should <TT>NULL</TT> be defined on a machine which uses a nonzero bit
+pattern as the internal representation of a null pointer?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The same as
+on
+any other machine: as <TT>0</TT>
+(or some version of <TT>0</TT>; see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#macro">5.4</a>).
+</p><p>Whenever
+a programmer requests a null pointer,
+
+either
+by writing ``<TT>0</TT>'' or ``<TT>NULL</TT>'',
+
+it is the compiler's
+
+responsibility
+to generate
+whatever bit pattern the machine uses for that null pointer.
+(Again, the compiler can tell that an unadorned
+
+<TT>0</TT> requests a null
+pointer when the <TT>0</TT> is in a pointer context;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>.)
+
+Therefore, #defining <TT>NULL</TT> as <TT>0</TT> on a machine for which internal
+null pointers are nonzero is as valid as on any other:
+the compiler must
+always
+be able to
+
+generate the machine's correct
+null pointers in response to
+unadorned <TT>0</TT>'s seen in pointer contexts.
+A constant <TT>0</TT> is a null pointer constant;
+<TT>NULL</TT> is just a convenient name for it
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#varieties">5.13</a>).
+</p><p>(Section 4.1.5 of the C Standard states that <TT>NULL</TT>
+``expands to an implementation-defined null pointer constant,''
+which means that the implementation gets to choose
+which form of <TT>0</TT> to use
+and whether to
+use a <TT>void&nbsp;*</TT> cast;
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#safermacs">5.6</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#long0">5.7</a>.
+``Implementation-defined'' here does <em>not</em> mean
+that <TT>NULL</TT> might be <TT>#define</TT>d to match some
+implementation-specific nonzero internal null pointer value.)
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#macsochange">5.10</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machexamp">5.17</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 7.1.6
+<br>
+Rationale Sec. 4.1.5
+<hr><hr><hr>
+<a name="safermacs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/safermacs.html"><!-- qtag -->Question 5.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If <TT>NULL</TT> were defined as
+follows:
+<pre>
+	#define NULL ((char *)0)
+</pre>
+wouldn't that make function calls which pass an uncast <TT>NULL</TT> work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not in
+the most general case.
+The
+complication
+is that there are machines which
+use different
+internal
+
+representations for
+pointers to different types of data.
+The suggested definition would make uncast <TT>NULL</TT> arguments to
+functions expecting pointers to characters work correctly,
+but pointer arguments of other types could still
+(in the absence of prototypes)
+require explicit casts.
+Furthermore,
+legal
+constructions such as
+<pre>
+	FILE *fp = NULL;
+</pre>
+could fail.
+</p><p>Nevertheless,
+ANSI C allows the alternate
+definition
+<pre>
+	#define NULL ((void *)0)
+</pre>
+for <TT>NULL</TT>.
+<a href="voidpassign.html" rel=subdocument>[footnote]</a>
+Besides
+potentially
+
+helping
+
+
+incorrect programs to
+
+work
+(but only on machines with homogeneous pointers,
+thus
+
+questionably valid assistance),
+this definition may catch programs which use <TT>NULL</TT> incorrectly
+(e.g. when the ASCII NUL character was really intended;
+see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>).
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#long0">5.7</a>.
+</p><p>At any rate, ANSI function prototypes ensure that most
+(though not quite all; see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>)
+pointer arguments are converted correctly
+when passed as function arguments,
+so the question is largely moot.
+</p><p>Programmers who are accustomed to
+modern, ``flat'' memory architectures may
+find the idea of ``different kinds of pointers''
+very difficult to accept.
+See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machexamp">5.17</a>
+for some
+
+
+examples.
+</p>
+<p>References:
+
+Rationale Sec. 4.1.5
+<hr><hr><hr>
+<a name="long0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/long0.html"><!-- qtag -->Question 5.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My vendor provides header files that <TT>#define</TT> <TT>NULL</TT> as <TT>0L</TT>.
+Why?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some programs carelessly attempt to generate null pointers
+by using the <TT>NULL</TT> macro,
+
+without casts,
+in non-pointer contexts.
+(Doing so is not guaranteed to work;
+see questions
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullreq">5.11</a>.)
+On machines
+which have pointers larger than integers
+(such as PC compatibles in ``large'' model;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machexamp">5.17</a>),
+a
+
+
+particular
+definition of <TT>NULL</TT> such as <TT>0L</TT>
+can help these incorrect programs to
+
+work.
+(<TT>0L</TT> is a perfectly valid definition of <TT>NULL</TT>;
+it is an ``integral constant expression with value 0.'')
+
+Whether it is wise to coddle incorrect programs
+
+is debatable;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#safermacs">5.6</a>
+and
+section
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#index">17</a>.
+</p>
+
+<p>References:
+
+Rationale Sec. 4.1.5
+<br>
+H&amp;S Sec. 5.3.2 pp. 121-2
+<hr><hr><hr>
+<a name="fcnptr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/fcnptr.html"><!-- qtag -->Question 5.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is <TT>NULL</TT> valid for pointers to functions?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes (but see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#generic">4.13</a>).
+</p>
+<p>References:
+
+ISO Sec. 6.2.2.3
+<hr><hr><hr>
+<a name="nullor0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/nullor0.html"><!-- qtag -->Question 5.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If <TT>NULL</TT> and <TT>0</TT> are equivalent
+as null pointer constants,
+which should I use?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many programmers believe that <TT>NULL</TT>
+should be used in all pointer contexts,
+as a reminder that the value is to be thought of as
+a pointer.
+Others feel that the confusion surrounding <TT>NULL</TT>
+and <TT>0</TT> is only compounded
+by hiding <TT>0</TT> behind a macro,
+and prefer to use unadorned <TT>0</TT> instead.
+There is no one right answer.
+(See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#macros">9.4</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#stylewars">17.10</a>.)
+
+C&nbsp;programmers must understand that
+<TT>NULL</TT> and <TT>0</TT> are interchangeable
+in pointer contexts,
+and that an uncast <TT>0</TT> is
+perfectly acceptable.
+Any usage of <TT>NULL</TT>
+(as opposed to <TT>0</TT>) should
+be considered
+a gentle reminder
+that a pointer is involved;
+programmers should not depend on it
+(either for their own understanding or the compiler's)
+for distinguishing pointer <TT>0</TT>'s from integer <TT>0</TT>'s.
+</p><p>It is only in pointer contexts that <TT>NULL</TT> and 0 are equivalent.
+<TT>NULL</TT> should
+<em>not</em>
+be used when another kind of <TT>0</TT> is required,
+even though it might work,
+because doing so sends the wrong stylistic message.
+(Furthermore,
+ANSI allows the definition of <TT>NULL</TT> to be <TT>((void&nbsp;*)0)</TT>,
+which will not work
+at all
+in non-pointer contexts.)
+In particular, do not use <TT>NULL</TT> when the ASCII
+
+null character
+(NUL)
+is desired.
+Provide your own definition
+<pre>
+	#define NUL '\0'
+</pre>
+if you must.
+</p>
+
+<p>References:
+
+K&amp;R1 Sec. 5.4 pp. 97-8
+<br>
+K&amp;R2 Sec. 5.4 p. 102
+<hr><hr><hr>
+<a name="macsochange">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/macsochange.html"><!-- qtag -->Question 5.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+But wouldn't it be better to use <TT>NULL</TT>
+(rather than
+
+<TT>0</TT>),
+in case the value of <TT>NULL</TT> changes,
+perhaps on a machine with nonzero internal null pointers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+(Using <TT>NULL</TT> may be preferable,
+but not for this reason.)
+Although symbolic constants are
+often used in place of numbers because the numbers might change,
+this is
+<em>not</em>
+the reason that <TT>NULL</TT> is used in place of <TT>0</TT>.
+Once again,
+the language guarantees that source-code <TT>0</TT>'s
+
+(in pointer contexts)
+generate null pointers.
+<TT>NULL</TT> is used only as a stylistic convention.
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#machnon0">5.5</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#macros">9.4</a>.
+<hr><hr><hr>
+<a name="nullreq">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/nullreq.html"><!-- qtag -->Question 5.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I once used a compiler that wouldn't work unless <TT>NULL</TT> was
+used.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Unless the code being compiled was nonportable,
+that
+compiler
+was probably broken.
+</p><p>Perhaps the code used something like this nonportable version of an 
+example from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>:
+<pre>
+	execl("/bin/sh", "sh", "-c", "date", NULL);	/* WRONG */
+</pre>
+Under a compiler which defines <TT>NULL</TT> to <TT>((void&nbsp;*)0)</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#safermacs">5.6</a>),
+this code will happen to work.
+<a href="voidpcharp.html" rel=subdocument>[footnote]</a>
+However,
+if pointers and integers have different sizes or representations,
+the (equally incorrect) code
+<pre>
+	execl("/bin/sh", "sh", "-c", "date", 0);	/* WRONG */
+</pre>
+may not work.
+</p><p>Correct, portable code uses an explicit cast:
+<pre>
+	execl("/bin/sh", "sh", "-c", "date", (char *)NULL);
+</pre>
+With the cast,
+the code works correctly
+no matter what the machine's integer and pointer representations are,
+and no matter which form of null pointer constant
+the compiler has chosen as the definition of <TT>NULL</TT>.
+(The code fragment in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+which used 0 instead of <TT>NULL</TT>,
+is equally correct;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>.)
+(In general, making decisions about a language based on the
+behavior of one particular compiler is likely to be counterproductive.)
+<hr><hr><hr>
+<a name="nullptrmacro">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/nullptrmacro.html"><!-- qtag -->Question 5.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+I use the preprocessor macro
+<pre>
+#define Nullptr(type) (type *)0</pre>
+
+to help me build null pointers of the correct type.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This trick,
+though popular
+and superficially attractive,
+
+does not buy much.
+It is not needed in assignments
+or
+comparisons; see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>.
+(It does not even save keystrokes.)
+
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#booltype">9.1</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#slm">10.2</a>.
+<hr><hr><hr>
+<a name="varieties">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/varieties.html"><!-- qtag -->Question 5.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+This is strange.
+<TT>NULL</TT> is guaranteed to be <TT>0</TT>, but the null pointer is not?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When the term ``null'' or ``<TT>NULL</TT>'' is casually used,
+one of several things may be meant:
+<OL><li>The conceptual null pointer,
+the abstract language
+concept
+defined in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null1">5.1</a>.
+It is implemented with...
+<li>The internal (or run-time) representation of a null pointer,
+which may or may not be all-bits-0
+and
+which
+may be
+different for different pointer types.
+The actual values should be of concern only to compiler writers.
+Authors of C programs never see them,
+since they
+
+use...
+<li>The null pointer constant,
+which is a constant integer 0
+
+<a href="fn22.html" rel=subdocument>[footnote]</a>
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>).
+It is often hidden behind...
+<li>The <TT>NULL</TT> macro,
+which is <TT>#define</TT>d to be <TT>0</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#macro">5.4</a>).
+Finally,
+as red herrings,
+we have...
+<li>The ASCII null character (NUL),
+which does have all bits zero,
+but has no
+necessary
+relation to the null pointer except in name;
+and...
+<li>The ``null string,''
+which is another name for the empty string 
+(<TT>""</TT>).
+Using
+the
+term ``null string'' can be confusing in C,
+because
+an empty string
+involves a null (<TT>'\0'</TT>) character,
+but <em>not</em> a null pointer,
+which brings us full circle...
+</OL></p><p>In other words, to paraphrase
+the White Knight's description of his song in
+<I>Through the Looking-Glass</I>,
+the name of the null pointer is ``<TT>0</TT>'',
+but the name of the
+null pointer is called ``<TT>NULL</TT>''
+(and we're not sure what the null pointer
+<em>is</em>).
+</p><p>This
+document
+uses the phrase ``null pointer''
+(in lower case)
+for sense&nbsp;1,
+
+the token ``<TT>0</TT>''
+or the phrase ``null pointer constant''
+for sense&nbsp;3,
+and the capitalized word ``<TT>NULL</TT>''
+for sense&nbsp;4.<a href="precise.html" rel=subdocument>[footnote]</a>
+</p><p>Additional links:
+<a href="bull.html" rel=subdocument>mnemonic device</a>
+</p>
+<p>References:
+
+H&amp;S Sec. 1.3 p. 325
+<br>
+<I>Through the Looking-Glass</I>,
+chapter VIII.
+
+<hr><hr><hr>
+<a name="confusion">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/confusion.html"><!-- qtag -->Question 5.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why is there so much confusion surrounding null pointers?
+Why do these questions come up so often?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+C programmers traditionally like to know
+a lot
+(perhaps
+more than they
+need to)
+about the underlying machine implementation.
+The fact that null pointers are represented both in source code,
+
+
+and internally to most machines,
+
+as zero
+invites unwarranted assumptions.
+The use of a preprocessor macro (<TT>NULL</TT>)
+may seem to suggest
+that the value could change
+some day,
+or
+on some weird machine.
+
+The construct ``<TT>if(p&nbsp;==&nbsp;0)</TT>''
+is easily misread
+as calling for conversion of <TT>p</TT> to an integral type,
+rather than
+<TT>0</TT> to a pointer type,
+before the comparison.
+Finally, the distinction between the several uses of the term
+``null''
+(listed
+in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#varieties">5.13</a>)
+is often overlooked.
+</p><p>One good way to wade out of the confusion is to imagine that C
+used a
+keyword (perhaps <TT>nil</TT>,
+like Pascal)
+as a null pointer constant.
+The compiler could either turn <TT>nil</TT> into the
+appropriate
+type of null pointer
+when it could
+unambiguously determine
+that type
+from the source code,
+
+or complain when it could not.
+Now in fact,
+in C the keyword for a null pointer constant is not
+<TT>nil</TT> but <TT>0</TT>,
+which works almost as well,
+except that an uncast <TT>0</TT> in a non-pointer context
+generates an integer zero
+instead of an error message,
+and if that uncast <TT>0</TT> was supposed to be a null pointer constant,
+the
+resulting program
+may not work.
+
+</p><p>Additional links:
+an
+
+
+
+
+<a href="nullvs0.rs.html">article by Richard Stamp</a>
+with another angle on the NULL/0 distinction
+<hr><hr><hr>
+<a name="confused2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/confused2.html"><!-- qtag -->Question 5.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm confused.
+I just can't understand all this null pointer stuff.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Here are
+two simple rules
+you can follow:
+<OL><li>When you want
+a null pointer constant in source code,
+use ``<TT>0</TT>'' or ``<TT>NULL</TT>''.
+<li>If the usage of ``<TT>0</TT>'' or ``<TT>NULL</TT>'' is
+an argument
+in a function call,
+cast
+it to the pointer type expected by the function being called.
+</OL></p><p>The rest of
+the discussion
+has to do with other people's misunderstandings,
+with the internal representation of null pointers
+(which you shouldn't need to know),
+and
+with the complexities of function prototypes.
+(Taking those complexities into account,
+we find that rule 2 is conservative<a href="ptrargcast.html" rel=subdocument>[footnote]</a>
+,
+of course;
+but it doesn't hurt.)
+Understand questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null1">5.1</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#macro">5.4</a>,
+and consider
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#ptrtest">5.3</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#varieties">5.13</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#confusion">5.14</a>,
+and you'll do fine.
+
+<hr><hr><hr>
+<a name="confusion4">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/confusion4.html"><!-- qtag -->Question 5.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+Given all the confusion surrounding null pointers,
+wouldn't it be easier simply
+
+to require them to be represented
+internally by zeroes?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some implementations
+naturally represent
+null pointers by special, nonzero bit patterns,
+particularly when
+it can be arranged that inadvertently using
+those values
+triggers
+automatic
+
+hardware traps.
+Requiring null pointers to be represented internally as 0,
+and therefore disallowing use of the special, nonzero values,
+would be
+an unfortunate step backwards,
+because catching errors which
+result in invalid accesses
+is
+a Good Thing.
+</p><p>Besides,
+what would such a
+requirement really accomplish?
+Proper understanding of null pointers does not require knowledge
+of the internal representation,
+whether zero or nonzero.
+Assuming that null pointers are internally zero does not make any
+code easier to write
+(except for
+
+a certain ill-advised
+
+usage of <TT>calloc</TT>;
+see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#calloc">7.31</a>).
+Known-zero internal pointers would not
+reduce the need for
+casts in function calls,
+because the
+<em>size</em>
+of the pointer might still be different from that of an <TT>int</TT>.
+(If ``nil''
+were used to request null pointers,
+as mentioned
+
+in question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#confusion">5.14</a>,
+the urge to assume an internal zero representation would
+not even arise.)
+<hr><hr><hr>
+<a name="machexamp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/machexamp.html"><!-- qtag -->Question 5.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Seriously, have any actual machines really used nonzero null
+pointers,
+or different representations for pointers to different types?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+The Prime
+
+50 series
+used segment 07777, offset 0 for the null pointer,
+at least for PL/I.
+Later models used segment 0, offset 0 for null pointers in C,
+necessitating new instructions such as TCNP (Test C Null Pointer),
+evidently
+as a sop to
+
+<a href="sop.html" rel=subdocument>[footnote]</a>
+all the extant poorly-written C code which made
+incorrect assumptions.
+Older, word-addressed Prime
+
+machines
+
+were also notorious for requiring larger
+
+byte pointers (<TT>char&nbsp;*</TT>'s)
+than word pointers (<TT>int&nbsp;*</TT>'s).
+</p><p>
+
+The
+Eclipse MV series
+from Data General has three architecturally
+supported pointer formats (word, byte, and bit pointers),
+two of which are used by C compilers:
+byte pointers for <TT>char&nbsp;*</TT> and <TT>void&nbsp;*</TT>,
+and word pointers for everything else.
+For historical reasons during the evolution
+of the 32-bit MV line from the 16-bit Nova line,
+word pointers and byte pointers
+had the offset, indirection, and ring protection bits
+in different places in the word.
+Passing a mismatched pointer format to a function
+resulted in protection faults.
+Eventually, the MV C compiler added many compatibility options
+to try to deal with code that had pointer type mismatch errors.
+</p><p>Some <TT>Honeywell-Bull</TT> mainframes use
+the bit pattern 06000 for (internal) null pointers.
+</p><p>
+
+The CDC Cyber 180 Series has 48-bit pointers
+consisting of a ring, segment, and offset.
+Most users (in ring 11) have null pointers of 0xB00000000000.
+
+
+
+It was common on old CDC ones-complement machines
+to use an all-one-bits word as a special flag for all kinds of data,
+including invalid addresses.
+</p><p>
+
+
+The old HP&nbsp;3000
+series
+uses a different addressing scheme for byte addresses
+than for word addresses;
+like several of the machines above
+it therefore uses different representations
+for <TT>char&nbsp;*</TT> and <TT>void&nbsp;*</TT> pointers
+than for other pointers.
+</p><p>
+
+The Symbolics Lisp Machine, a tagged architecture,
+does not even have conventional numeric pointers;
+it uses the pair <TT>&lt;NIL,&nbsp;0&gt;</TT>
+(basically a nonexistent <TT>&lt;</TT>object,&nbsp;offset<TT>&gt;</TT> handle)
+as a C null pointer.
+</p><p>Depending on the
+``memory model'' in use,
+8086-family
+
+
+processors (PC compatibles) may use
+16-bit data pointers
+and
+32-bit function pointers,
+or vice versa.
+</p><p>Some 64-bit Cray machines represent <TT>int&nbsp;*</TT>
+in the lower 48 bits of a word;
+<TT>char&nbsp;*</TT> additionally uses
+some of
+the upper 16 bits to indicate
+a byte address within a word.
+</p><p>Additional links:
+
+
+
+
+A
+<a href="wierdptrs.ct.html">message from Chris Torek</a>
+with more details about some of these machines.
+</p>
+<p>References:
+
+K&amp;R1 Sec. A14.4 p. 211
+<hr><hr><hr>
+<a name="runtime0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/runtime0.html"><!-- qtag -->Question 5.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is a run-time integral value of 0,
+cast to a pointer,
+guaranteed to be a null pointer?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+Only <em>constant</em> integral expressions with value 0
+are guaranteed to indicate null pointers.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#int2ptr">4.14</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null2">5.2</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#accessloc0">5.19</a>.
+<hr><hr><hr>
+<a name="accessloc0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/accessloc0.html"><!-- qtag -->Question 5.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I access
+an interrupt vector
+located at
+the machine's location 0?
+If I set a pointer to <TT>0</TT>,
+the compiler might translate it to some nonzero internal null
+pointer value.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Since whatever is at location 0 is
+obviously
+machine dependent,
+you're free to use whatever machine-dependent trick will work to
+get there.
+Read your vendor's documentation
+(and see
+section
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#index">19</a>).
+It's likely that
+if it's at all meaningful
+for you to be
+accessing
+location 0,
+the system will be set up to make it reasonably easy to do so.
+Some possibilities are:
+<OL><li>Simply set a pointer to <TT>0</TT>.
+(This is the way that doesn't have to work,
+but if it's meaningful,
+it probably will.)
+<li>Assign the integer <TT>0</TT> to an <TT>int</TT> variable,
+and convert that <TT>int</TT> to a pointer.
+(This is also not guaranteed to work,
+
+but it probably will.)
+<li>Use a union
+to set the bits of a pointer variable to 0:
+<pre>
+	union {
+		int *u_p;
+		int u_i;	/* assumes sizeof(int) &gt;= sizeof(int *) */
+	} p;
+
+	p.u_i = 0;
+</pre>
+<li>Use <TT>memset</TT>
+to set the bits of a pointer variable to 0:
+<pre>
+	memset((void *)&amp;p, 0, sizeof(p));
+</pre>
+<li>Declare an external variable or array
+<pre>
+	extern int location0;
+</pre>
+and use an assembly language file,
+or some special linker invocation,
+to arrange that this symbol
+refers to
+(i.e. the variable
+is placed at)
+address 0.
+</OL></p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#int2ptr">4.14</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#rawmemadr">19.25</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. A14.4 p. 210
+<br>
+K&amp;R2 Sec. A6.6 p. 199
+<br>
+ISO Sec. 6.3.4
+<br>
+Rationale Sec. 3.3.4
+<br>
+H&amp;S Sec. 6.2.7 pp. 171-2
+<hr><hr><hr>
+<a name="nullpassign">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../null/nullpassign.html"><!-- qtag -->Question 5.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What does a run-time ``null pointer assignment'' error mean?
+How can I track it down?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+This message,
+which typically occurs with MS-DOS compilers,
+means that you've written,
+via
+a
+null
+pointer,
+to
+
+
+
+an invalid location--probably
+offset 0 in the default data segment.
+(The pointer
+in question
+<em>might</em>
+have been uninitialized,
+although as we saw in
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#initval">1.30</a>,
+not all uninitialized pointers necessarily start out as null pointers.)
+</p><p>A debugger may let you set
+some kind of
+data
+watchpoint
+on location 0.
+Alternatively,
+
+
+
+you could write a bit of code to
+stash away a copy of
+20 or so bytes from
+location 0,
+and periodically check that
+the memory at location 0
+hasn't changed.
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#segv">16.8</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

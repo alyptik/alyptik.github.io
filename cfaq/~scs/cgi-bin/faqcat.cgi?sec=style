@@ -1,0 +1,691 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file style.sgml dated Sat Jul  3 17:22:13 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/style/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Style</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>17. Style</H1>
+<a name="layout">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/layout.html"><!-- qtag -->Question 17.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+What's the best style for code layout in C?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Kernighan and Ritchie,
+while providing the example most often copied,
+also supply a good excuse for
+disregarding
+it:
+<blockquote>The position of braces is less important,
+although people hold passionate beliefs.
+We have chosen one of several popular styles.
+Pick a style that suits you,
+then use it consistently.
+</blockquote></p><p>It is more important that the layout chosen be consistent
+(with itself, and with nearby or common code)
+than that it be ``perfect.''
+If your coding environment (i.e. local custom or company policy)
+does not suggest a style,
+and you don't feel like inventing
+
+your own,
+just copy K&amp;R.
+</p><p>
+
+Each of the various popular styles has its
+
+
+good
+
+and bad
+points.
+Putting the
+open brace
+
+on a line by itself wastes
+
+vertical space;
+combining it with the following line makes it hard to edit; combining it
+with the previous line prevents it from lining up with the close brace
+and may make it harder to see.
+</p><p>Indenting by eight columns per level is most common,
+but often gets you
+uncomfortably close to the right margin
+(which may be a hint that you should
+
+break up the function).
+If you indent by one tab but set
+
+tabstops at
+something other
+than eight columns,
+
+you're requiring other
+people to read your code with the same software setup that you used.
+(See also the Indian Hill Style Guide.)
+</p><p>The elusive quality of ``good style'' involves much more
+than mere code layout details;
+don't spend time on formatting to the exclusion of
+more substantive code quality issues.
+
+</p><p>See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#srcfiles">17.2</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 1.2 p. 10
+<br>
+K&amp;R2 Sec. 1.2 p. 10
+<hr><hr><hr>
+<a name="srcfiles">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/srcfiles.html"><!-- qtag -->Question 17.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How should functions be apportioned among source files?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Usually, related functions are put together in one file.
+Sometimes
+(as when developing libraries)
+it is appropriate to have
+exactly one source file
+(and, consequently, one
+object module)
+per independent function.
+Other times,
+and especially for
+some programmers,
+numerous source files
+can be
+cumbersome,
+and it may be tempting
+(or even appropriate)
+to put
+most or all of a program in
+a few big source files.
+When it is desired to limit the scope of
+certain
+functions or
+global variables
+by using the <TT>static</TT> keyword,
+source file layout becomes
+more
+constrained:
+the
+static functions and variables
+and the functions sharing access to them
+must all
+be in the same file.
+</p><p>In other words, there are a number of tradeoffs,
+so it is difficult to give general rules.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#decldef">1.7</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#semiglobal">1.9</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#hfiles">10.6</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#nestincl">10.7</a>.
+<hr><hr><hr>
+<a name="strcmp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/strcmp.html"><!-- qtag -->Question 17.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Here's a neat trick for checking whether two strings are equal:
+<pre>
+if(!strcmp(s1, s2))</pre>
+
+Is this
+good style?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is not particularly good style,
+although it is a popular idiom.
+The test succeeds if the two strings are equal,
+but
+
+
+
+the use of <TT>!</TT> (``not'')
+suggests that it tests for
+inequality.
+</p><p>Another
+option
+is to
+define
+a macro:
+<pre>
+	#define Streq(s1, s2) (strcmp((s1), (s2)) == 0)
+</pre>
+which you can then use like this:
+<pre>
+	if(Streq(s1, s2))
+</pre>
+</p><p>Another option
+(which borders on preprocessor abuse;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#slm">10.2</a>)
+is to define
+
+
+
+<pre>
+	#define StrRel(s1, op, s2) (strcmp(s1, s2) op 0)
+</pre>
+after which you can say things like
+<pre>
+	if(StrRel(s1, ==, s2)) ...
+	if(StrRel(s1, !=, s2)) ...
+	if(StrRel(s1, &gt;=, s2)) ...
+</pre>
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=style#stylewars">17.10</a>.
+<hr><hr><hr>
+<a name="revtest">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/revtest.html"><!-- qtag -->Question 17.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why do some people write
+<TT>if(0&nbsp;==&nbsp;x)</TT>
+instead of
+<TT>if(x&nbsp;==&nbsp;0)</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's a trick to guard against the common error of 
+writing
+<pre>
+if(x&nbsp;=&nbsp;0)
+</pre>
+If you're in the habit of writing the constant before the
+<TT>==</TT>,
+the compiler will complain if you accidentally type
+<pre>
+	if(0 = x)
+</pre>
+Evidently
+it can be easier
+
+for some people
+to remember to reverse the test
+than
+to remember to type
+the doubled <TT>=</TT> sign.
+(To be sure,
+accidentally using
+<TT>=</TT> instead of <TT>==</TT>
+is a typo which even the most experienced C programmer can make.)
+</p><p>On the other hand,
+some
+people find these reversed tests ugly or distracting,
+and argue that a compiler should warn about 
+<TT>if(x&nbsp;=&nbsp;0)</TT>.
+(In fact, many compilers do warn about
+assignments in conditionals,
+though you can always
+write
+<TT>if((x&nbsp;=&nbsp;expression))</TT>
+or
+<TT>if((x&nbsp;=&nbsp;expression)&nbsp;!=&nbsp;0)</TT>
+if
+you really mean it.)
+</p>
+<p>References:
+
+H&amp;S Sec. 7.6.5 pp. 209-10
+<hr><hr><hr>
+<a name="protomacro">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/protomacro.html"><!-- qtag -->Question 17.4b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've seen function declarations that look like this:
+<pre>
+extern int func __((int, int));</pre>
+
+What are those
+extra parentheses and underscores
+for?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+They're
+part of
+a trick which allows
+the prototype part of the function declaration
+to be turned off for a pre-ANSI compiler.
+Somewhere else is a conditional definition
+of the <TT>__</TT> macro
+like this:
+<pre>
+	#ifdef __STDC__
+	#define __(proto) proto
+	#else
+	#define __(proto) ()
+	#endif
+</pre>
+The extra parentheses in the invocation
+<pre>
+	extern int func __((int, int));
+</pre>
+are required so that the entire prototype list
+(perhaps containing many commas)
+is treated as
+the single argument
+expected by the macro.
+</p><p>Additional links:
+
+
+
+
+<a href="protomac.20000601.html">further reading</a>
+<hr><hr><hr>
+<a name="voidcasts">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/voidcasts.html"><!-- qtag -->Question 17.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I came across some code that
+puts
+a <TT>(void)</TT> cast before
+each
+call to <TT>printf</TT>.
+
+Why?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>printf</TT>
+does return a value
+(the number of characters printed,
+or an error code),
+though few programs
+bother to
+check the return values from each call.
+Since some compilers
+(and <TT>lint</TT>)
+will warn about discarded return values,
+an explicit cast to <TT>(void)</TT> is a way of saying
+``Yes,
+I've decided to ignore the return value from this call,
+but please continue to warn me about other
+(perhaps inadvertently)
+ignored return values.''
+It's also common to use
+<TT>void</TT> casts
+on calls to <TT>strcpy</TT> and <TT>strcat</TT>,
+since the return value is
+
+never surprising.
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. A6.7 p. 199
+<br>
+Rationale Sec. 3.3.4
+<br>
+H&amp;S Sec. 6.2.9 p. 172, Sec. 7.13 pp. 229-30
+<hr><hr><hr>
+<a name="nullor0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/nullor0.html"><!-- qtag -->Question 17.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If <TT>NULL</TT> and <TT>0</TT> are equivalent
+as null pointer constants,
+which should I use?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>.
+<hr><hr><hr>
+<a name="bool">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/bool.html"><!-- qtag -->Question 17.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Should I use symbolic names like <TT>TRUE</TT>
+and <TT>FALSE</TT> for Boolean constants,
+or plain 1 and 0?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#macros">9.4</a>.
+<hr><hr><hr>
+<a name="hungarian">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/hungarian.html"><!-- qtag -->Question 17.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What is ``Hungarian Notation''?
+Is it worthwhile?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Hungarian Notation is
+a naming convention,
+invented by Charles Simonyi,
+which encodes
+information about
+a variable's
+type
+(and perhaps its intended use)
+in its name.
+It is well-loved in some circles and
+roundly
+castigated in others.
+Its chief advantage
+is that it makes a variable's type
+or intended use
+obvious from its name;
+its chief disadvantage
+is that type information is not necessarily
+a worthwhile thing to carry around in the name of a variable.
+
+</p><p>References:
+
+Simonyi and Heller, ``The Hungarian Revolution''
+
+<hr><hr><hr>
+<a name="guides">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/guides.html"><!-- qtag -->Question 17.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get the
+``Indian Hill Style Guide''
+and other
+coding standards?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Various documents are available for anonymous ftp from:
+
+<br>
+<br>
+<pre>
+	Site:			File or directory:
+
+	ftp.cs.washington.edu	pub/cstyle.tar.Z
+			(the updated Indian Hill guide)
+
+	ftp.cs.toronto.edu	doc/programming
+				(including Henry Spencer's
+				``10 Commandments for C Programmers'')
+
+	ftp.cs.umd.edu		pub/style-guide
+</pre>
+</p><p>You may also be interested in the books
+<I>The Elements of Programming Style</I>,
+<I>Plum Hall Programming Guidelines</I>,
+and
+<I>C Style: Standards and Guidelines</I>;
+see the Bibliography.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutorials">18.9</a>.
+<hr><hr><hr>
+<a name="stylewars">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/stylewars.html"><!-- qtag -->Question 17.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Some people say that <TT>goto</TT>'s are evil
+and that I should never use them.
+Isn't that a bit extreme?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Programming style,
+like writing style,
+is
+somewhat of
+an art
+and
+cannot
+be codified by inflexible rules,
+although discussions about style often seem to center 
+exclusively around such rules.
+</p><p>In the case of the <TT>goto</TT> statement,
+it
+has long been observed
+that unfettered use
+of <TT>goto</TT>'s
+quickly leads to unmaintainable spaghetti code.
+However, a simple, unthinking ban on the <TT>goto</TT> statement 
+does not necessarily lead immediately to beautiful programming:
+an unstructured programmer is just as capable of constructing a 
+Byzantine tangle without using any <TT>goto</TT>'s
+(perhaps substituting oddly-nested loops and
+Boolean
+control 
+variables, instead).
+Many
+programmers adopt a moderate stance:
+<TT>goto</TT>'s are usually to be avoided,
+but are acceptable in a few well-constrained situations,
+if necessary:
+as multi-level <TT>break</TT> statements,
+to coalesce common actions
+inside a <TT>switch</TT> statement,
+or to centralize cleanup tasks
+in a function with several error returns.
+</p><p>Most observations or ``rules''
+about programming style
+(Structured Programming is Good,
+<TT>goto</TT>'s are Bad,
+functions should fit on one page,
+etc.)
+usually work better as guidelines than rules,
+and work much better
+if programmers understand what
+the guidelines are trying to accomplish.
+Blindly avoiding certain constructs
+or following rules without understanding them
+can lead to just as many problems
+as the rules were supposed to avert.
+
+</p><p>Furthermore, many opinions on programming style are just that: 
+opinions.
+They may be strongly argued and strongly felt, they may be 
+backed up by solid-seeming evidence and arguments,
+but the opposing opinions may be just as strongly
+felt, supported, and argued.
+It's usually futile to get dragged into ``style wars,'' because
+on certain issues
+(such as those referred to in questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#ptrtest">5.3</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#nullor0">5.9</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=bool#macros">9.4</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#nestincl">10.7</a>),
+opponents can never
+seem to
+agree,
+or
+agree to disagree, or stop arguing.
+</p><p>Finally,
+as William Strunk has written
+(quoted in the Introduction to
+Strunk and White's classic <I>Elements of Style</I>),
+
+<blockquote>It is an old observation
+that the best writers sometimes disregard the rules of rhetoric.
+When they do, however,
+the reader will usually find in the sentence
+some compensating merit,
+attained at the cost of the violation.
+Unless he is certain of doing as well,
+he will probably do best to follow the rules.
+</blockquote></p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 3.8
+<br>
+E. Dijkstra, ``Go To Statement Considered Harmful'' 
+<br>
+D.E. Knuth,
+``Structured Programming with goto Statements'' 
+<hr><hr><hr>
+<a name="vsefficiency">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/vsefficiency.html"><!-- qtag -->Question 17.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+People always say that good style is important,
+but when they go out of their way
+to use clear techniques
+and make their programs readable,
+they seem to end up with less efficient programs.
+Since efficiency is so important,
+isn't it
+necessary
+to sacrifice some style and
+readability?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's true that grossly inefficient programs are a problem,
+but the blind zeal with which many programmers often chase 
+efficiency is also a problem.
+Cumbersome,
+obscure programming tricks not only destroy readability and 
+maintainability,
+but they may
+actually
+lead to
+slimmer
+long-term efficiency 
+improvements
+than
+would more appropriate design or algorithm 
+choices.
+With care,
+it is possible
+to
+design
+code which is
+both clean and 
+efficient.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#efficiency">20.13</a>.
+<hr><hr><hr>
+<a name="charstarws2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../style/charstarws2.html"><!-- qtag -->Question 17.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Which is correct,
+<pre>
+char&nbsp;*p</pre>
+
+or
+<pre>
+char*&nbsp;p</pre>
+?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In this case,
+it's a question of style, not correctness,
+but see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#charstarws">1.5</a>.
+</p><p>Additional links:
+
+
+
+
+<a href="whitespace.msb.html">further reading</a>
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

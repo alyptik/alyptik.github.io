@@ -1,0 +1,1222 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file tools.sgml dated Sat Apr 24 13:04:46 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/resources/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Tools and Resources</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>18. Tools and Resources</H1>
+<a name="tools">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/tools.html"><!-- qtag -->Question 18.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need
+some C development tools.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Here is a crude list of some which are available.
+
+</p><dl><dt>a C cross-reference
+
+generator
+</dt><dd>
+
+cflow,
+
+
+
+cxref,
+calls,
+
+
+
+cscope,
+xscope,
+or ixfw
+</dd><dt>a C beautifier/pretty-printer
+</dt><dd>
+
+cb, indent,
+
+
+
+GNU indent,
+or
+vgrind
+</dd><dt>a revision control
+or
+configuration management
+tool
+</dt><dd>CVS,
+RCS,
+or
+SCCS
+</dd><dt>a C source obfuscator
+(shrouder)
+</dt><dd>obfus, shroud,
+or
+opqcp
+</dd><dt>a ``make'' dependency generator
+</dt><dd>makedepend,
+or try
+
+
+
+<TT>cc&nbsp;-M</TT> or <TT>cpp&nbsp;-M</TT>
+</dd><dt>tools to compute code metrics
+</dt><dd>ccount, Metre, lcount, or
+
+
+
+csize;
+there is also a package sold by McCabe and Associates
+</dd><dt>a C lines-of-source counter
+</dt><dd>this can be done very crudely with the standard Unix utility <TT>wc</TT>,
+and somewhat better with
+
+
+
+<TT>grep&nbsp;-c&nbsp;";"</TT>
+</dd><dt>a C declaration aid
+(<TT>cdecl</TT>)
+</dt><dd>check volume 14 of
+comp.sources.unix
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>)
+and K&amp;R2
+</dd><dt>a prototype generator
+</dt><dd>see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#cproto">11.31</a>
+</dd><dt>a tool to track down malloc problems
+</dt><dd>see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#mallocdbg">18.2</a>
+</dd><dt>a ``selective'' C preprocessor
+</dt><dd>see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#unifdef">10.18</a>
+</dd><dt>language translation tools
+</dt><dd>see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#cproto">11.31</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#langtran">20.26</a>
+</dd><dt>C verifiers (lint)
+</dt><dd>see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#ansilint">18.7</a>
+</dd><dt>a C compiler!
+
+</dt><dd>see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#compilers">18.3</a>
+</dd></dl><p>(This list of tools is by no means complete;
+if you know of tools not mentioned,
+you're welcome to contact
+this list's maintainer.)
+</p><p>Other lists of tools,
+and discussion about them,
+can be found in the Usenet newsgroups
+comp.compilers
+and
+comp.software-eng.
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#compilers">18.3</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="mallocdbg">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/mallocdbg.html"><!-- qtag -->Question 18.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I track down these pesky malloc problems?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A number of debugging packages exist to help track down
+<TT>malloc</TT> problems;
+one popular one is
+Conor P. Cahill's
+``dbmalloc'',
+
+
+
+posted to
+comp.sources.misc in
+1992,
+volume 32.
+Others are
+
+
+``leak'',
+available in volume 27 of the comp.sources.unix archives;
+
+
+JMalloc.c and JMalloc.h
+in the ``Snippets'' collection;
+
+
+
+
+MEMDEBUG from
+ftp.crpht.lu in pub/sources/memdebug
+;
+and Electric Fence.
+
+
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+</p><p>A number of commercial debugging tools exist, and can be 
+invaluable in tracking down <TT>malloc</TT>-related and other 
+stubborn problems:
+<UL><li>
+
+
+<a href="http://www.centerline.com/productline/code_center/code_center.html">CodeCenter</a> (formerly Saber-C)
+from
+
+<a href="http://www.centerline.com/">Centerline Software</a>.
+
+
+
+<li>
+
+Insight
+(now <a href="http://www.parasoft.com/jsp/products/home.jsp?product=Insure">Insure</a>?),
+from
+<a href="http://www.parasoft.com/">ParaSoft Corporation</a>.
+
+<li><a href="http://www-306.ibm.com/software/awdtools/purifyplus/">Purify</a>,
+from
+<a href="http://www-306.ibm.com/software/rational/">Rational Software</a>
+
+(formerly Pure Software,
+now part of IBM).
+<li>
+
+
+
+<a href="http://www.zerofault.com/zf/">ZeroFault</a>,
+from <a href="http://www.zerofault.com/">The ZeroFault Group</a>.
+
+<hr><hr><hr>
+<a name="compilers">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/compilers.html"><!-- qtag -->Question 18.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's a free or cheap C compiler I can use?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A popular and high-quality free C compiler is
+the FSF's <a href="http://gcc.gnu.org/">GNU C compiler</a>,
+or <a href="http://gcc.gnu.org/"><TT>gcc</TT></a>.
+
+An MS-DOS port,
+<a href="http://www.delorie.com/djgpp/">djgpp</a>,
+is also available.
+
+As far as I know,
+
+there
+are versions of <TT>gcc</TT>
+for Macs
+and Windows machines,
+too.
+</p><p>Another popular compiler is lcc,
+
+
+
+
+
+
+
+described
+on these pages
+at
+<a href="http://www.cs.virginia.edu/~lcc-win32/">Virginia</a>
+and
+<a href="http://www.cs.princeton.edu/software/lcc/">Princeton</a>.
+
+</p><p>A very inexpensive MS-DOS compiler is
+Power C from Mix Software,
+
+
+1132 Commerce Drive,
+Richardson, TX 75801, USA,
+214-783-6001.
+
+</p><p>
+
+
+
+A shareware MS-DOS C compiler is available from
+<a href="ftp://ftp.hitech.com.au/hitech/pacific"><TT>ftp.hitech.com.au/hitech/pacific</TT></a>.
+
+Registration is optional for non-commercial use.
+</p><p>Archives associated with
+the
+comp.compilers
+newsgroup
+contain a great deal of information about
+available compilers, interpreters, grammars,
+etc. (for many languages).
+
+
+
+The
+<a href="http://compilers.iecc.com/">comp.compilers archives</a>
+include
+an <a href="http://compilers.iecc.com/faq.txt">FAQ list</a>
+and a
+<a href="http://www.idiom.com/free-compilers/">catalog of free compilers</a>.
+
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="lint1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/lint1.html"><!-- qtag -->Question 18.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+
+
+
+I just typed in this program, and it's acting strangely.
+Can you see anything
+wrong with it?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See if you can run
+<TT>lint</TT> first
+(perhaps with the <TT>-a</TT>, <TT>-c</TT>, <TT>-h</TT>, <TT>-p</TT>
+or other options<a href="lintopts.html" rel=subdocument>[footnote]</a>
+).
+Many C compilers are really only half-compilers,
+taking the attitude that it's not <em>their</em> problem
+if you didn't say what you
+meant,
+or if what you said is virtually guaranteed not to work.
+(But do
+also
+see if your compiler has extra warning levels
+which can be optionally requested.)
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#funnybugs">16.5</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#segv">16.8</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#ansilint">18.7</a>.
+</p><p>References:
+
+Ian Darwin, <I>Checking C Programs with lint</I>
+
+
+<hr><hr><hr>
+<a name="lintptralign">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/lintptralign.html"><!-- qtag -->Question 18.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I shut off the
+``warning: possible pointer alignment problem''
+message
+which
+<TT>lint</TT> gives me for each call to <TT>malloc</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A modern <TT>lint</TT> shouldn't be complaining about this.
+</p><p>Once upon a time,
+<TT>lint</TT> did not and could not know
+that <TT>malloc</TT> ``returns a pointer
+to space suitably aligned for storage of any type of object.''
+There were various kludgey workarounds for this problem,
+but today, the <TT>void&nbsp;*</TT> type exists precisely to
+encapsulate the notion of a ``generic'' pointer,
+and an ANSI-compatible lint should understand this.
+<hr><hr><hr>
+<a name="voidmain">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/voidmain.html"><!-- qtag -->Question 18.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+Can I declare <TT>main</TT> as <TT>void</TT>,
+to shut off these annoying
+``main returns no value'' messages?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#voidmain">11.12b</a>.
+<hr><hr><hr>
+<a name="ansilint">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/ansilint.html"><!-- qtag -->Question 18.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get an ANSI-compatible <TT>lint</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Products called
+<a href="http://www.gimpel.com/html/pcl.htm">PC-Lint</a>
+and
+<a href="http://www.gimpel.com/html/flex.htm">FlexeLint</a>
+are available
+from
+<a href="http://www.gimpel.com/">Gimpel Software</a>.
+
+
+
+
+
+</p><p>The Unix System V release 4 <TT>lint</TT> is ANSI-compatible,
+and is available separately (bundled with other C tools)
+from UNIX Support Labs
+
+or from System V resellers.
+</p><p>
+
+
+Another ANSI-compatible <TT>lint</TT>
+(which can also perform higher-level formal verification)
+is
+<a href="http://lclint.cs.virginia.edu/">Splint</a>
+(formerly lclint).
+
+</p><p>In the absence of <TT>lint</TT>,
+many modern compilers
+do
+attempt to diagnose
+almost as many problems as
+<TT>lint</TT> does.
+(Many netters recommend
+
+
+
+<TT>gcc&nbsp;-Wall&nbsp;-pedantic</TT>
+<a href="fn86.html" rel=subdocument>[footnote]</a>
+.)
+<hr><hr><hr>
+<a name="lintvsansi">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/lintvsansi.html"><!-- qtag -->Question 18.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Don't ANSI function prototypes render <TT>lint</TT> obsolete?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Not really.
+First of all,
+prototypes work
+only if
+they are present and correct;
+an inadvertently incorrect prototype is worse than useless.
+Secondly,
+
+<TT>lint</TT> checks consistency across multiple source files,
+and checks data declarations as well as functions.
+Finally,
+an independent program like <TT>lint</TT> will probably always
+be more scrupulous at enforcing compatible, portable coding practices
+than will any particular, implementation-specific,
+feature- and extension-laden compiler.
+
+</p><p>If you do want to use function prototypes instead of <TT>lint</TT>
+for cross-file consistency checking,
+make sure that you set the prototypes up correctly in header files.
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#decldef">1.7</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#hfiles">10.6</a>.
+<hr><hr><hr>
+<a name="tutorials">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/tutorials.html"><!-- qtag -->Question 18.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Are there any C tutorials
+or other resources
+on the net?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are
+several
+of them:
+
+</p><p>Tom Torfs has a nice tutorial at
+<a href="http://cprog.tomsweb.net"><TT>http://cprog.tomsweb.net</TT></a>.
+</p><p>
+
+
+``Notes for C programmers,''
+by Christopher Sawtell,
+are
+
+
+available by ftp from
+<a href="ftp://svr-ftp.eng.cam.ac.uk/misc/sawtell_C.shar">svr-ftp.eng.cam.ac.uk
+</a>
+and
+<a href="/ftp/garbo.uwasa.fi/pc/c-lang/c-lesson.zip">garbo.uwasa.fi</a>,
+
+or on the web at
+<a href="http://www.fi.uib.no/Fysisk/Teori/KURS/OTHER/newzealand.html">www.fi.uib.no
+</a>.
+</p><p>Tim Love's ``C for Programmers''
+is
+
+
+
+
+available
+by ftp
+from svr-ftp.eng.cam.ac.uk in the misc directory.
+
+
+
+An html version is
+at
+
+
+
+<a href="http://www-h.eng.cam.ac.uk/help/tpl/languages/C/teaching_C/teaching_C.html"><TT>http://www-h.eng.cam.ac.uk/help/tpl/languages/C/teaching_C/teaching_C.html</TT></a>.
+
+</p><p>The
+<a href="http://www.coronadoenterprises.com/">Coronado Enterprises</a>
+C tutorials
+are
+available on Simtel mirrors in pub/msdos/c
+or on the web at
+<a href="http://www.coronadoenterprises.com/tutorials/c/index.html"><TT>http://www.coronadoenterprises.com/tutorials/c/index.html</TT></a>.
+</p><p>There is a web-based course
+by Steve Holmes 
+at
+<a href="http://www.strath.ac.uk/IT/Docs/Ccourse/"><TT>http://www.strath.ac.uk/IT/Docs/Ccourse/</TT></a>.
+</p><p>Martin Brown
+has C course material on the web at
+<a href="http://www-isis.ecs.soton.ac.uk/computing/c/Welcome.html"><TT>http://www-isis.ecs.soton.ac.uk/computing/c/Welcome.html</TT></a>.
+</p><p>On some Unix machines you can try typing 
+``<TT>learn&nbsp;c</TT>''
+at the shell prompt
+(but the lessons may be quite dated).
+</p><p>Finally,
+the author of this FAQ list
+once taught
+a couple of
+C&nbsp;classes
+and has
+placed
+their notes on the web;
+they are at
+<a href="http://www.eskimo.com/~scs/cclass/cclass.html"><TT>http://www.eskimo.com/~scs/cclass/cclass.html</TT></a>.
+</p><p>[Disclaimer:
+I
+have not reviewed
+many of
+these tutorials,
+and
+I gather that they tend to contain
+errors.
+With the exception of the one with my name on it,
+I can't vouch for any of them.
+Also, this sort of information rapidly becomes out-of-date;
+these addresses may not work by the time you read this and
+try them.]
+</p><p>Several of
+these tutorials,
+plus a great deal of other information about C,
+are accessible via the web at
+<a href="http://www.quut.com/c/"><TT>http://www.quut.com/c/</TT></a>.
+</p><p>Vinit Carpenter
+maintains
+a list of resources for learning C and C++;
+it is posted
+to comp.lang.c and comp.lang.c++,
+and
+archived where
+this FAQ list
+is
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#faqavail">20.40</a>),
+or on the web at
+
+
+
+<a href="http://www.cyberdiem.com/vin/learn.html"><TT>http://www.cyberdiem.com/vin/learn.html</TT></a>.
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutsources">18.9b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#books">18.10</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>.
+<hr><hr><hr>
+<a name="tutsources">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/tutsources.html"><!-- qtag -->Question 18.9b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I find some good code examples to study and learn from?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Although studying existing source code is indeed a very good way of learning,
+it's unfortunately hard to recommend any truly good examples,
+because so much of the actual code out there
+is either pedagogical (i.e. not real-world),
+or all too real-world
+(i.e. too voluminous and complicated for mere mortals to understand).
+</p><p>With that said, here
+are a
+couple of
+links to explore:
+<UL>
+
+
+<li><a href="ftp://garbo.uwasa.fi/pc/c-lang/"><TT>ftp://garbo.uwasa.fi/pc/c-lang/</TT></a>
+(and <a href="ftp://garbo.uwasa.fi/pc/c-lang/00index.txt">index</a>)
+
+<li><a href="http://www.eskimo.com/~scs/src/"><TT>http://www.eskimo.com/~scs/src/</TT></a>
+</UL></p><p>A word of warning:
+there is some excellent code out there to learn from,
+but there is plenty of
+truly bletcherous code,
+too.
+If you find yourself perusing some code
+which is scintillatingly clear and
+which accomplishes its task as easily as it ought to
+(if not more so),
+do learn everything you can from that code.
+
+But if you come across some code that is unmanageably confusing,
+that seems to be operating with ten bandaged thumbs
+and boxing gloves on,
+please do <em>not</em> imagine that that's the way it has to be;
+if nothing else,
+walk away from such code having learned only that
+you're not going to commit any such atrocities yourself.
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutorials">18.9</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#stdlibsrc">18.13</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="books">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/books.html"><!-- qtag -->Question 18.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's a good book for learning C?
+What about advanced books and references?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There are far too many
+books on C
+to list here;
+it's impossible to rate them all.
+Many people believe that the best
+one
+was also the first:
+<I>The C Programming Language</I>,
+by
+Brian
+Kernighan and
+Dennis
+Ritchie
+(``K&amp;R,''
+now in its second edition).
+Opinions vary on
+K&amp;R's suitability as an initial programming text:
+many of us did learn C from it, and learned it well;
+some, however,
+feel that it is a bit too clinical
+as a
+first
+
+tutorial 
+for those
+without much programming background.
+Several sets of annotations and errata are available on the net,
+by
+<a href="http://www.csd.uwo.ca/~jamie/.Refs/.Footnotes/C-annotes.html">J. Blustein</a>,
+<a href="http://www.eskimo.com/~scs/cclass/krnotes/top.html">this FAQ list's author</a>,
+and
+<a href="http://cm.bell-labs.com/cm/cs/cbook/2ediffs.html">K&amp;R themselves</a>.
+
+</p><p>Many comp.lang.c regulars recommend
+<I>C: A Modern Approach</I>,
+by K.N. King.
+</p><p>An excellent reference manual is
+<I>C: A Reference Manual</I>,
+by Samuel P. Harbison and Guy L. Steele,
+now in its fourth edition.
+</p><p>Though not suitable for learning C from scratch,
+<a href="http://www.aw.com/cseng/authors/summit/cfaq/cfaq.html"><TT>this FAQ list</TT></a>
+has been published in
+<a href="http://www.aw.com/cseng/authors/summit/cfaq/cfaq.html"><TT>book form</TT></a>;
+see the Bibliography.
+</p><p>The
+<a href="http://www.accu.org/">Association of C and C++ Users</a>
+(ACCU)
+maintains a
+<a href="http://www.accu.org/bookreviews/public/index.htm">comprehensive set of bibliographic reviews of C/C++ titles</a>.
+
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutorials">18.9</a>.
+</p><p>Additional links:
+<a href="sd19.html" rel=subdocument>Ian Hay's recommended book list</a>
+<hr><hr><hr>
+<a name="kranswers">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/kranswers.html"><!-- qtag -->Question 18.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I find answers to the exercises in
+K&amp;R?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+They have been written up
+(a)
+by various netters
+and collected by <a href="http://www.rjgh.co.uk/">Richard Heathfield</a>
+at <a href="http://users.powernet.co.uk/eton/kandr2/"><TT>http://users.powernet.co.uk/eton/kandr2/</TT></a>,
+and (b)
+in
+<I>The C Answer Book</I>;
+
+see the Bibliography.
+
+
+
+<hr><hr><hr>
+<a name="booksrcs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/booksrcs.html"><!-- qtag -->Question 18.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does anyone know where the source code from
+books
+like
+<I>Numerical Recipes in C</I>,
+Plauger's
+<I>The Standard C Library</I>,
+or
+Kernighan and
+Pike's
+<I>The UNIX Programming Environment</I>
+is available on-line?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Books containing large quantities
+of potentially-useful source code,
+including
+the ones
+mentioned
+in the question,
+usually
+make explicit mention of the availability of source code
+and policies for its use.
+Published source code
+is
+copyrighted,
+and may generally not be used,
+or especially redistributed,
+without permission
+(and perhaps a few restrictions,
+though presumably the publisher doesn't mind
+your
+typing it in for personal use).
+Often a diskette is available from the publisher;
+also,
+many publishers
+have set up
+ftp sites and web pages.
+</p><p>Some of the routines from
+<I>Numerical Recipes</I>
+have been released to the public domain;
+see
+<a href="http://www.numerical-recipes.com/public-domain.html">the Numerical Recipes website</a>
+for details.
+
+<hr><hr><hr>
+<a name="stdlibsrc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/stdlibsrc.html"><!-- qtag -->Question 18.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I find the sources of the standard C libraries?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The GNU project has a complete implementation at
+
+<a href="http://www.gnu.org/software/libc/"><TT>http://www.gnu.org/software/libc/</TT></a>.
+
+
+Another source
+(though not public domain)
+is
+<I>The Standard C Library</I>,
+by P.J. Plauger
+(see the Bibliography).
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutsources">18.9b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="onlinecref">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/onlinecref.html"><!-- qtag -->Question 18.13b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there an on-line C reference manual?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Two possibilities are
+<a href="http://www.cs.man.ac.uk/standard_c/_index.html"><TT>http://www.cs.man.ac.uk/standard_c/_index.html</TT></a>
+and
+<a href="http://www.dinkumware.com/htm_cl/index.html"><TT>http://www.dinkumware.com/htm_cl/index.html</TT></a>.
+<hr><hr><hr>
+<a name="ansiavail">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/ansiavail.html"><!-- qtag -->Question 18.13c</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get a copy of the ANSI/ISO C Standard?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#avail">11.2</a>.
+<hr><hr><hr>
+<a name="expreval">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/expreval.html"><!-- qtag -->Question 18.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need code to parse and evaluate
+expressions.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Two
+available packages are
+
+
+
+
+
+``defunc,''
+posted to comp.sources.misc in December, 1993 (V41 i32,33),
+
+
+to alt.sources in January, 1994,
+
+
+
+and
+available from
+sunsite.unc.edu
+in
+pub/packages/development/libraries/defunc-1.3.tar.Z,
+and
+
+
+``parse,''
+at lamont.ldgo.columbia.edu.
+Other options include
+
+
+
+
+
+
+
+the S-Lang interpreter,
+available
+via anonymous ftp from amy.tch.harvard.edu in pub/slang,
+and the shareware Cmm
+
+
+
+
+
+
+
+(``C-minus-minus'' or
+``C minus the hard stuff'').
+See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#symtab">20.6</a>.
+</p><p>There is also some parsing/evaluation code in
+
+
+
+<I>Software Solutions in C</I>
+(chapter 12, pp. 235-55).
+<hr><hr><hr>
+<a name="grammars">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/grammars.html"><!-- qtag -->Question 18.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get a BNF or
+YACC grammar for C?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The definitive grammar is of course the one in the
+ANSI standard;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#avail">11.2</a>.
+Another grammar
+
+
+by Jim Roskind
+is
+available
+at ftp.eskimo.com
+in <a href="ftp://ftp.eskimo.com/home/scs/roskind_grammar.Z"><TT>home/scs/roskind_grammar.Z</TT></a>.
+A fleshed-out, working instance of the ANSI C90 grammar
+(due to Jeff Lee)
+is
+on ftp.uu.net (see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>)
+in usenet/net.sources/ansi.c.grammar.Z
+(including a companion lexer).
+<a href="fn87.html" rel=subdocument>[footnote]</a>
+The
+FSF's GNU C compiler contains a grammar, as does
+the appendix to K&amp;R2.
+</p><p>The comp.compilers archives
+contain more information about grammars;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#compilers">18.3</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. A18 pp. 214-219
+<br>
+K&amp;R2 Sec. A13 pp. 234-239
+<br>
+ISO Sec. B.2
+<br>
+H&amp;S pp. 423-435 Appendix B
+<hr><hr><hr>
+<a name="cctestsuite">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/cctestsuite.html"><!-- qtag -->Question 18.15b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does anyone have a C compiler test suite I can use?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Plum Hall
+(formerly in Cardiff, NJ; now in Hawaii)
+sells one;
+other packages are
+Ronald Guilmette's
+RoadTest(tm) Compiler Test Suites
+(ftp to netcom.com, pub/rfg/roadtest/announce.txt for information)
+and
+
+
+Nullstone's Automated Compiler Performance Analysis Tool
+(see <a href="http://www.nullstone.com"><TT>http://www.nullstone.com</TT></a>).
+
+
+
+The FSF's GNU C (gcc)
+
+distribution includes a c-torture-test
+which checks a number of common problems with compilers.
+Kahan's paranoia test,
+
+found in
+
+
+
+netlib/paranoia on netlib.att.com,
+strenuously tests a C implementation's floating point capabilities.
+<hr><hr><hr>
+<a name="miscsrcs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/miscsrcs.html"><!-- qtag -->Question 18.15c</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where are some collections of useful code fragments and examples?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Bob Stout's
+popular
+``SNIPPETS'' collection
+is available
+from <a href="ftp://ftp.brokersys.com"><TT>ftp.brokersys.com</TT></a>
+in directory <a href="ftp://ftp.brokersys.com/pub/snippets/"><TT>pub/snippets</TT></a>
+
+or on the web at
+<a href="http://www.brokersys.com/snippets/"><TT>http://www.brokersys.com/snippets/</TT></a>.
+</p><p>Lars Wirzenius's ``publib'' library
+is available
+from <a href="ftp://ftp.funet.fi"><TT>ftp.funet.fi</TT></a>
+in directory <a href="ftp://ftp.funet.fi/pub/languages/C/Publib/"><TT>pub/languages/C/Publib/</TT></a>.
+
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#mathsrc">14.12</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutorials">18.9</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutsources">18.9b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#stdlibsrc">18.13</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="mplib">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/mplib.html"><!-- qtag -->Question 18.15d</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I need code for performing multiple precision arithmetic.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some popular packages are
+
+
+
+the ``quad'' functions within the
+BSD Unix libc sources
+(ftp.uu.net, /systems/unix/bsd-sources/.../src/lib/libc/quad/*),
+
+
+
+the GNU MP library ``libmp'',
+
+
+
+the MIRACL package
+(see <a href="http://indigo.ie/~mscott/"><TT>http://indigo.ie/~mscott/</TT></a>),
+the ``calc'' program
+by David Bell and Landon Curt Noll,
+
+and the old Unix libmp.a.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#mathsrc">14.12</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+</p>
+
+<p>References:
+
+Schumacher, ed.,
+<I>Software Solutions in C</I> Sec. 17 pp. 343-454
+<hr><hr><hr>
+<a name="sources">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/sources.html"><!-- qtag -->Question 18.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where
+and how
+can I get copies of all these freely distributable programs?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+As the number of available programs,
+the number of publicly accessible archive sites,
+and the number of people trying to access them
+all grow,
+this question becomes both easier and more difficult to answer.
+</p><p>There are a number of
+large,
+public-spirited
+archive sites
+out there,
+such as
+<a href="ftp://ftp.uu.net"><TT>ftp.uu.net</TT></a>,
+
+<a href="ftp://archive.umich.edu"><TT>archive.umich.edu</TT></a>,
+<a href="ftp://oak.oakland.edu"><TT>oak.oakland.edu</TT></a>,
+<a href="ftp://sumex-aim.stanford.edu"><TT>sumex-aim.stanford.edu</TT></a>,
+and
+<a href="ftp://wuarchive.wustl.edu"><TT>wuarchive.wustl.edu</TT></a>,
+
+which have huge amounts of software
+and other information
+all freely
+available.
+For the FSF's GNU project,
+the central distribution site is
+<a href="ftp://prep.ai.mit.edu"><TT>prep.ai.mit.edu</TT></a>.
+These well-known sites tend to be extremely busy and hard to reach,
+but there are also numerous ``mirror'' sites
+which try to spread the load around.
+</p><p>On the connected Internet,
+the traditional way to retrieve files from an archive site
+is with anonymous ftp.
+For those without ftp access,
+there are also several ftp-by-mail servers in operation.
+
+More and more,
+the world-wide web (WWW)
+is being used to
+announce, index,
+and even transfer
+large data files.
+There are probably yet newer access methods, too.
+</p><p>Those are
+some of
+the easy parts of the question to answer.
+The hard part is in the details--this
+document cannot
+begin to
+track or
+list all of the
+available archive sites
+or
+all of the various ways of accessing them.
+If you have access to the net at all,
+you probably have access to more up-to-date information
+about
+active sites and useful access methods
+than this
+FAQ list
+does.
+</p><p>The other easy-and-hard aspect of the question,
+of course,
+is simply <em>finding</em>
+which site
+has what you're looking for.
+There is a tremendous amount of work going on in this area,
+and there are probably new indexing services springing up every day.
+One of the first was ``archie'',
+and of course there are a number of
+high-profile commercial net indexing and searching services
+such as Alta Vista, Excite, and Yahoo.
+
+</p><p>If you have access to Usenet, see
+the regular postings in the comp.sources.unix
+and comp.sources.misc
+newsgroups,
+which describe
+the archiving policies
+for those groups
+and how to
+access their archives,
+
+two of which are
+<a href="ftp://gatekeeper.dec.com/pub/usenet/comp.sources.unix/"><TT>ftp://gatekeeper.dec.com/pub/usenet/comp.sources.unix/</TT></a>
+and
+<a href="ftp://ftp.uu.net/usenet/comp.sources.unix/"><TT>ftp://ftp.uu.net/usenet/comp.sources.unix/</TT></a>.
+The
+comp.archives newsgroup contains numerous
+announcements of anonymous ftp availability of various items.
+Finally, the
+newsgroup comp.sources.wanted
+is generally a more
+appropriate place to post queries for source availability,
+but check
+<em>its</em>
+FAQ list, ``How to find sources,''
+
+before posting there.
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#mathsrc">14.12</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutsources">18.9b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#stdlibsrc">18.13</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>.
+<hr><hr><hr>
+<a name="faqavail">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../resources/faqavail.html"><!-- qtag -->Question 18.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Where can I get extra copies of this list?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#faqavail">20.40</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

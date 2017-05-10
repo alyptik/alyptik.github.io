@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>Talk:cpp/types/numeric limits - cppreference.com</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.21.2" />
+<link rel="alternate" type="application/x-wiki" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit" />
+<link rel="edit" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit" />
+<link rel="shortcut icon" href="../../../favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://en.cppreference.com/mwiki/opensearch_desc.php" title="cppreference.com (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://en.cppreference.com/mwiki/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="cppreference.com Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=ext.gadget.ColiruCompiler%257Cext.rtlcite%257Cmediawiki.legacy.commonPrint%252Cshared%257Cskins.cppreference2&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#toc{display:none}.editsection{display:none}
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-css:7:472787eddcf4605d11de8c7ef047234f */</style>
+
+<script src="../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"Talk","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":1,"wgPageName":"Talk:cpp/types/numeric_limits","wgTitle":"cpp/types/numeric limits","wgCurRevisionId":73466,"wgArticleId":3007,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Talk:cpp/types/numeric_limits","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":0,"showtoolbar":1,"skin":"cppreference2","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-ColiruCompiler":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});;},{},{});
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-js:7:ca03345b1e2c4d90a25d968753a73b92 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<style type="text/css">/*<![CDATA[*/
+.source-cpp {line-height: normal;}
+.source-cpp li, .source-cpp pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for cpp
+ * CSS class: source-cpp, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.cpp.source-cpp .de1, .cpp.source-cpp .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.cpp.source-cpp  {font-family:monospace;}
+.cpp.source-cpp .imp {font-weight: bold; color: red;}
+.cpp.source-cpp li, .cpp.source-cpp .li1 {font-weight: normal; vertical-align:top;}
+.cpp.source-cpp .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.cpp.source-cpp .li2 {font-weight: bold; vertical-align:top;}
+.cpp.source-cpp .kw1 {color: #0000dd;}
+.cpp.source-cpp .kw2 {color: #0000ff;}
+.cpp.source-cpp .kw3 {color: #0000dd;}
+.cpp.source-cpp .kw4 {color: #0000ff;}
+.cpp.source-cpp .co1 {color: #909090;}
+.cpp.source-cpp .co2 {color: #339900;}
+.cpp.source-cpp .coMULTI {color: #ff0000; font-style: italic;}
+.cpp.source-cpp .es0 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es1 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es2 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es3 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es4 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es5 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .br0 {color: #008000;}
+.cpp.source-cpp .sy0 {color: #008000;}
+.cpp.source-cpp .sy1 {color: #000080;}
+.cpp.source-cpp .sy2 {color: #000040;}
+.cpp.source-cpp .sy3 {color: #000040;}
+.cpp.source-cpp .sy4 {color: #008080;}
+.cpp.source-cpp .st0 {color: #008000;}
+.cpp.source-cpp .nu0 {color: #000080;}
+.cpp.source-cpp .nu6 {color: #000080;}
+.cpp.source-cpp .nu8 {color: #000080;}
+.cpp.source-cpp .nu12 {color: #000080;}
+.cpp.source-cpp .nu16 {color:#000080;}
+.cpp.source-cpp .nu17 {color:#000080;}
+.cpp.source-cpp .nu18 {color:#000080;}
+.cpp.source-cpp .nu19 {color:#000080;}
+.cpp.source-cpp .ln-xtra, .cpp.source-cpp li.ln-xtra, .cpp.source-cpp div.ln-xtra {background-color: #ffc;}
+.cpp.source-cpp span.xtra { display:block; }
+
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/mwiki/skins/cppreference2/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-1 ns-talk page-Talk_cpp_types_numeric_limits skin-cppreference2 action-view">
+        <!-- header -->
+        <div id="mw-head" class="noprint">
+            <div id="cpp-head-first-base">
+                <div id="cpp-head-first">
+                    <h5><a href="http://en.cppreference.com/">
+                        cppreference.com                        </a></h5>
+                    <div id="cpp-head-search">
+                        
+<!-- 0 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="http://en.cppreference.com/mwiki/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input name="search" title="Search cppreference.com [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search the pages for this text" id="searchButton"><img src="../../../mwiki/skins/cppreference2/images/search-ltr.png%3F303" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /0 -->
+                    </div>
+                    <div id="cpp-head-personal">
+                        
+<!-- 0 -->
+<div id="p-personal" class="">
+<span id="pt-createaccount"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Talk%3Acpp%2Ftypes%2Fnumeric+limits&amp;type=signup">Create account</a></span>	<div class="menu">
+        <ul>
+<li id="pt-login"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Talk%3Acpp%2Ftypes%2Fnumeric+limits" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>        </ul>
+    </div>
+</div>
+
+<!-- /0 -->
+                    </div>
+
+                </div>
+            </div>
+            <div id="cpp-head-second-base">
+                <div id="cpp-head-second">
+                    <div id="cpp-head-tools-left">
+                        
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-main"><span><a href="../../cpp/types/numeric_limits.html"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+					<li  id="ca-talk" class="selected"><span><a href="numeric_limits.html"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="numeric_limits.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                    <div id="cpp-head-tools-right">
+                        
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="numeric_limits.html" >View</a></span></li>
+					<li id="ca-edit" class=" istalk"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit"  title="You can edit this page. Please use the preview button before saving [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-addsection" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=new"  title="Start a new section [+]" accesskey="+">+</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">History</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="numeric_limits.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /header -->
+        <!-- content -->
+        <div id="cpp-content-base">
+            <div id="content">
+                <a id="top"></a>
+                <div id="mw-js-message" style="display:none;"></div>
+                                <!-- firstHeading -->
+                <h1 id="firstHeading" class="firstHeading">Talk:cpp/types/numeric limits</h1>
+                <!-- /firstHeading -->
+                <!-- bodyContent -->
+                <div id="bodyContent">
+                                        <!-- tagline -->
+                    <div id="siteSub">From cppreference.com</div>
+                    <!-- /tagline -->
+                                        <!-- subtitle -->
+                    <div id="contentSub"><span class="subpages">&lt; <a href="../../Talk:cpp.1.html" title="Talk:cpp">Talk:cpp</a></span></div>
+                    <!-- /subtitle -->
+                                                            <!-- bodycontent -->
+                    <div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><table id="toc" class="toc"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="numeric_limits.html#Layout_change_proposal"><span class="tocnumber">1</span> <span class="toctext">Layout change proposal</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="numeric_limits.html#Member_constants"><span class="tocnumber">1.1</span> <span class="toctext">Member constants</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="numeric_limits.html#Member_functions"><span class="tocnumber">1.2</span> <span class="toctext">Member functions</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="numeric_limits.html#Helper_classes"><span class="tocnumber">1.3</span> <span class="toctext">Helper classes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-5"><a href="numeric_limits.html#specialization_for_user-defined_types"><span class="tocnumber">2</span> <span class="toctext">specialization for user-defined types</span></a></li>
+</ul>
+</td></tr></table>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=1" title="Edit section: Layout change proposal">edit</a>]</span> <span class="mw-headline" id="Layout_change_proposal">Layout change proposal</span></h2>
+<p>How about we change the layout from tables to the list of members/constants, similar to most other pages? It gives us the ability to reference specific fnctions/constants individually from elsewhere, gives us a neat sidebar, and lets us expound on the details of any important member with examples and references within its own page, instead of being limited to a cell in a table. Who can tell from the table blurb what in the world does "tinyness_before" mean or how "digits10" is different from "max_digits10"? 
+</p><p>Here's how it would look, right after the list of standard specializations,
+</p>
+<h3><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=2" title="Edit section: Member constants">edit</a>]</span> <span class="mw-headline" id="Member_constants">Member constants</span></h3>
+<table class="t-dsc-begin">
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_specialized.html" title="cpp/types/numeric limits/is specialized"> <span class="t-lines"><span>is_specialized</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies types for which <span class="t-c"><span class="mw-geshi cpp source-cpp"><a href="../../cpp/types/numeric_limits.html"><span class="kw344">std::<span class="me2">numeric_limits</span></span></a></span></span> is specialized <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_signed.html" title="cpp/types/numeric limits/is signed"> <span class="t-lines"><span>is_signed</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies signed types  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_integer.html" title="cpp/types/numeric limits/is integer"> <span class="t-lines"><span>is_integer</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies integer types  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_exact.html" title="cpp/types/numeric limits/is exact"> <span class="t-lines"><span>is_exact</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies exact types  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/has_infinity.html" title="cpp/types/numeric limits/has infinity"> <span class="t-lines"><span>has_infinity</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies floating-point types that can represent the special value "positive infinity"  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/has_quiet_NaN.html" title="cpp/types/numeric limits/has quiet NaN"> <span class="t-lines"><span>has_quiet_NaN</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies floating-point types that can represent the special value "quiet not-a-number" (NaN)  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/has_signaling_NaN.html" title="cpp/types/numeric limits/has signaling NaN"> <span class="t-lines"><span>has_signaling_NaN</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies floating-point types that can represent the special value "signaling not-a-number" (NaN) <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/has_denorm.html" title="cpp/types/numeric limits/has denorm"> <span class="t-lines"><span>has_denorm</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies the denormalization style used by the floating-point type  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/has_denorm_loss.html" title="cpp/types/numeric limits/has denorm loss"> <span class="t-lines"><span>has_denorm_loss</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies the floating-point types that detect loss of precision as denormalization loss rather than inexact result  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/round_style.html" title="cpp/types/numeric limits/round style"> <span class="t-lines"><span>round_style</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies the rounding style used by the type <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_iec559.html" title="cpp/types/numeric limits/is iec559"> <span class="t-lines"><span>is_iec559</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies the IEC 559/IEEE 754 floating-point types <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_bounded.html" title="cpp/types/numeric limits/is bounded"> <span class="t-lines"><span>is_bounded</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies types that represent a finite set of values  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/is_modulo.html" title="cpp/types/numeric limits/is modulo"> <span class="t-lines"><span>is_modulo</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies types that handle overflows with modulo arithmetic  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/digits.html" title="cpp/types/numeric limits/digits"> <span class="t-lines"><span>digits</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   number of <code>radix</code> digits that can be represented without change  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/digits10.html" title="cpp/types/numeric limits/digits10"> <span class="t-lines"><span>digits10</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   number of decimal digits that can be represented without change <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/max_digits10.html" title="cpp/types/numeric limits/max digits10"> <span class="t-lines"><span>max_digits10</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   number of decimal digits necessary to differentiate all values of this type <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/radix.html" title="cpp/types/numeric limits/radix"> <span class="t-lines"><span>radix</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   the radix or integer base used by the representation of the given type <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/min_exponent.html" title="cpp/types/numeric limits/min exponent"> <span class="t-lines"><span>min_exponent</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   one more than the smallest negative power of the radix that is a valid normalized floating-point value <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/min_exponent10.html" title="cpp/types/numeric limits/min exponent10"> <span class="t-lines"><span>min_exponent10</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   the smallest negative power of ten that is a valid normalized floating-point value <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/max_exponent.html" title="cpp/types/numeric limits/max exponent"> <span class="t-lines"><span>max_exponent</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   one more than the largest integer power of the radix that is a valid finite floating-point value  <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/max_exponent10.html" title="cpp/types/numeric limits/max exponent10"> <span class="t-lines"><span>max_exponent10</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   the largest integer power of 10 that is a valid finite floating-point value <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/traps.html" title="cpp/types/numeric limits/traps"> <span class="t-lines"><span>traps</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies types which can cause arithmetic operations to trap <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/tinyness_before.html" title="cpp/types/numeric limits/tinyness before"> <span class="t-lines"><span>tinyness_before</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   identifies floating-point types that detect tinyness before rounding <br /> <span class="t-mark">(public static member constant)</span>
+</td></tr>
+
+</table>
+<h3><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=3" title="Edit section: Member functions">edit</a>]</span> <span class="mw-headline" id="Member_functions">Member functions</span></h3>
+<table class="t-dsc-begin">
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/min.html" title="cpp/types/numeric limits/min"> <span class="t-lines"><span>min</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the smallest finite value of the given type  <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/lowest.html" title="cpp/types/numeric limits/lowest"> <span class="t-lines"><span>lowest</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span> <span class="t-mark-rev t-since-cxx11">(C++11)</span></span></span></div></div>
+</td>
+<td>   returns the lowest finite value of the given type  <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/max.html" title="cpp/types/numeric limits/max"> <span class="t-lines"><span>max</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the largest finite value of the given type  <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/epsilon.html" title="cpp/types/numeric limits/epsilon"> <span class="t-lines"><span>epsilon</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the difference between <code>1.0</code> and the next representable value of this type <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/round_error.html" title="cpp/types/numeric limits/round error"> <span class="t-lines"><span>round_error</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the maximum possible ISO 10967 rounding error for this type  <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/infinity.html" title="cpp/types/numeric limits/infinity"> <span class="t-lines"><span>infinity</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the positive infinity value of the given floating-point type <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/quiet_NaN.html" title="cpp/types/numeric limits/quiet NaN"> <span class="t-lines"><span>quiet_NaN</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the quiet NaN value of the given floating-point type <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/signaling_NaN.html" title="cpp/types/numeric limits/signaling NaN"> <span class="t-lines"><span>signaling_NaN</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the signaling NaN value of the given floating-point type <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/denorm_min.html" title="cpp/types/numeric limits/denorm min"> <span class="t-lines"><span>denorm_min</span></span></a></div><div><span class="t-lines"><span><span class="t-cmark">[static]</span></span></span></div></div>
+</td>
+<td>   returns the smallest positive denormalized value of the given floating-point type <br /> <span class="t-mark">(public static member function)</span>
+</td></tr>
+
+</table>
+<h3><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=4" title="Edit section: Helper classes">edit</a>]</span> <span class="mw-headline" id="Helper_classes">Helper classes</span></h3>
+<table class="t-dsc-begin">
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/float_round_style.html" title="cpp/types/numeric limits/float round style"> <span class="t-lines"><span>float_round_style</span></span></a></div></div>
+</td>
+<td>   indicates floating-point rounding modes <br /> <span class="t-mark">(class)</span>
+</td></tr>
+
+
+<tr class="t-dsc">
+<td>  <div class="t-dsc-member-div"><div><a href="../../cpp/types/numeric_limits/float_denorm_style.html" title="cpp/types/numeric limits/float denorm style"> <span class="t-lines"><span>float_denorm_style</span></span></a></div></div>
+</td>
+<td>   indicates floating-point denormalization modes <br /> <span class="t-mark">(class)</span>
+</td></tr>
+
+</table>
+<p>And then within each page, we could list the default value for non-specialized numeric_limits, and the specified values for fundamental types (although the big at-a-glance table in the end of this page is useful too and should be kept, perhaps split between integer and floating-point though), give examples, etc.
+</p><p>--<a href="../../User:Cubbi.html" title="User:Cubbi">Cubbi</a> 07:40, 5 October 2011 (PDT)
+</p>
+<dl><dd> Looks good to me. Something like this should've been implemented from the start.<a href="../../User:P12.html" title="User:P12">P12</a> 11:05, 5 October 2011 (PDT)
+</dd><dd> Yup, much better. <a href="../../User:Nate.html" title="User:Nate">Nate</a> 15:19, 7 October 2011 (PDT)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=edit&amp;section=5" title="Edit section: specialization for user-defined types">edit</a>]</span> <span class="mw-headline" id="specialization_for_user-defined_types"> specialization for user-defined types </span></h2>
+<p>I think that what's in the page now may be incorrect, and that std::numeric_limits cannot be extended to library-defined types, but can be extended by <i>implementations</i> to cover arithmetic types like <i>__int128</i>.
+</p><p><a rel="nofollow" class="external free" href="http://stackoverflow.com/questions/16122912/is-it-ok-to-specialize-stdnumeric-limitst-for-user-defined-number-like-class">http://stackoverflow.com/questions/16122912/is-it-ok-to-specialize-stdnumeric-limitst-for-user-defined-number-like-class</a>
+</p>
+<!-- 
+NewPP limit report
+Preprocessor visited node count: 4373/1000000
+Preprocessor generated node count: 3264/1000000
+Post‐expand include size: 84441/2097152 bytes
+Template argument size: 34864/2097152 bytes
+Highest expansion depth: 17/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key mwiki1-mwiki_en_:pcache:idhash:3007-0!*!0!!en!*!* and timestamp 20150825102158 -->
+</div>                    <!-- /bodycontent -->
+                                        <!-- printfooter -->
+                    <div class="printfooter">
+                    Retrieved from "<a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;oldid=73466">http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;oldid=73466</a>"                    </div>
+                    <!-- /printfooter -->
+                                                            <!-- catlinks -->
+                    <div id='catlinks' class='catlinks catlinks-allhidden'></div>                    <!-- /catlinks -->
+                                                            <div class="visualClear"></div>
+                    <!-- debughtml -->
+                                        <!-- /debughtml -->
+                </div>
+                <!-- /bodyContent -->
+            </div>
+        </div>
+        <!-- /content -->
+        <!-- footer -->
+        <div id="cpp-footer-base" class="noprint">
+            <div id="footer">
+                        <div id="cpp-navigation">
+            <h5>Navigation</h5>
+            <ul>
+<li id="n-Support-us"><a href="http://www.cppreference.com/support" rel="nofollow">Support us</a></li><li id="n-recentchanges"><a href="../../Special:RecentChanges.html" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-FAQ"><a href="../../Cppreference:About.html">FAQ</a></li><li id="n-Offline-version"><a href="../../Cppreference:Archives.html">Offline version</a></li>            </ul>
+        </div>
+                        <div id="cpp-toolbox">
+            <h5><span>Toolbox</span><a href="numeric_limits.html#"></a></h5>
+            <ul>
+<li id="t-whatlinkshere"><a href="../../Special:WhatLinksHere/Talk:cpp/types/numeric_limits.html" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="../../Special:RecentChangesLinked/Talk:cpp/types/numeric_limits.html" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="http://upload.cppreference.com/w/Special:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="../../Special:SpecialPages.html" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;oldid=73466" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="http://en.cppreference.com/mwiki/index.php?title=Talk:cpp/types/numeric_limits&amp;action=info">Page information</a></li>            </ul>
+        </div>
+                            <ul id="footer-info">
+                                    <li id="footer-info-lastmod"> This page was last modified on 30 October 2014, at 13:54.</li>
+                                    <li id="footer-info-viewcount">This page has been accessed 1,469 times.</li>
+                            </ul>
+                    <ul id="footer-places">
+                                    <li id="footer-places-privacy"><a href="../../Cppreference:Privacy_policy.html" title="Cppreference:Privacy policy">Privacy policy</a></li>
+                                    <li id="footer-places-about"><a href="../../Cppreference:About.html" title="Cppreference:About">About cppreference.com</a></li>
+                                    <li id="footer-places-disclaimer"><a href="../../Cppreference:General_disclaimer.html" title="Cppreference:General disclaimer">Disclaimers</a></li>
+                            </ul>
+                                    <ul id="footer-icons" class="noprint">
+                                    <li id="footer-poweredbyico">
+                                            <a href="http://www.mediawiki.org/"><img src="../../../mwiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>                                            <a href="http://qbnz.com/highlighter/"><img src="http://upload.cppreference.com/mwiki/images/2/2b/powered_by_geshi_88x31.png" alt="Powered by GeSHi" height="31" width="88" /></a>                                            <a href="http://www.tigertech.net/referral/cppreference.com"><img src="http://upload.cppreference.com/mwiki/images/9/94/powered_by_tigertech_88x31.png" alt="Hosted by Tiger Technologies" height="31" width="88" /></a>                                        </li>
+                                </ul>
+                        <div style="clear:both">
+            </div>
+            </div>
+        </div>
+        <!-- /footer -->
+        <script>if(window.mw){
+mw.loader.state({"site":"loading","user":"missing","user.groups":"ready"});
+}</script>
+<script src="../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=skins.cppreference2&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.page.ready","mediawiki.searchSuggest","mediawiki.hidpi","ext.gadget.ColiruCompiler"], null, true);
+}</script>
+<script src="../../../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2828341-1']);
+_gaq.push(['_setDomainName', 'cppreference.com']);
+_gaq.push(['_trackPageview']);
+</script><!-- Served in 0.894 secs. -->
+	</body>
+<!-- Cached 20150825102158 -->
+</html>

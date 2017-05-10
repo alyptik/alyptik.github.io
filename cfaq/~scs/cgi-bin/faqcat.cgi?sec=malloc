@@ -1,0 +1,2058 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file malloc.sgml dated Wed Dec 21 13:50:44 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/malloc/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Memory Allocation</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>7. Memory Allocation</H1>
+<a name="malloc1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/malloc1.html"><!-- qtag -->Question 7.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't
+this fragment
+work?
+<pre>
+	char *answer;
+	printf("Type something:\n");
+	gets(answer);
+	printf("You typed \"%s\"\n", answer);
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The pointer variable <TT>answer</TT>,
+which is handed to
+<TT>gets()</TT>
+as the location into which the response should be
+stored,
+has not been set to
+point to any valid storage.
+It is
+an uninitialized variable, just as is the variable <TT>i</TT> in
+<pre>
+	int i;
+	printf("i = %d\n", i);
+</pre>
+That is,
+in the first piece of code,
+we cannot say where the pointer <TT>answer</TT>
+points,
+just as we cannot say what value <TT>i</TT> will have in the second.
+(Since local variables are not initialized,
+and typically contain garbage,
+it is not even guaranteed that <TT>answer</TT> starts out as a
+null pointer.
+See questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#initval">1.30</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#null1">5.1</a>.)
+</p><p>The simplest way to correct
+the question-asking program
+is to
+use a local array, instead of a
+pointer, and let the compiler
+worry about
+allocation:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char answer[100], *p;
+printf("Type something:\n");
+fgets(answer, sizeof answer, stdin);
+if((p = strchr(answer, '\n')) != NULL)
+	*p = '\0';
+printf("You typed \"%s\"\n", answer);
+</pre>
+</p>This example also uses <TT>fgets()</TT>
+instead of <TT>gets()</TT>,
+so that
+the end of the array
+cannot be overwritten.
+(See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#getsvsfgets">12.23</a>.
+Unfortunately for this example,
+<TT>fgets()</TT> does not automatically delete the trailing <TT>\n</TT>,
+as
+<TT>gets()</TT> would.)
+It would also be possible to use <TT>malloc()</TT> to allocate the
+<TT>answer</TT>
+buffer,
+and to parameterize the buffer size
+(with something like <TT>#define&nbsp;ANSWERSIZE&nbsp;100</TT>&nbsp;).
+<hr><hr><hr>
+<a name="malloc2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/malloc2.html"><!-- qtag -->Question 7.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I can't get <TT>strcat</TT> to work.
+I tried
+<pre>
+	char *s1 = "Hello, ";
+	char *s2 = "world!";
+	char *s3 = strcat(s1, s2);
+</pre>
+but I got strange results.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+As in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc1">7.1</a>,
+the main problem here
+is that space for the concatenated result is
+not properly allocated.
+C does not provide an automatically-managed string type.
+
+C compilers allocate memory
+only for objects explicitly
+mentioned in the source code
+(in the case of strings,
+this
+
+includes character arrays and string literals).
+The programmer must
+arrange
+for sufficient space for
+the results of run-time operations such as string concatenation,
+typically by declaring arrays, or by calling <TT>malloc</TT>.
+</p><p><TT>strcat</TT> performs no allocation;
+the second string is appended to the first one,
+in place.
+The first
+(destination)
+string must
+be writable and
+have enough room
+
+for the concatenated result.
+Therefore, one fix would be to declare the first string as
+an
+array:
+<pre>
+	char s1[20] = "Hello, ";
+</pre>
+(In production code,
+of course,
+we wouldn't use magic numbers like ``20'';
+we'd use more robust mechanisms
+to guarantee sufficient space.)
+</p><p>Since <TT>strcat</TT>
+returns the value of its first argument
+(<TT>s1</TT>, in this case),
+the variable <TT>s3</TT>
+in
+
+the question above
+is
+superfluous;
+after the call to <TT>strcat</TT>,
+<TT>s1</TT> contains the result.
+</p><p>The original call to <TT>strcat</TT> in the question
+actually has
+
+two problems:
+the string literal pointed to by <TT>s1</TT>,
+besides not being big enough for any concatenated text,
+is not necessarily writable
+at all.
+See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#strlitinit">1.32</a>.
+</p>
+<p>References:
+
+CT&amp;P Sec. 3.2 p. 32
+<hr><hr><hr>
+<a name="attitude">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/attitude.html"><!-- qtag -->Question 7.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+
+But the
+man page
+for <TT>strcat</TT> says that
+it takes two <TT>char&nbsp;*</TT>'s as arguments.
+How am
+
+I supposed to know to allocate things?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In general, when using pointers you
+<em>always</em>
+have to consider
+
+memory allocation,
+if only
+to make sure that the compiler is doing it for you.
+If a
+library function's documentation does not explicitly mention allocation,
+it is usually the caller's problem.
+</p><p>The Synopsis section at the top of a
+Unix-style
+man page
+
+
+
+or in the ANSI C standard
+can be misleading.
+The code fragments presented there are closer to the function
+definitions used by an implementor
+than the invocations used by the caller.
+In particular, many functions which accept pointers
+(e.g. to structures or strings)
+are usually called with
+a pointer to
+some object
+(a structure, or an array--see questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrequiv">6.3</a> 
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrparam">6.4</a>)
+which the caller
+has allocated.
+Other common examples are
+<TT>time</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#curtime">13.12</a>)
+and
+<TT>stat</TT>.
+<hr><hr><hr>
+<a name="lucky">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/lucky.html"><!-- qtag -->Question 7.3b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I just tried the code
+<pre>
+char *p;
+strcpy(p, "abc");</pre>
+
+and it worked.
+How?
+Why didn't it crash?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You got 
+lucky, I guess.
+The memory
+randomly
+pointed to by
+the uninitialized pointer <TT>p</TT>
+happened to be writable by you,
+and apparently was not already in use for anything vital.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#experiment">11.35</a>.
+</p><p>Additional links:
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#badalloc">longer explanation</a>,
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#badalloc2">another longer explanation</a>
+<hr><hr><hr>
+<a name="ptrvaralloc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/ptrvaralloc.html"><!-- qtag -->Question 7.3c</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How much memory does a pointer variable allocate?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+That's a pretty misleading question.
+When you declare
+a pointer variable,
+as in
+<pre>
+	char *p;
+</pre>
+you
+(or, more properly, the compiler)
+
+have allocated only
+enough memory to hold the pointer itself;
+that is,
+in this case
+you have allocated <TT>sizeof(char&nbsp;*)</TT>
+bytes of memory.
+But you have
+not yet allocated <em>any</em>
+memory for the pointer to point to.
+See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc1">7.1</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc2">7.2</a>.
+<hr><hr><hr>
+<a name="linebfdur">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/linebfdur.html"><!-- qtag -->Question 7.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm
+reading
+lines from a file into an
+array,
+with this code:
+<pre>
+	char linebuf[80];
+	char *lines[100];
+	int i;
+
+	for(i = 0; i &lt; 100; i++) {
+		char *p = fgets(linebuf, 80, fp);
+		if(p == NULL) break;
+		lines[i] = p;
+	}
+</pre>
+Why do all the lines end up containing copies of the last line?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You have only allocated memory for one line,
+<TT>linebuf</TT>.
+Each time you call <TT>fgets</TT>,
+the previous line is overwritten.
+<TT>fgets</TT> doesn't do any memory allocation:
+unless it reaches EOF
+(or encounters an error),
+the pointer it returns
+is the same pointer
+you handed it as its first argument
+(in this case, a pointer to your single <TT>linebuf</TT> array).
+</p><p>To make code like this work,
+you'll need to allocate memory for each line.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#ragged">20.2</a> for an example.
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 7.8 p. 155
+<br>
+K&amp;R2 Sec. 7.7 pp. 164-5
+<br>
+ISO Sec. 7.9.7.2
+<br>
+H&amp;S Sec. 15.7 p. 356
+<hr><hr><hr>
+<a name="retaggr">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/retaggr.html"><!-- qtag -->Question 7.5a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a function that is supposed to return a string,
+but when it returns to its caller,
+the returned string is garbage.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Whenever a function returns a pointer,
+make
+sure that the pointed-to memory
+is
+properly
+allocated.
+For example,
+make sure you have <em>not</em> done
+something like
+<pre>
+<br>	#include &lt;stdio.h&gt;
+
+<br>	char *itoa(int n)
+	{
+		char retbuf[20];		/* WRONG */
+		sprintf(retbuf, "%d", n);
+		return retbuf;			/* WRONG */
+	}
+</pre>
+When a function returns,
+its
+automatic, local
+variables
+
+are discarded,
+so the returned pointer in this case is invalid
+(it points to an array that no longer exists).
+</p><p>One fix
+would be to declare the return buffer as
+<pre>
+		static char retbuf[20];
+</pre>
+This fix is imperfect,
+since a function using static data is not reentrant.
+Furthermore,
+successive calls to this version of <TT>itoa</TT> keep 
+overwriting the same return buffer:
+the caller won't be able
+to call it several times
+and keep
+all the
+return values around
+simultaneously.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#retaggr2">7.5b</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#sprintfsize">12.21</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>.
+</p>
+<p>References:
+
+ISO Sec. 6.1.2.4
+<hr><hr><hr>
+<a name="retaggr2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/retaggr2.html"><!-- qtag -->Question 7.5b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+So what's the right way to return a string
+or other aggregate?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The returned pointer should be
+to a statically-allocated buffer
+(as in the answer to question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#retaggr">7.5a</a>),
+or to
+a buffer passed in by the caller,
+or
+to
+memory obtained with <TT>malloc</TT>,
+but
+<em>not</em>
+to a local
+(automatic)
+array.
+
+</p><p>For example,
+to have the caller pass space for the result:
+<pre>
+	char *itoa(int n, char *retbuf)
+	{
+		sprintf(retbuf, "%d", n);
+		return retbuf;
+	}
+
+	...
+
+	char str[20];
+	itoa(123, str);
+</pre>
+</p><p>To use <TT>malloc</TT>:
+<pre>
+	#include &lt;stdlib.h&gt;
+
+	char *itoa(int n)
+	{
+		char *retbuf = malloc(20);
+		if(retbuf != NULL)
+			sprintf(retbuf, "%d", n);
+		return retbuf;
+	}
+
+	...
+
+	char *str = itoa(123);
+</pre>
+(In this last
+case,
+the caller must remember to <TT>free</TT>
+the returned pointer when it is no longer needed.)
+</p><p>See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>.
+</p><p>Additional links:
+<a href="sd2.html" rel=subdocument>further reading</a>
+<hr><hr><hr>
+<a name="decl">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/decl.html"><!-- qtag -->Question 7.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why am I getting
+``warning: assignment of pointer from integer lacks a cast''
+for calls to <TT>malloc</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Have you
+<TT>#include</TT>d <TT>&lt;stdlib.h&gt;</TT>,
+or otherwise arranged
+for
+<TT>malloc</TT>
+to be declared properly?
+If not,
+the compiler assumes that
+it returns
+an
+<TT>int</TT>
+(see
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#implfdecl">1.25</a>),
+which is not correct.
+(The same problem could arise for <TT>calloc</TT> or <TT>realloc</TT>.)
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizetlong">7.15</a>.
+</p>
+<p>References:
+
+H&amp;S Sec. 4.7 p. 101
+<hr><hr><hr>
+<a name="cast">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/cast.html"><!-- qtag -->Question 7.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does some code carefully cast the values returned by <TT>malloc</TT>
+to the pointer type being allocated?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+Before ANSI/ISO
+Standard
+C
+introduced
+the <TT>void&nbsp;*</TT> generic pointer type,
+these casts were
+typically
+required
+to silence
+
+warnings
+(and perhaps induce conversions)
+when assigning
+between incompatible pointer types.
+</p><p>
+
+
+Under ANSI/ISO Standard C,
+these casts are
+no longer necessary.
+
+It can also be argued
+that
+
+they
+are
+now
+to be discouraged;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#mallocnocast">7.7b</a>.
+Furthermore,
+well-defined,
+low-risk
+implicit conversions
+(such as those which C has always performed between
+
+integer and floating-point types)
+can be considered a
+
+feature.
+
+</p><p>On the other hand,
+
+
+
+some programmers prefer to make <em>every</em> conversion explicit,
+to record that they have considered each case
+and decided exactly what should happen
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=style#voidcasts">17.5</a>).
+Also,
+the casts are typically seen in C code
+which
+for one reason or another
+is intended to be compatible with C++,
+
+where explicit casts
+from
+<TT>void&nbsp;*</TT>
+are required.
+</p><p>(By the way, the language in sections 6.5 and 7.8.5 of
+K&amp;R2
+which suggests that the casts are required
+is ``overenthusiastic.'')
+</p><p>To some extent,
+whether you use these casts or not is a matter of style;
+see
+section
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=style#index">17</a>.
+</p><p></p><p>Additional links:
+<a href="sd3.html" rel=subdocument>further explanation by Mark Brader</a>
+</p>
+
+<p>References:
+
+H&amp;S Sec. 16.1 pp. 386-7
+<hr><hr><hr>
+<a name="mallocnocast">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/mallocnocast.html"><!-- qtag -->Question 7.7b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's wrong with casting <TT>malloc</TT>'s return value?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+Suppose that you
+call <TT>malloc</TT>
+but forget to <TT>#include &lt;stdlib.h&gt;</TT>.
+The compiler is likely to assume that <TT>malloc</TT>
+is a function returning <TT>int</TT>,
+which is of course incorrect, and will lead to trouble.
+Now, if
+your call to <TT>malloc</TT> is of the form
+<pre>
+	char *p = malloc(10);
+</pre>
+the compiler will notice
+that you're seemingly assigning an integer to a pointer,
+and will likely emit a warning of the form
+``assignment of pointer from integer lacks a cast''
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#decl">7.6</a>),
+which will alert you to the problem.
+(The problem is of course that you forgot to <TT>#include &lt;stdlib.h&gt;</TT>,
+not that you forgot to use a cast.)
+If, on the other hand, your call to <TT>malloc</TT>
+includes a cast:
+<pre>
+	char *p = (char *)malloc(10);
+</pre>
+the compiler is likely to assume that you know what you're doing,
+that you really do want to convert the <TT>int</TT> returned by
+<TT>malloc</TT> to a pointer, and the compiler
+therefore probably <em>won't</em> warn you.
+But of course <TT>malloc</TT> does not return an <TT>int</TT>,
+so trying to convert the <TT>int</TT> that it doesn't return
+to a pointer is likely to lead to a different kind of trouble,
+which will be harder to track down.
+</p><p>(Of course, compilers are increasingly likely--especially under C99--to
+emit warnings whenever functions are called without prototypes in scope,
+and such a warning would alert you to the lack of <TT>&lt;stdlib.h&gt;</TT>
+whether casts were used or not.)
+<hr><hr><hr>
+<a name="mallocnocast2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/mallocnocast2.html"><!-- qtag -->Question 7.7c</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+In a call to <TT>malloc</TT>,
+what does an error like
+``Cannot convert `<TT>void&nbsp;*</TT>' to `<TT>int&nbsp;*'''
+mean?
+</TT></p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+
+
+
+It means you're using a C++ compiler
+instead of a C compiler.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#cast">7.7</a>.
+<hr><hr><hr>
+<a name="sizeofchar">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/sizeofchar.html"><!-- qtag -->Question 7.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I see code like
+<pre>
+	char *p = malloc(strlen(s) + 1);
+	strcpy(p, s);
+</pre>
+Shouldn't that be <TT>malloc((strlen(s) + 1) * sizeof(char))</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's never necessary to multiply by <TT>sizeof(char)</TT>,
+since
+<TT>sizeof(char)</TT> is, by definition, exactly 1.
+(On the other
+hand,
+multiplying by <TT>sizeof(char)</TT> doesn't hurt,
+and
+in some circumstances
+may help by
+introducing a <TT>size_t</TT> into the expression;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizetlong">7.15</a>.)
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#sizeofchar">8.9</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#wchar">8.10</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 6.3.3.4
+<br>
+H&amp;S Sec. 7.5.2 p. 195
+<hr><hr><hr>
+<a name="mymallocretp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/mymallocretp.html"><!-- qtag -->Question 7.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I wrote a little wrapper around <TT>malloc</TT>,
+but it doesn't work:
+<pre>
+	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+
+	mymalloc(void *retp, size_t size)
+	{
+		retp = malloc(size);
+		if(retp == NULL) {
+			fprintf(stderr, "out of memory\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>.
+(In this case, you'll want to
+have <TT>mymalloc</TT> return the <TT>malloc</TT>'ed pointer.)
+<hr><hr><hr>
+<a name="mimic3">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/mimic3.html"><!-- qtag -->Question 7.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to declare a pointer and allocate some space for it,
+but it's
+not working.
+What's wrong with
+this code?
+<pre>
+char *p;
+*p = malloc(10);</pre>
+
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#mimic">4.2</a>.
+<hr><hr><hr>
+<a name="fcninit2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/fcninit2.html"><!-- qtag -->Question 7.10a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's wrong with
+this initialization?
+<pre>
+char *p = malloc(10);</pre>
+
+My compiler is complaining about
+an ``invalid initializer'',
+or something.
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#fcninit">1.31b</a>.
+<hr><hr><hr>
+<a name="lintpalign2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/lintpalign2.html"><!-- qtag -->Question 7.10b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I shut off the
+``warning: possible pointer alignment problem''
+message
+which
+<TT>lint</TT> gives me for each call to <TT>malloc</TT>?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#lintptralign">18.5</a>.
+<hr><hr><hr>
+<a name="dynarray2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/dynarray2.html"><!-- qtag -->Question 7.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I dynamically allocate arrays?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynarray">6.14</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynmuldimary">6.16</a>.
+<hr><hr><hr>
+<a name="memavail2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/memavail2.html"><!-- qtag -->Question 7.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I find out how much memory is available?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#memavail">19.22</a>.
+<hr><hr><hr>
+<a name="malloc0xref">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/malloc0xref.html"><!-- qtag -->Question 7.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What should <TT>malloc(0)</TT> do?
+Return a null pointer or a pointer to 0 bytes?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#malloc0">11.26</a>.
+<hr><hr><hr>
+<a name="lazyalloc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/lazyalloc.html"><!-- qtag -->Question 7.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've heard that some operating systems
+
+don't actually allocate <TT>malloc</TT>'ed memory
+until
+the
+
+program tries to
+use
+it.
+Is this legal?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's hard to say.
+The Standard doesn't say that systems can act this way,
+but it doesn't
+
+
+
+explicitly
+say that they can't, either.
+
+
+
+(Such a ``deferred failure'' implementation
+would not seem to conform to the implied requirements of the Standard.)
+</p><p>The
+
+conspicuous
+problem is that,
+by the time
+the program gets around to trying to use the memory,
+there might not be any.
+The
+program
+in this case must typically be killed by the operating system,
+since the semantics of C provide no recourse.
+(Obviously,
+<TT>malloc</TT> is supposed to return a null pointer
+if there's no memory,
+so that the program--as
+long as it checks <TT>malloc</TT>'s return value at all--never
+tries to use more memory than is available.)
+</p><p>Systems that
+do this ``lazy allocation''
+usually provide extra signals
+
+indicating that memory is dangerously low,
+but portable or na&iuml;ve programs won't catch them.
+Some systems that do lazy allocation
+also provide a way to turn it off
+(reverting to traditional <TT>malloc</TT> semantics),
+on a per-process or per-user basis,
+but the details vary from system to system.
+
+</p><p>Additional links:
+A
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#lazyalloc2">longer explanation</a>
+of the tradeoffs concerning ``lazy allocation''
+</p>
+<p>References:
+
+ISO Sec. 7.10.3
+<hr><hr><hr>
+<a name="sizetlong">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/sizetlong.html"><!-- qtag -->Question 7.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+<TT>malloc</TT>
+is
+returning crazy pointer values,
+but I <em>did</em> read question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#decl">7.6</a>
+and I have included the line
+<pre>
+	extern void *malloc();
+</pre>
+before I call it.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>malloc</TT> accepts an argument of type <TT>size_t</TT>,
+and <TT>size_t</TT> may be
+defined
+
+as
+<TT>unsigned&nbsp;long</TT>.
+If you are passing <TT>int</TT>s
+(or even <TT>unsigned&nbsp;int</TT>s),
+<TT>malloc</TT> may be receiving garbage
+(or
+similarly
+if you are passing a <TT>long</TT> but <TT>size_t</TT> is
+<TT>int</TT>).
+
+</p><p>In general,
+it is much, much safer
+to declare standard library functions
+by #including the appropriate header files,
+rather than typing <TT>extern</TT> declarations yourself.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizewrap">7.16</a>.
+
+</p><p>
+
+(A related problem is that it is not safe to print <TT>size_t</TT> values,
+including the result of <TT>sizeof</TT>,
+using <TT>printf</TT>'s <TT>%d</TT> format.
+The portable approach
+is to use an explicit <TT>(unsigned&nbsp;long)</TT> cast,
+and <TT>%lu</TT> format:
+<TT>printf("%lu\n", (unsigned&nbsp;long)sizeof(int))</TT>.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#proto2">15.3</a>.)
+</p>
+
+<p>References:
+
+ISO Sec. 7.1.6, Sec. 7.1.7
+<hr><hr><hr>
+<a name="sizewrap">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/sizewrap.html"><!-- qtag -->Question 7.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm allocating a large array for some numeric work,
+using the line
+<pre>
+	double *array = malloc(300 * 300 * sizeof(double));
+</pre>
+<TT>malloc</TT> isn't returning null,
+but
+the program is acting strangely,
+as if it's overwriting memory,
+or <TT>malloc</TT> isn't allocating as much as I asked for,
+or something.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Notice that 300 x 300 is 90,000,
+which will not fit in a 16-bit <TT>int</TT>,
+
+
+
+even before you multiply it by <TT>sizeof(double)</TT>.
+If you
+need to allocate
+this much
+
+memory,
+you'll have to be careful.
+
+
+If <TT>size_t</TT>
+(the type accepted by <TT>malloc</TT>)
+is a 32-bit type on your machine,
+but <TT>int</TT> is 16 bits,
+you might be able to get away with writing
+<TT>300 * (300 * sizeof(double))</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#intoverflow1">3.14</a>).
+
+Otherwise,
+you'll have to break
+your data structure
+up into smaller chunks,
+or use a 32-bit machine
+or compiler,
+or use
+some nonstandard memory allocation functions.
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizetlong">7.15</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#bigdatastr">19.23</a>.
+
+<hr><hr><hr>
+<a name="segment">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/segment.html"><!-- qtag -->Question 7.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I've got 8 meg of memory in my PC.
+Why can I only seem to <TT>malloc</TT> 640K or so?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Under the segmented architecture of PC compatibles,
+it can be
+difficult to use more than 640K
+with any degree of transparency,
+especially under MS-DOS.
+See
+also
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#bigdatastr">19.23</a>.
+<hr><hr><hr>
+<a name="efficiency">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/efficiency.html"><!-- qtag -->Question 7.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My application depends heavily on
+dynamic allocation of nodes for data structures,
+and <TT>malloc</TT>/<TT>free</TT> overhead
+is
+becoming
+a bottleneck.
+What can
+I do?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+One improvement,
+which is particularly attractive if all nodes are the same size,
+is to place unused nodes on your own free list,
+rather than actually <TT>free</TT>ing them.
+(This approach works well
+when one kind of data structure dominates a program's memory use,
+but it can cause as many problems as it solves
+if so much memory is tied up in the
+list of unused nodes
+that it isn't available for other purposes.)
+<hr><hr><hr>
+<a name="crash">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/crash.html"><!-- qtag -->Question 7.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My program is crashing, apparently somewhere down inside
+<TT>malloc</TT>,
+but I can't see anything wrong with it.
+Is there a bug in <TT>malloc</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is unfortunately very easy to corrupt
+<TT>malloc</TT>'s internal data structures,
+and the resulting problems can be
+stubborn.
+The most common source of problems is writing more to a
+<TT>malloc</TT>'ed region than it was allocated to hold;
+a particularly common bug is to <TT>malloc(strlen(s))</TT>
+instead of <TT>strlen(s)&nbsp;+&nbsp;1</TT>.
+<a href="morebugs.html" rel=subdocument>[footnote]</a>
+Other problems may involve
+
+
+
+using pointers to
+memory that has been freed,
+freeing pointers twice,
+freeing pointers not
+obtained from <TT>malloc</TT>,
+<TT>free</TT>ing null pointers,
+allocating 0-sized objects
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#malloc0">11.26</a>),
+or trying to <TT>realloc</TT> a null pointer
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#reallocnull">7.30</a>).
+(The last three--<TT>free</TT>ing null pointers,
+allocating 0-sized objects,
+and
+<TT>realloc</TT>ing a null pointer--are sanctioned by the Standard,
+though
+older implementations often have problems.)
+
+
+
+Consequences of
+any of these errors
+can show up
+long after the actual mistake
+and
+in unrelated sections of code,
+making diagnosis of the problem quite difficult.
+
+</p><p>Most implementations of <TT>malloc</TT> are particularly vulnerable
+to these problems because they store crucial
+pieces of
+internal
+information directly adjacent to the blocks of memory
+they return,
+making them
+easy prey for stray user pointers.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizetlong">7.15</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freesize">7.26</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#segv">16.8</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#mallocdbg">18.2</a>.
+
+<hr><hr><hr>
+<a name="noscale">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/noscale.html"><!-- qtag -->Question 7.19b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm dynamically allocating an array, like this:
+<pre>
+	int *iarray = (int *)malloc(nints);
+</pre>
+<TT>malloc</TT> isn't returning NULL,
+but the code isn't working.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>malloc</TT>
+is a low-level, typeless allocator.
+It doesn't know
+how you're going to use the memory;
+all it does is to allocate
+as many <em>bytes</em> of memory as you ask it.
+Therefore
+(except when you're allocating arrays of <TT>char</TT>)
+you must
+multiply by the size of the elements in the array you're allocating:
+<pre>
+	int *iarray = malloc(nints * sizeof(int));
+</pre>
+or
+<pre>
+	int *iarray = malloc(nints * sizeof(*iarray));
+</pre>
+(The latter fragment can be more reliable
+if the type of <TT>iarray</TT> might change,
+since there's only one place to change it.
+Also, the casts have been removed;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#cast">7.7</a>.)
+Compare question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#explscale">4.4</a>,
+and see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizeofchar">7.8</a>.
+<hr><hr><hr>
+<a name="useafterfree">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/useafterfree.html"><!-- qtag -->Question 7.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+You can't use dynamically-allocated memory after you free it, can you?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+Some early
+documentation
+for <TT>malloc</TT> stated that the contents of freed
+memory
+were
+``left undisturbed,''
+but
+this ill-advised guarantee
+was never
+universal and is not required
+by the C Standard.
+</p><p>Few programmers would use the contents of freed memory
+deliberately, but it is easy to do so accidentally.
+Consider the following (correct) code for freeing a singly-linked
+list:
+<pre>
+	struct list *listp, *nextp;
+	for(listp = base; listp != NULL; listp = nextp) {
+		nextp = listp-&gt;next;
+		free(listp);
+	}
+</pre>
+and notice what would happen
+
+if the more-obvious loop iteration
+expression <TT>listp&nbsp;=&nbsp;listp-&gt;next</TT>
+
+were used,
+without the temporary <TT>nextp</TT> pointer.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 7.8.5 p. 167
+<br>
+ISO Sec. 7.10.3
+<br>
+Rationale Sec. 4.10.3.2
+<br>
+H&amp;S Sec. 16.2 p. 387
+<br>
+CT&amp;P Sec. 7.10 p. 95
+<hr><hr><hr>
+<a name="ptrafterfree">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/ptrafterfree.html"><!-- qtag -->Question 7.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why isn't a pointer
+null
+after calling
+<TT>free</TT>?
+
+<br>
+How unsafe is it to use
+(assign, compare)
+a pointer value after it's been freed?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When you call <TT>free</TT>,
+the memory pointed to by the passed pointer is freed,
+but the value of the pointer in the caller
+probably
+remains unchanged,
+because
+C's pass-by-value
+
+semantics
+mean that called functions
+never permanently
+change the values of their arguments.
+(See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>.)
+</p><p>A pointer
+value
+which has been freed is, strictly speaking, invalid,
+
+and <em>any</em> use of it,
+even if it is not dereferenced
+(i.e. even if
+the use of it is a
+seemingly innocuous
+assignment or comparison),
+can theoretically lead to trouble.
+(We
+can probably assume that
+as a quality of implementation issue,
+most implementations will
+not go out of their way
+to generate exceptions
+for innocuous uses of invalid
+pointers,
+but the Standard is clear
+in saying that
+nothing is guaranteed,
+and
+
+
+
+
+there are system architectures
+for which
+such
+exceptions
+would be quite natural.)
+</p><p>When pointer variables
+(or fields within structures)
+are repeatedly allocated and freed within a program,
+it is often useful to set them to NULL
+
+immediately after freeing
+them,
+to explicitly record their state.
+</p>
+
+<p>References:
+
+ISO Sec. 7.10.3
+<br>
+Rationale Sec. 3.2.2.3
+<br></p>
+<hr><hr><hr>
+<a name="local">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/local.html"><!-- qtag -->Question 7.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+When I call <TT>malloc</TT> to allocate memory for a
+pointer which is local to a function,
+do I have to explicitly <TT>free</TT> it?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes.
+Remember that a pointer is different from what it points to.
+Local
+variables
+<a href="auto.html" rel=subdocument>[footnote]</a>
+are deallocated when the function returns,
+but in the case of a pointer variable,
+this means that the pointer is deallocated,
+<em>not</em> what it points to.
+Memory allocated with <TT>malloc</TT> always persists
+until you explicitly free it.
+(If the only pointer to a block of <TT>malloc</TT>'ed memory 
+is a local pointer,
+and if that pointer disappears,
+there will be no way to free
+that block.)
+In general,
+for every call to <TT>malloc</TT>,
+there should be a corresponding call to <TT>free</TT>.
+<hr><hr><hr>
+<a name="freeforall">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/freeforall.html"><!-- qtag -->Question 7.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm allocating structures which contain pointers to other
+dynamically-allocated objects.
+When I free
+a structure,
+do I
+also
+have to free each subsidiary pointer?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes.
+<TT>malloc</TT> knows nothing about structure declarations
+or about the contents of allocated memory;
+
+it especially does not know
+whether allocated memory
+
+
+contains pointers to other allocated memory.
+In general,
+you must arrange that each pointer returned from <TT>malloc</TT>
+be individually passed to <TT>free</TT>,
+exactly once
+(if it is freed at all).
+</p><p>
+A good rule of thumb
+is that for each call to <TT>malloc</TT> in a program,
+you should be able to
+point at
+the call to <TT>free</TT>
+which frees the memory allocated by that <TT>malloc</TT> call.
+
+(In many cases,
+you'll free blocks of memory in the reverse order you allocated them,
+although this order is by no means required.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freeb4exit">7.24</a>.
+<hr><hr><hr>
+<a name="freeb4exit">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/freeb4exit.html"><!-- qtag -->Question 7.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Must I free allocated memory before the program exits?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You shouldn't have to.
+A real operating system
+definitively reclaims
+all memory
+and other resources
+when a program exits;
+the system
+cannot afford
+to have
+memory integrity
+depend
+on the whims of random programs.
+(Strictly speaking,
+
+it is not even <TT>free</TT>'s job
+to return memory to the operating system;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freetoOS">7.25</a>.)
+Nevertheless, some personal computers
+
+are said not to reliably recover memory
+unless it was freed before exiting,
+and all that can be inferred from the ANSI/ISO C Standard
+is that this is a ``quality of implementation issue.''
+</p><p>On the other hand,
+the C library <TT>free</TT> function rarely returns memory back
+to the operating system
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freetoOS">7.25</a>),
+so calling <TT>free</TT> probably isn't the way to guarantee
+that an exiting program's memory is recovered by the system, anyway.
+</p><p>In any case,
+it can be considered good practice to explicitly free all
+memory--for
+example,
+in case the program is ever rewritten
+to perform its main task more than once
+(perhaps under a Graphical User Interface).
+<a href="prleak.html" rel=subdocument>[footnote]</a>
+On the other hand,
+
+
+
+there are programs
+(such as interpreters)
+that don't know what
+memory
+they're done with
+(i.e. what memory could be freed)
+until it's time to exit,
+and since all memory should be released at exit,
+it would be a needless,
+potentially
+expensive, and
+error-prone exercise
+for the program to explicitly free all of it.
+</p><p>Additional links:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freeb4exit2">further explanation</a>
+</p>
+<p>References:
+
+ISO Sec. 7.10.3.2
+<hr><hr><hr>
+<a name="freetoOS">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/freetoOS.html"><!-- qtag -->Question 7.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a program which <TT>malloc</TT>s
+and later
+<TT>free</TT>s a lot
+of memory,
+but
+I can see from the operating system
+that
+memory usage
+doesn't
+actually
+go back down.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Most
+implementations of <TT>malloc</TT>/<TT>free</TT> do not return <TT>free</TT>d memory
+to the operating system,
+but merely make it available
+for future <TT>malloc</TT> calls
+
+
+
+within the same program.
+
+</p><p>Additional links:
+<a href="sd4.html" rel=subdocument>further reading</a>
+<hr><hr><hr>
+<a name="freesize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/freesize.html"><!-- qtag -->Question 7.26</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How does <TT>free</TT> know how many bytes to free?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The malloc/free implementation
+remembers the size
+of each block
+as it is allocated,
+so it is not necessary to remind it of the size when freeing.
+(Typically, the size is stored adjacent to the allocated block,
+which is
+
+why things usually break badly
+if the bounds of the allocated block are
+even slightly
+overstepped;
+see also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#crash">7.19</a>.)
+<hr><hr><hr>
+<a name="querysize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/querysize.html"><!-- qtag -->Question 7.27</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+So can I query the malloc package to find out how big an
+allocated block is?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Unfortunately,
+there is no standard or portable way.
+(Some compilers provide nonstandard extensions.)
+If you need
+to know,
+you'll have to
+keep track of
+it yourself.
+(See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#sizeof">7.28</a>.)
+<hr><hr><hr>
+<a name="sizeof">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/sizeof.html"><!-- qtag -->Question 7.28</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't <TT>sizeof</TT> tell me the size of
+the block of memory pointed to by a pointer?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>sizeof</TT> tells you the size of the pointer.
+There is no
+portable
+way to find out the size of a <TT>malloc</TT>'ed block.
+
+
+
+
+(Remember, too,
+that <TT>sizeof</TT> operates at compile time,
+and see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#querysize">7.27</a>.)
+<hr><hr><hr>
+<a name="realloc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/realloc.html"><!-- qtag -->Question 7.29</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Having dynamically allocated an array
+(as in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynarray">6.14</a>),
+can I change its size?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Yes.
+This
+
+is exactly what <TT>realloc</TT> is for.
+Given a region of <TT>malloc</TT>ed memory
+(such as <TT>dynarray</TT> from question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynarray">6.14</a>),
+its size can be changed using code like:
+<pre>
+	dynarray = realloc(dynarray, 20 * sizeof(int));
+</pre>
+
+Note that <TT>realloc</TT> may not always be able to enlarge
+<a href="shrink.html" rel=subdocument>[footnote]</a>
+
+memory regions
+
+in-place.
+When
+it is able to,
+it simply gives you back the same pointer you handed it,
+but
+if it must go to some other part of memory
+to find enough contiguous space,
+it will return a
+
+different pointer
+
+
+
+
+(and the previous pointer value will become unusable).
+</p><p>If
+<TT>realloc</TT>
+cannot find enough
+space at all,
+it returns a null pointer,
+and leaves the previous region allocated.
+<a href="realloctrash.html" rel=subdocument>[footnote]</a>
+Therefore,
+you usually don't want to immediately assign the new pointer
+to the old variable.
+
+Instead,
+use a temporary pointer:
+<pre>
+	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+
+	int *newarray = (int *)realloc((void *)dynarray, 20 * sizeof(int));
+	if(newarray != NULL)
+		dynarray = newarray;
+	else {
+		fprintf(stderr, "Can't reallocate memory\n");
+		/* dynarray remains allocated */
+	}
+</pre>
+</p><p>When reallocating memory,
+be careful if
+
+there are any other pointers
+lying around
+which point into
+(``alias'')
+that memory:
+if <TT>realloc</TT>
+must locate the new region
+
+somewhere else,
+those other pointers must also be adjusted.
+Here is a (contrived,
+and careless of <TT>malloc</TT>'s return values) example:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+char *p, *p2, *newp;
+int tmpoffset;
+
+p = malloc(10);
+strcpy(p, "Hello,");		/* p is a string */
+p2 = strchr(p, ',');		/* p2 points into that string */
+
+tmpoffset = p2 - p;
+newp = realloc(p, 20);
+if(newp != NULL) {
+	p = newp;		/* p may have moved */
+	p2 = p + tmpoffset;	/* relocate p2 as well */
+	strcpy(p2, ", world!");
+}
+
+printf("%s\n", p);
+</pre>
+(It is safest to recompute pointers based on offsets,
+as in the code fragment above.
+The alternative--relocating pointers
+
+based on the difference,
+<TT>newp&nbsp;-&nbsp;p</TT>,
+between the base pointer's value
+before and after the <TT>realloc</TT>--is not guaranteed to work,
+because pointer subtraction is only defined
+when performed on pointers into the same object.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#ptrafterfree">7.21</a>.)
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#cast">7.7</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#reallocnull">7.30</a>.
+</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. B5 p. 252
+<br>
+ISO Sec. 7.10.3.4
+<br>
+H&amp;S Sec. 16.3 pp. 387-8
+<hr><hr><hr>
+<a name="reallocnull">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/reallocnull.html"><!-- qtag -->Question 7.30</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is it legal to pass a null pointer as the first argument to <TT>realloc</TT>?
+Why would you want to?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+ANSI C sanctions
+this usage
+(and the related <TT>realloc(</TT>...<TT>,&nbsp;0)</TT>, which frees),
+although several earlier implementations do not support it,
+so it
+may not be
+fully portable.
+Passing an initially-null pointer to <TT>realloc</TT> can make it
+easier to write a self-starting incremental allocation algorithm.
+</p><p>Here is an example--this
+function reads
+an arbitrarily-long line
+into dynamically-allocated memory,
+reallocating the input buffer as necessary.
+(The caller must <TT>free</TT> the returned pointer
+when it is no longer needed.)
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* read a line from fp into malloc'ed memory */
+/* returns NULL on EOF or error */
+/* (use feof or ferror to distinguish) */
+
+char *agetline(FILE *fp)
+{
+	char *retbuf = NULL;
+	size_t nchmax = 0;
+	register int c;
+	size_t nchread = 0;
+	char *newbuf;
+
+	while((c = getc(fp)) != EOF) {
+		if(nchread &gt;= nchmax) {
+			nchmax += 20;
+			if(nchread &gt;= nchmax) {	/* in case nchmax overflowed */
+				free(retbuf);
+				return NULL;
+			}
+#ifdef SAFEREALLOC
+			newbuf = realloc(retbuf, nchmax + 1);
+#else
+			if(retbuf == NULL)	/* in case pre-ANSI realloc */
+				newbuf = malloc(nchmax + 1);
+			else	newbuf = realloc(retbuf, nchmax + 1);
+#endif
+						/* +1 for \0 */
+			if(newbuf == NULL) {
+				free(retbuf);
+				return NULL;
+			}
+
+			retbuf = newbuf;
+		}
+
+		if(c == '\n')
+			break;
+
+		retbuf[nchread++] = c;
+	}
+
+	if(retbuf != NULL) {
+		retbuf[nchread] = '\0';
+
+		newbuf = realloc(retbuf, nchread + 1);
+		if(newbuf != NULL)
+			retbuf = newbuf;
+	}
+
+	return retbuf;
+}
+</pre>
+(In production code,
+a line like <TT>nchmax&nbsp;+=&nbsp;20</TT>
+can prove troublesome,
+as the function may do lots of reallocating.
+Many programmers favor multiplicative reallocation,
+e.g. <TT>nchmax&nbsp;*=&nbsp;2</TT>,
+although it obviously isn't
+quite as
+self-starting,
+and can run into problems if it
+
+has to allocate a huge array
+but memory is limited.)
+</p>
+
+<p>References:
+
+ISO Sec. 7.10.3.4
+<br>
+H&amp;S Sec. 16.3 p. 388
+<hr><hr><hr>
+<a name="calloc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/calloc.html"><!-- qtag -->Question 7.31</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between <TT>calloc</TT> and <TT>malloc</TT>?
+Which should I
+
+use?
+
+Is it safe to take advantage of <TT>calloc</TT>'s
+zero-filling?
+Does <TT>free</TT> work
+on memory allocated with <TT>calloc</TT>,
+or do you
+
+need a <TT>cfree</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>calloc(m, n)</TT> is essentially equivalent to
+<pre>
+p&nbsp;=&nbsp;malloc(m&nbsp;*&nbsp;n);
+memset(p,&nbsp;0,&nbsp;m&nbsp;*&nbsp;n);
+</pre>
+</p><p>There is no important difference between
+the two
+other than the number of arguments
+and the zero fill.<a href="callocvslazy.html" rel=subdocument>[footnote]</a>
+</p><p>Use whichever function is convenient.
+Don't rely on <TT>calloc</TT>'s zero fill too much
+(see below);
+usually,
+it's best to initialize data structures yourself,
+on a field-by-field basis,
+especially if there are pointer fields.
+</p><p><TT>calloc</TT>'s
+zero fill is all-bits-zero,
+and
+
+
+
+is therefore guaranteed to yield the value 0
+for all integral types
+(including
+<TT>'\0'</TT>
+for
+character types).
+But
+
+it
+does <em>not</em>
+guarantee useful null pointer values
+(see
+section
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=null#index">5</a> of this list)
+or floating-point zero values.
+</p><p><TT>free</TT>
+is
+properly
+used to free the memory allocated
+by <TT>calloc</TT>;
+there is no Standard <TT>cfree</TT> function.
+
+</p><p>One imagined distinction that is <em>not</em> significant
+between <TT>malloc</TT> and <TT>calloc</TT>
+is whether
+a single element
+or an array of elements
+is being allocated.
+Though <TT>calloc</TT>'s two-argument calling convention 
+suggests that it
+is supposed to
+be used to allocate an array of <TT>m</TT> items of size <TT>n</TT>,
+there is no such
+requirement;
+it is perfectly
+
+permissible
+to allocate one item with <TT>calloc</TT>
+(by passing one argument as 1)
+or to allocate an array with <TT>malloc</TT>
+(by doing the multiplication yourself;
+see for example
+the code fragment in
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#dynarray">6.14</a>).
+(Nor does structure padding enter into the question;
+any padding necessary
+to make arrays of structures work correctly
+is always handled by the compiler,
+and reflected by <TT>sizeof</TT>.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#endpad">2.13</a>.)
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 7.10.3 to 7.10.3.2
+<br>
+H&amp;S Sec. 16.1 p. 386, Sec. 16.2 p. 386
+<br>
+PCS Sec. 11 pp. 141,142
+<hr><hr><hr>
+<a name="alloca">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../malloc/alloca.html"><!-- qtag -->Question 7.32</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What is <TT>alloca</TT> and why is its use discouraged?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>alloca</TT>
+
+allocates memory which is automatically freed when the
+function which called <TT>alloca</TT> returns.
+That is, memory allocated with <TT>alloca</TT> is local to a particular
+function's ``stack frame'' or context.
+</p><p><TT>alloca</TT> cannot be written
+portably,
+<a href="allocaport.html" rel=subdocument>[footnote]</a>
+and
+is difficult to implement on machines without a
+conventional
+stack.
+Its use is problematical
+(and the
+obvious
+implementation on a stack-based machine fails) when its
+return value is passed directly to another function, as in
+<TT>fgets(alloca(100),&nbsp;100,&nbsp;stdin)</TT>.
+<a href="allocastack.html" rel=subdocument>[footnote]</a>
+</p><p>For these reasons, <TT>alloca</TT>
+is not Standard and
+cannot be used in programs which must be widely
+portable,
+no matter how useful it might be.
+Now that C99 supports variable-length arrays (VLA's),
+they can be used to more cleanly accomplish
+most of the tasks which <TT>alloca</TT> used to be put to.
+</p>
+<p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#local">7.22</a>.
+</p><p>Additional links:
+an
+
+
+
+
+<a href="alloca.glb.html">article by Gordon L. Burditt</a>
+describing difficulties in implementing and using <TT>alloca</TT>
+</p>
+
+
+<p>References:
+
+Rationale Sec. 4.10.3
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

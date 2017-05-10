@@ -1,0 +1,2829 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file stdio.sgml dated Wed Dec 21 13:07:57 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/stdio/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Stdio</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>12. Stdio</H1>
+<a name="getcharc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/getcharc.html"><!-- qtag -->Question 12.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's wrong with
+this code?
+<pre>
+char c;
+while((c = getchar()) != EOF) ...</pre>
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+For one thing,
+the
+variable to hold <TT>getchar</TT>'s return value
+must be an <TT>int</TT>.
+
+<TT>EOF</TT> is an
+``out of band'' return value from <TT>getchar</TT>:
+it is distinct from all possible <TT>char</TT> values
+which <TT>getchar</TT> can return.
+
+(On modern systems,
+it does not reflect any actual end-of-file character
+stored in a file;
+it is a signal that no more characters are available.)
+<TT>getchar</TT>'s return value
+must be stored in a variable larger than <TT>char</TT>
+
+so that it can hold all possible <TT>char</TT> values,
+<em>and</em> <TT>EOF</TT>.
+</p><p>Two failure modes are possible
+if,
+as in the fragment above,
+<TT>getchar</TT>'s return value
+is assigned to
+a
+<TT>char</TT>.
+</p><OL><li>If
+type
+<TT>char</TT> is signed,
+and if <TT>EOF</TT> is defined
+(as is usual)
+as -1,
+the character with the decimal value 255
+(<TT>'\377'</TT> or <TT>'\xff'</TT> in C)
+will
+be sign-extended and
+will
+compare equal to <TT>EOF</TT>,
+prematurely terminating the input.
+<a href="char8b.html" rel=subdocument>[footnote]</a>
+<li>If
+type <TT>char</TT> is unsigned,
+an
+actual
+<TT>EOF</TT>
+value
+will be
+truncated
+(by having its higher-order bits discarded,
+probably resulting in 255 or <TT>0xff</TT>)
+and will <em>not</em> be recognized as <TT>EOF</TT>,
+resulting in effectively infinite input.
+</OL><p>The bug can go undetected for a long time, however,
+if <TT>char</TT>s are signed and if the input is all 7-bit 
+characters.
+(Whether
+plain <TT>char</TT> is signed or unsigned
+is implementation-defined.)
+</p>
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 1.5 p. 14
+<br>
+K&amp;R2 Sec. 1.5.1 p. 16
+<br>
+ISO Sec. 6.1.2.5, Sec. 7.9.1, Sec. 7.9.7.5
+<br>
+H&amp;S Sec. 5.1.3 p. 116, Sec. 15.1, Sec. 15.6
+<br>
+CT&amp;P Sec. 5.1 p. 70
+<br>
+PCS Sec. 11 p. 157
+<hr><hr><hr>
+<a name="eofval">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/eofval.html"><!-- qtag -->Question 12.1b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I have a simple little program that reads characters until EOF,
+but how do I actually <em>enter</em> that ``EOF'' value
+from the keyboard?
+I see that <TT>EOF</TT> is defined by <TT>&lt;stdio.h&gt;</TT> to be -1;
+am I supposed to enter -1?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+
+
+If you think about it,
+what you enter <em>can't</em> be -1,
+because ``-1'' is two characters,
+and <TT>getchar</TT> is reading one character at a time.
+It turns out that the value of EOF as seen within your C program
+has essentially nothing to do with the keystroke combination you
+might
+use to signal end-of-file from the keyboard.
+EOF is essentially a signal to your program
+that no more characters
+will be available
+from that input,
+for <em>whatever</em> reason
+(end of a disk file,
+user is done typing,
+network stream has closed,
+I/O error, etc.).
+</p><p>Depending on your operating system,
+you indicate end-of-file
+from the keyboard
+using various keystroke combinations,
+usually either control-D or control-Z.
+The operating system and stdio library then arrange
+that your C program receive the EOF value.
+(Note, however, that there are various translations involved along the way.
+Under normal circumstances,
+you should <em>not</em> explicitly check for
+the control-D or control-Z value yourself,
+nor will you find that
+the <TT>&lt;stdio.h&gt;</TT> macro
+<TT>EOF</TT> is defined to be either of these values.)
+
+<hr><hr><hr>
+<a name="feof">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/feof.html"><!-- qtag -->Question 12.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why
+does
+the
+simple line-copying loop
+<TT>while(!feof(infp)) {
+fgets(buf,&nbsp;MAXLINE,&nbsp;infp);
+fputs(buf,&nbsp;outfp);
+}
+</TT>copy
+the last line twice?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In C,
+end-of-file
+is only indicated
+<em>after</em>
+an input routine
+has tried to read, and
+failed.
+(In other words,
+C's I/O is not like Pascal's.)
+Usually, you should just check the return value
+of the input routine:
+<pre>
+	while(fgets(buf, MAXLINE, infp) != NULL)
+		fputs(buf, outfp);
+</pre>
+In virtually all cases,
+there's no
+need to use <TT>feof</TT> at all.
+(<TT>feof</TT>,
+or more likely <TT>ferror</TT>,
+may be useful <em>after</em>
+a stdio call has returned <TT>EOF</TT> or <TT>NULL</TT>,
+to distinguish between an end-of-file
+condition
+and a read error.)
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 7.6 p. 164
+<br>
+ISO Sec. 7.9.3, Sec. 7.9.7.1, Sec. 7.9.10.2
+<br>
+H&amp;S Sec. 15.14 p. 382
+<hr><hr><hr>
+<a name="linebfdur">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/linebfdur.html"><!-- qtag -->Question 12.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm using <TT>fgets</TT> to read
+lines from a file into an
+array
+of pointers.
+Why do all the lines end up containing copies of the last line?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#linebfdur">7.4</a>.
+<hr><hr><hr>
+<a name="fflush">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fflush.html"><!-- qtag -->Question 12.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My program's prompts and intermediate output don't always show up
+on the screen,
+especially when I pipe the output through another program.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's best to use an explicit <TT>fflush(stdout)</TT>
+whenever
+output should definitely be visible
+(and especially if the text
+does not end
+with <TT>\n</TT>).
+<a href="noflush.html" rel=subdocument>[footnote]</a>
+Several mechanisms
+attempt to perform the <TT>fflush</TT> for you,
+at the ``right time,''
+but they
+tend to apply only
+when <TT>stdout</TT> is
+an interactive
+terminal.
+(See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#printferrno">12.24</a>.)
+</p>
+<p>References:
+
+ISO Sec. 7.9.5.2
+<hr><hr><hr>
+<a name="charatatime">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/charatatime.html"><!-- qtag -->Question 12.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+
+
+How can I read one character at a time,
+without waiting for the RETURN key?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#cbreak">19.1</a>.
+<hr><hr><hr>
+<a name="printfpercent">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/printfpercent.html"><!-- qtag -->Question 12.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I print a <TT>'%'</TT> character
+in a <TT>printf</TT> format string?
+I tried <TT>\%</TT>, but it didn't work.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Simply double the percent sign:
+<TT>%%</TT>&nbsp;.
+</p><p>The reason it's tricky to print <TT>%</TT> signs with <TT>printf</TT>
+is that <TT>%</TT> is essentially <TT>printf</TT>'s
+escape character.
+Whenever <TT>printf</TT> sees a <TT>%</TT>,
+it expects it to be followed by a character telling it what to 
+do next.
+The two-character sequence <TT>%%</TT>
+is defined
+to
+print a single <TT>%</TT>.
+</p><p>To understand why
+<TT>\%</TT> can't work,
+remember
+that
+the backslash <TT>\</TT>
+is the <em>compiler's</em> escape character,
+and
+controls how the compiler interprets 
+source code characters
+at compile time.
+In this case,
+however,
+we want to control how <TT>printf</TT> 
+interprets its format string
+at run-time.
+As far as the compiler is concerned,
+the escape sequence <TT>\%</TT> is undefined,
+and probably results in a single <TT>%</TT> character.
+It would be unlikely for both the <TT>\</TT> and the <TT>%</TT> to
+make it
+through to <TT>printf</TT>,
+even if <TT>printf</TT> were prepared to
+treat
+the <TT>\</TT>
+specially.
+</p><p>Additional links:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#cescapes">further reading</a>
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#runtimesc">8.8</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#dospath">19.17</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 7.3 p. 147
+<br>
+K&amp;R2 Sec. 7.2 p. 154
+<br>
+ISO Sec. 7.9.6.1
+<hr><hr><hr>
+<a name="printftypes">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/printftypes.html"><!-- qtag -->Question 12.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't
+<pre>
+long int n = 123456;
+printf("%d\n", n);</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Whenever you print <TT>long&nbsp;int</TT>s you must use
+the <TT>l</TT>
+(lower case letter ``ell'')
+modifier in the printf format
+(e.g. <TT>%ld</TT>).
+
+
+<TT>printf</TT> can't know the types of the arguments
+which you've passed to it,
+so you must let it know
+by using the correct format specifiers.
+<hr><hr><hr>
+<a name="varargproto">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/varargproto.html"><!-- qtag -->Question 12.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I thought that ANSI function prototypes
+were supposed to guard against argument type mismatches.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#proto2">15.3</a>.
+<hr><hr><hr>
+<a name="scanfvsprintf">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfvsprintf.html"><!-- qtag -->Question 12.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Someone told me it was wrong to use <TT>%lf</TT> with <TT>printf</TT>.
+How can
+<TT>printf</TT> use <TT>%f</TT> for type <TT>double</TT>,
+if <TT>scanf</TT> requires <TT>%lf</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's true that <TT>printf</TT>'s <TT>%f</TT> specifier
+works with both <TT>float</TT> and <TT>double</TT>
+arguments.<a href="fpfmts.html" rel=subdocument>[footnote]</a>
+Due to the
+``default argument promotions''
+(which apply in variable-length argument lists
+<a href="argpromo.html" rel=subdocument>[footnote]</a>
+such as
+<TT>printf</TT>'s,
+whether or not prototypes are in scope),
+
+values of type <TT>float</TT> are promoted to <TT>double</TT>,
+and <TT>printf</TT> therefore sees only <TT>double</TT>s.
+(<TT>printf</TT> does accept <TT>%Lf</TT>, for <TT>long&nbsp;double</TT>.)
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#promos">15.2</a>.
+</p><p><TT>scanf</TT>, on the other hand,
+accepts pointers,
+and no such promotions apply.
+Storing into a <TT>float</TT>
+(via a pointer)
+is very different from
+
+storing into a <TT>double</TT>,
+so <TT>scanf</TT> distinguishes between <TT>%f</TT> and <TT>%lf</TT>.
+</p><p>Here is a table listing the argument types
+expected by <TT>printf</TT> and <TT>scanf</TT>
+for the various format specifiers:
+<blockquote>[TABLE GOES HERE]
+</blockquote></p><p>(Strictly speaking,
+<TT>%lf</TT> is undefined
+under <TT>printf</TT>,
+though
+many
+
+
+systems probably accept it.
+To be portable,
+always
+use <TT>%f</TT>.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanf2">12.13</a>.
+</p>
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 7.3 pp. 145-47, Sec. 7.4 pp. 147-50
+<br>
+K&amp;R2 Sec. 7.2 pp. 153-44, Sec. 7.4 pp. 157-59
+<br>
+ISO Sec. 7.9.6.1, Sec. 7.9.6.2
+<br>
+H&amp;S Sec. 15.8 pp. 357-64, Sec. 15.11 pp. 366-78
+<br>
+CT&amp;P Sec. A.1 pp. 121-33
+<hr><hr><hr>
+<a name="printftypedef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/printftypedef.html"><!-- qtag -->Question 12.9b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What <TT>printf</TT> format should I use for a typedef
+like <TT>size_t</TT>
+when I don't know
+whether it's <TT>long</TT> or some other type?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+Use a cast to convert the value to a known, 
+conservatively-sized
+type,
+then use the <TT>printf</TT> format matching that type.
+For example, to print the size of a type,
+you might use
+<pre>
+	printf("%lu", (unsigned long)sizeof(thetype));
+</pre>
+
+<hr><hr><hr>
+<a name="printfvwid">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/printfvwid.html"><!-- qtag -->Question 12.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I implement a variable field width with <TT>printf</TT>?
+That is, instead of
+something like
+<TT>%8d</TT>,
+I want the width to be specified
+at run time.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>printf("%*d", width, x)</TT>
+will do just what you want.
+The asterisk
+in the format specifier
+indicates that
+an
+<TT>int</TT> value from the argument list
+will be used for the
+field
+width.
+(Note that
+in
+the argument list,
+the width
+precedes
+
+the value to be printed.)
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfvwid">12.15</a>.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 7.3
+<br>
+K&amp;R2 Sec. 7.2
+<br>
+ISO Sec. 7.9.6.1
+<br>
+H&amp;S Sec. 15.11.6
+<br>
+CT&amp;P Sec. A.1
+<hr><hr><hr>
+<a name="commaprint">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/commaprint.html"><!-- qtag -->Question 12.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I print numbers with commas separating the thousands?
+<br>What about currency formatted numbers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The functions in <TT>&lt;locale.h&gt;</TT>
+begin to provide some support
+for these operations,
+but
+there
+is no standard C function
+for doing either
+task.
+(In Standard C, the only thing <TT>printf</TT> does
+in response to a custom locale setting
+is to change its
+
+decimal-point character.)
+</p><p>
+POSIX specifies a <TT>strfmon</TT> function for formatting monetary quantities
+in a locale-appropriate way,
+and that the apostrophe flag in a numeric <TT>printf</TT> format specifier
+(e.g. <TT>%'d</TT>, <TT>%'f</TT>)
+requests comma-separated digits.
+</p><p>Here is a little routine for formatting comma-separated numbers,
+using the locale's thousands separator, if available:
+<pre>
+#include &lt;locale.h&gt;
+
+char *commaprint(unsigned long n)
+{
+	static int comma = '\0';
+	static char retbuf[30];
+	char *p = &amp;retbuf[sizeof(retbuf)-1];
+	int i = 0;
+
+	if(comma == '\0') {
+		struct lconv *lcp = localeconv();
+		if(lcp != NULL) {
+			if(lcp-&gt;thousands_sep != NULL &amp;&amp;
+				*lcp-&gt;thousands_sep != '\0')
+				comma = *lcp-&gt;thousands_sep;
+			else	comma = ',';
+		}
+	}
+
+	*p = '\0';
+
+	do {
+		if(i%3 == 0 &amp;&amp; i != 0)
+			*--p = comma;
+		*--p = '0' + n % 10;
+		n /= 10;
+		i++;
+	} while(n != 0);
+
+	return p;
+}
+</pre>
+
+(A better implementation would use
+the <TT>grouping</TT> field of
+the <TT>lconv</TT> structure,
+rather than assuming groups of three digits.
+A safer size for <TT>retbuf</TT> might be
+<TT>4*(sizeof(long)*CHAR_BIT+2)/3/3+1</TT>;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#sprintfsize">12.21</a>.)
+</p>
+
+<p>References:
+
+ISO Sec. 7.4
+<br>
+H&amp;S Sec. 11.6 pp. 301-4
+<hr><hr><hr>
+<a name="scanf1">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanf1.html"><!-- qtag -->Question 12.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't the call
+<TT>scanf("%d", i)</TT>
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+
+
+The
+arguments you
+pass to <TT>scanf</TT>
+must always be
+pointers:
+for each value converted,
+<TT>scanf</TT> ``returns'' it
+by filling in one of the locations
+
+you've passed pointers to.
+(See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#multretval">20.1</a>.)
+To fix
+the fragment above,
+change it to
+
+<TT>scanf("%d",&nbsp;&amp;i)</TT>
+.
+<hr><hr><hr>
+<a name="scanf1a">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanf1a.html"><!-- qtag -->Question 12.12b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why <em>does</em> the call
+<pre>
+char s[30];
+scanf("%s", s);</pre>
+
+work?
+I thought you always needed an <TT>&amp;</TT>
+on each variable passed to <TT>scanf</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You always need a <em>pointer</em>;
+you don't necessarily need an explicit <TT>&amp;</TT>.
+When you pass an array to <TT>scanf</TT>,
+you do not need
+the <TT>&amp;</TT>,
+because
+arrays
+are
+always
+passed to functions as pointers,
+whether you use <TT>&amp;</TT> or not.
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrequiv">6.3</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrparam">6.4</a>.
+(If you did use an explicit <TT>&amp;</TT>,
+you'd get the wrong type of pointer;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryvsadr">6.12</a>.)
+<hr><hr><hr>
+<a name="scanf2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanf2.html"><!-- qtag -->Question 12.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't
+this code:
+<pre>
+double d;
+scanf("%f", &amp;d);</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Unlike
+
+<TT>printf</TT>,
+<TT>scanf</TT> uses <TT>%lf</TT> for
+values of type
+<TT>double</TT>, and <TT>%f</TT> for <TT>float</TT>.
+<a href="fpfmts2.html" rel=subdocument>[footnote]</a>
+<TT>%f</TT> tells <TT>scanf</TT> to expect a pointer-to-<TT>float</TT>,
+not the pointer-to-<TT>double</TT> you gave it.
+Either use <TT>%lf</TT>,
+or
+declare the
+receiving
+variable as a <TT>float</TT>.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfvsprintf">12.9</a>.
+<hr><hr><hr>
+<a name="scanfh">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfh.html"><!-- qtag -->Question 12.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't the code
+<pre>
+short int s;
+scanf("%d", &amp;s);</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When converting <TT>%d</TT>,
+<TT>scanf</TT> expects a pointer to an <TT>int</TT>.
+To convert to a <TT>short&nbsp;int</TT>, use <TT>%hd</TT>
+.
+(See also the table in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfvsprintf">12.9</a>.)
+<hr><hr><hr>
+<a name="scanfvwid">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfvwid.html"><!-- qtag -->Question 12.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I specify a variable width in a <TT>scanf</TT> format string?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can't;
+an asterisk
+in a <TT>scanf</TT>
+format string
+means to suppress assignment.
+You
+may be able to
+use ANSI
+stringizing and
+string concatenation
+to construct a constant format specifier
+based on a preprocessor macro containing the desired width:
+<pre>
+#define WIDTH 3
+
+#define Str(x) #x
+#define Xstr(x) Str(x)	/* see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a> */
+
+scanf("%" Xstr(WIDTH) "d", &amp;n);
+</pre>
+If the width is a run-time variable,
+though,
+you'll have to
+build the format specifier at run time, too:
+<pre>
+char fmt[10];
+sprintf(fmt, "%%%dd", width);
+scanf(fmt, &amp;n);
+</pre>
+(<TT>scanf</TT> formats like these
+are unlikely when reading from standard input,
+but might find some usefulness
+with <TT>fscanf</TT> or <TT>sscanf</TT>.)
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#stringize">11.17</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#printfvwid">12.10</a>.
+<hr><hr><hr>
+<a name="datafmts">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/datafmts.html"><!-- qtag -->Question 12.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I read data from
+data files with particular formats?
+<br>How can I read ten floats without having to use a jawbreaker 
+<TT>scanf</TT> format
+<br>like
+<TT>"%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f&nbsp;%f"</TT>?
+<br>How can I read an arbitrary number of fields from a line into an array?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In general, there are three
+
+main ways
+of parsing data lines:
+</p><OL><li>Use
+<TT>fscanf</TT> or <TT>sscanf</TT>,
+with
+an appropriate format string.
+Despite the limitations
+mentioned in this section
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>),
+the <TT>scanf</TT> family is quite powerful.
+Though whitespace-separated fields are always the easiest to 
+deal with,
+<TT>scanf</TT> format strings can also be used
+with more 
+compact,
+column oriented, FORTRAN-style data.
+For instance, the line
+<pre>
+	1234ABC5.678
+</pre>
+could be
+read
+with <TT>"%d%3s%f"</TT>.
+(See also the last example in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfjam">12.19</a>.)
+<li>Break the line into
+fields separated by
+whitespace
+(or some other delimiter),
+using <TT>strtok</TT> or the equivalent
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#strtok">13.6</a>),
+then deal with each field individually,
+perhaps with functions like <TT>atoi</TT>
+and <TT>atof</TT>.
+(Once the line is broken up,
+the code for handling the fields
+is much like the traditional code in <TT>main()</TT>
+for handling the <TT>argv</TT> array;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#argv">20.3</a>.)
+This method is particularly useful
+for reading an arbitrary
+(i.e. not known in advance)
+number
+of fields from a line into an array.
+<p>Here is a simple example
+which copies a line of
+up to 10
+floating-point numbers
+
+
+
+(separated by whitespace)
+into an array:
+<pre>
+#define MAXARGS 10
+
+char line[] = "1 2.3 4.5e6 789e10";
+char *av[MAXARGS];
+int ac, i;
+double array[MAXARGS];
+
+ac = makeargv(line, av, MAXARGS);
+for(i = 0; i &lt; ac; i++)
+	array[i] = atof(av[i]);
+</pre>
+
+(See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#strtok">13.6</a>
+for the definition of <TT>makeargv</TT>.)
+</p><li>Use whatever pointer manipulations
+and library routines
+are handy
+to parse the line in an
+ad-hoc way.
+(The ANSI <TT>strtol</TT> and <TT>strtod</TT> functions
+are particularly useful for this style of parsing,
+because they can return a pointer
+indicating where they stopped reading.)
+This
+
+is obviously the most general way,
+but it's also the most difficult and error-prone:
+the
+thorniest
+parts
+of
+many
+C programs
+are
+those which use lots of
+tricky
+little pointers to pick apart strings.
+</OL><p>When
+possible, design data files and input formats
+so that they don't require arcane manipulations,
+but
+can
+instead
+be parsed with easier techniques
+such as 1 and 2:
+dealing with the files will
+then
+
+be
+much more pleasant
+all around.
+<hr><hr><hr>
+<a name="scanfhang">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfhang.html"><!-- qtag -->Question 12.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+When I read
+numbers
+from the keyboard with
+
+<TT>scanf</TT>
+and a
+<TT>"%d\n"</TT>
+format,
+like this:
+<pre>
+	int n;
+	scanf("%d\n", &amp;n);
+	printf("you typed %d\n", n);
+</pre>
+
+it seems to hang until I type one extra line of input.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Perhaps surprisingly,
+
+<TT>\n</TT>
+in a
+<TT>scanf</TT>
+format string
+
+does
+<em>not</em>
+mean
+to expect a newline,
+but rather
+to read and discard characters
+as long as each is a whitespace character.
+(In fact,
+any whitespace character in a <TT>scanf</TT> format string
+means to read and discard whitespace characters.
+<a href="krerr.html" rel=subdocument>[footnote]</a>
+Furthermore, formats like <TT>%d</TT> also discard leading 
+whitespace,
+so you usually don't need
+explicit
+whitespace in <TT>scanf</TT> format strings
+at all.)
+</p><p>The <TT>\n</TT> in <TT>"%d\n"</TT>
+therefore
+causes <TT>scanf</TT> to read characters
+until it finds a non-whitespace character,
+and it may need to read another line
+before it can find that non-whitespace character.
+In this case, the fix is just to use <TT>"%d"</TT>,
+without the <TT>\n</TT>
+
+
+
+(athough
+your program may
+then
+need to skip over the unread newline;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfinterlace">12.18a</a>).
+</p><p><TT>scanf</TT> was designed for free-format input,
+which is seldom what you want when reading from the keyboard.
+By ``free format''
+we mean that <TT>scanf</TT> does not treat newlines differently
+from
+other whitespace.
+The format <TT>"%d&nbsp;%d&nbsp;%d"</TT>
+would be equally happy
+reading the input
+<pre>
+	1 2 3
+</pre>
+or
+<pre>
+	1
+	2
+	3
+</pre>
+</p><p>(By way of comparison,
+source code in
+languages like C, Pascal, and LISP is free-format,
+while
+traditional
+BASIC and FORTRAN are
+
+not.)
+</p><p>If you're insistent,
+
+
+
+<TT>scanf</TT> <em>can</em> be told to match a newline,
+using the ``scanset'' directive:
+
+<pre>
+	scanf("%d%*[\n]", &amp;n);
+</pre>
+Scansets,
+though powerful,
+won't solve all <TT>scanf</TT> problems,
+however.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>.
+</p>
+
+
+<p>References:
+
+K&amp;R2 Sec. B1.3 pp. 245-6
+<br>
+ISO Sec. 7.9.6.2
+<br>
+H&amp;S Sec. 15.8 pp. 357-64
+<hr><hr><hr>
+<a name="scanfinterlace">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfinterlace.html"><!-- qtag -->Question 12.18a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm reading a number with <TT>scanf</TT>
+and
+<TT>%d</TT>,
+and then a string with
+<TT>gets()</TT>:
+<pre>
+	int n;
+	char str[80];
+
+	printf("enter a number: ");
+	scanf("%d", &amp;n);
+	printf("enter a string: ");
+	gets(str);
+	printf("you typed %d and \"%s\"\n", n, str);
+</pre>
+but the compiler seems to be
+skipping the call to <TT>gets()</TT>!
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+If, in response to the above program,
+you type the two lines
+<pre>
+	42
+	a string
+</pre>
+<TT>scanf</TT> will read the 42,
+but <em>not</em> the newline following it.
+That newline will remain on the input stream,
+where it will immediately satisfy <TT>gets()</TT>
+(which will
+therefore
+seem to
+read
+a blank line).
+The second line,
+``a&nbsp;string'',
+will not be read at all.
+</p><p>If you had happened to type
+both the number and the string
+on the same line:
+<pre>
+	42 a string
+</pre>
+the code
+would have worked more or less as you expected.
+</p><p>As a general rule,
+you shouldn't try to
+interlace
+calls to <TT>scanf</TT> with calls to <TT>gets()</TT>
+(or any other input routines);
+<TT>scanf</TT>'s peculiar treatment of newlines
+almost
+always
+leads to
+trouble.
+Either use <TT>scanf</TT> to read everything
+or nothing.
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#getsvsfgets">12.23</a>.
+</p><p>Additional links:
+<a href="gets_flush2.html">longer explanation</a>
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.6.2
+<br>
+H&amp;S Sec. 15.8 pp. 357-64
+<hr><hr><hr>
+<a name="scanfc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfc.html"><!-- qtag -->Question 12.18b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm using <TT>scanf&nbsp;%c</TT> to read a Y/N response,
+but later input gets skipped.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You wanted <TT>scanf&nbsp;%c</TT> to read a single character,
+and it tried to,
+but when you tried to type that single character at it,
+before the rest of the input system would accept it,
+you had to hit the RETURN key, too.
+<TT>scanf</TT> read only the one character, but that extra newline
+was still sitting in an input buffer somewhere,
+and it's that extra newline
+(seemingly representing a phantom blank line)
+which was received by your later input call.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfinterlace">12.18a</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>.
+<hr><hr><hr>
+<a name="scanfjam">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfjam.html"><!-- qtag -->Question 12.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I figured I could use <TT>scanf</TT> more safely
+if I checked its return value
+to make sure that the user
+typed the numeric values I expect:
+<pre>
+	int n;
+
+	while(1) {
+		printf("enter a number: ");
+		if(scanf("%d", &amp;n) == 1)
+			break;
+		printf("try again: ");
+	}
+
+	printf("you typed %d\n", n);
+</pre>
+but sometimes it seems to go into an infinite loop.
+<a href="achtung.html" rel=subdocument>[footnote]</a>
+Why?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When <TT>scanf</TT> is attempting to convert numbers,
+any non-numeric characters it encounters terminate the
+conversion
+<em>and are left on the input stream</em>.
+Therefore, unless some other steps are taken,
+unexpected non-numeric input ``jams'' <TT>scanf</TT>
+again and again:
+<TT>scanf</TT> never gets past
+the bad character(s)
+to
+encounter
+
+later, valid data.
+If the user types a character
+like `<TT>x</TT>'
+in response to
+the code above,
+the code
+will loop printing
+``try again'' forever,
+but
+it
+won't give the user a chance to try.
+</p><p>You may be wondering why <TT>scanf</TT>
+leaves
+unmatchable characters on the input stream.
+Suppose
+you had a compact data file containing lines consisting of a
+number and an alphabetic code string,
+without intervening whitespace, like
+<pre>
+	123CODE
+</pre>
+You might want to parse this data file with <TT>scanf</TT>,
+using the format string <TT>"%d%s"</TT>.
+But if the <TT>%d</TT> conversion did not leave the unmatched
+character on the input stream,
+
+<TT>%s</TT> would incorrectly read 
+<TT>"ODE"</TT>
+instead of <TT>"CODE"</TT>.
+(The problem is a standard one
+in lexical
+analysis: when scanning an arbitrary-length numeric constant or
+alphanumeric identifier, you never know where it ends until
+you've read ``too far.''
+This is
+one reason that <TT>ungetc</TT> exists.)
+</p><p>See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>.
+
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.6.2
+<br>
+H&amp;S Sec. 15.8 pp. 357-64
+<hr><hr><hr>
+<a name="achtung">
+<hr><hr><hr>
+<a name="scanfprobs">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/scanfprobs.html"><!-- qtag -->Question 12.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does everyone say not to use <TT>scanf</TT>?
+What should I use instead?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>scanf</TT>
+has
+a number of problems--see questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfhang">12.17</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfinterlace">12.18a</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfjam">12.19</a>.
+Also, its <TT>%s</TT>
+
+format has the same problem
+that <TT>gets()</TT> has
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#getsvsfgets">12.23</a>)--it's
+hard to guarantee that
+the receiving buffer
+won't overflow.
+<a href="overflow.html" rel=subdocument>[footnote]</a>
+</p><p>More generally,
+<TT>scanf</TT> is designed for relatively structured,
+formatted input
+(its name is
+in fact
+derived from
+``scan
+formatted'').
+If you pay attention,
+it will tell you whether it succeeded or failed,
+but it can tell you only approximately where it failed,
+and not at all how or why.
+You have very little opportunity to do any error recovery.
+</p><p>Yet interactive user input
+is the least structured
+input there is.
+A well-designed user interface
+will allow for the possibility of the user typing just about 
+anything--not
+just letters or punctuation when digits were expected,
+but also more or fewer characters than were expected,
+or no characters at all
+(i.e. just the RETURN key),
+or premature EOF,
+or anything.
+It's nearly
+impossible
+to deal gracefully
+with all of these potential problems
+when using <TT>scanf</TT>;
+it's
+far
+easier
+to read entire lines
+(with <TT>fgets</TT> or the like),
+then interpret them,
+either using <TT>sscanf</TT>
+or some other techniques.
+(Functions like
+<TT>strtol</TT>,
+<TT>strtok</TT>,
+and
+<TT>atoi</TT>
+are often useful;
+see also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#datafmts">12.16</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#strtok">13.6</a>.)
+If you do use
+any <TT>scanf</TT> variant,
+be sure
+to check the return value
+to make sure that the expected number of items were
+
+found.
+Also,
+if you use <TT>%s</TT>,
+be sure to guard
+against buffer overflow.
+
+</p>
+<p>Note,
+by the way,
+that
+criticisms of
+<TT>scanf</TT>
+are not necessarily indictments of
+<TT>fscanf</TT>
+and <TT>sscanf</TT>.
+<TT>scanf</TT> reads from <TT>stdin</TT>,
+which is usually an interactive keyboard
+and is therefore the least
+constrained,
+leading to the most problems.
+
+When a data file has a known format,
+on the other hand,
+it may be appropriate to read it with <TT>fscanf</TT>.
+It's perfectly appropriate to parse strings with <TT>sscanf</TT>
+(as long as the return value is checked),
+because it's so easy to regain control,
+restart the scan,
+discard the input if it didn't match,
+etc.
+</p><p>Additional links:
+<UL><li><a href="gets_flush1.html">longer explanation</a> by Chris Torek
+<li><a href="gets_flush2.html">longer explanation</a> by yours truly
+</UL></p>
+
+
+<p>References:
+
+K&amp;R2 Sec. 7.4 p. 159
+<hr><hr><hr>
+<a name="sprintfsize">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/sprintfsize.html"><!-- qtag -->Question 12.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I tell how much destination buffer space I'll need
+for an arbitrary <TT>sprintf</TT> call?
+How can I avoid
+overflowing
+the destination buffer with <TT>sprintf</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When the format string being used with <TT>sprintf</TT> is
+known and
+relatively simple,
+you can
+sometimes
+predict
+a
+buffer
+size in an ad-hoc way.
+If
+the format
+consists of one or two <TT>%s</TT>'s,
+you can count the fixed
+characters in the format
+string yourself
+(or let <TT>sizeof</TT> count them for you)
+and add in the result of calling <TT>strlen</TT>
+on the string(s) to be inserted.
+For example,
+to
+compute the buffer size that the call
+<pre>
+	sprintf(buf, "You typed \"%s\"", answer);
+</pre>
+would need,
+you could
+write:
+<pre>
+	int bufsize = 13 + strlen(answer);
+or
+	int bufsize = sizeof("You typed \"%s\"") + strlen(answer);
+</pre>
+
+followed by
+<pre>
+	char *buf = malloc(bufsize);
+	if(buf != NULL)
+		sprintf(buf, "You typed \"%s\"", answer);
+</pre>
+You can
+conservatively
+estimate the size that <TT>%d</TT> will expand to with
+code like:
+<pre>
+#include &lt;limits.h&gt;
+char buf[(sizeof(int) * CHAR_BIT + 2) / 3 + 1 + 1];
+sprintf(buf, "%d", n);
+</pre>
+
+This code
+computes
+the number of characters required
+for a base-8 representation of a number;
+a base-10 expansion is guaranteed to take as much room or less.
+(The <TT>+2</TT> takes care of truncation if the size is not a
+multiple of 3,
+and 
+the <TT>+1+1</TT> leaves room for a leading <TT>-</TT>
+and a trailing <TT>\0</TT>.)
+An
+analogous technique
+could of course be used for <TT>long&nbsp;int</TT>,
+and the same buffer can obviously be used with
+<TT>%u</TT>, <TT>%o</TT>, and <TT>%x</TT>
+formats
+as well.
+</p><p>When the format string is more complicated,
+or
+is
+not
+even
+known until run time,
+predicting the buffer size becomes as
+difficult
+as reimplementing <TT>sprintf</TT>,
+and correspondingly error-prone
+(and inadvisable).
+A
+last-ditch
+technique
+which is sometimes
+suggested
+is to use
+<TT>fprintf</TT> to print the same text to a
+temporary file,
+and
+then to
+look at <TT>fprintf</TT>'s return value
+
+or
+the size of the file
+(but see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#filesize">19.12</a>).
+(Using a temporary file for this application
+is admittedly
+clumsy and inelegant,<a href="diskerr.html" rel=subdocument>[footnote]</a>
+but it's the only portable solution
+besides writing an entire <TT>sprintf</TT> format 
+interpreter.
+If your system provides one,
+you can
+
+use
+a null or ``bit bucket'' device
+such as
+<TT>/dev/null</TT> or <TT>NUL</TT>
+instead of a temporary file.)
+</p><p>If there's
+any
+chance that the buffer might not be big enough,
+you won't want to call <TT>sprintf</TT>
+without some guarantee
+that the buffer will not overflow
+and overwrite some other part of
+memory.
+If the format string is known,
+you can limit <TT>%s</TT> expansion by using
+<TT>%.</TT>N<TT>s</TT>
+for some N,
+or <TT>%.*s</TT>
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#printfvwid">12.10</a>).
+</p><p>To avoid
+the overflow problem,
+you can use
+a length-limited version of <TT>sprintf</TT>,
+namely <TT>snprintf</TT>.
+It
+is
+used like this:
+<pre>
+	snprintf(buf, bufsize, "You typed \"%s\"", answer);
+</pre>
+<TT>snprintf</TT>
+has been available in several stdio libraries
+(including GNU and 4.4bsd)
+for several years.
+It
+has finally been
+standardized in C99.
+</p><p>As an extra, added bonus,
+the C99 <TT>snprintf</TT> provides a way
+to predict the size required
+for an arbitrary <TT>sprintf</TT> call.
+C99's
+<TT>snprintf</TT> returns
+the number of characters it would have placed in the buffer
+if there were room,
+not just how many it did place.
+Furthermore,
+it may be called with
+a null pointer
+and
+a buffer size
+of 0
+and a null pointer as the destination buffer.
+Therefore, the call
+<pre>
+	nch = snprintf(NULL, 0, fmtstring, /* other arguments */ );
+</pre>
+computes
+the number of characters required
+for the fully-formatted
+string.
+With that number
+(<TT>nch</TT>)
+in hand,
+you can then malloc a big-enough buffer
+and make a second <TT>snprintf</TT> call to fill it.
+</p><p>Yet another option is
+
+
+
+
+
+the (nonstandard) <TT>asprintf</TT> function,
+present in various C libraries including bsd's and GNU's,
+which formats to
+
+(and returns a pointer to)
+a <TT>malloc</TT>'ed buffer,
+like this:
+<pre>
+char *buf;
+asprintf(&amp;buf, "%d = %s", 42, "forty-two");
+/* now buf points to malloc'ed space containing formatted string */
+</pre>
+</p><p>Additional links:
+
+
+
+<a href="asprintf.c">sample implementation of <TT>asprintf</TT>
+</a></p>
+<p>References:
+
+C9X Sec. 7.13.6.6
+<hr><hr><hr>
+<a name="sprintfret">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/sprintfret.html"><!-- qtag -->Question 12.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the deal on <TT>sprintf</TT>'s return value?
+Is it an <TT>int</TT> or a <TT>char&nbsp;*</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The Standard
+says
+that it returns an
+<TT>int</TT>
+(the number of characters written,
+just like <TT>printf</TT> and <TT>fprintf</TT>).
+Once upon a time,
+in some C libraries,
+<TT>sprintf</TT>
+returned
+the <TT>char&nbsp;*</TT> value of its first argument,
+pointing
+to the
+completed
+result
+(i.e. analogous to <TT>strcpy</TT>'s return value).
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.6.5
+<br>
+PCS Sec. 11 p. 175
+<hr><hr><hr>
+<a name="getsvsfgets">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/getsvsfgets.html"><!-- qtag -->Question 12.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does everyone say not to use <TT>gets()</TT>?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Unlike <TT>fgets()</TT>,
+<TT>gets()</TT>
+cannot be told the size of the buffer it's to read into,
+so it
+cannot be prevented from overflowing
+that
+buffer
+if an input line is longer than expected--and
+Murphy's Law says that,
+sooner or
+later,
+a larger-than-expected input line <em>will</em> occur.
+<a href="rtmworm.html" rel=subdocument>[footnote]</a>
+
+
+
+
+
+
+(It's possible to convince yourself that,
+for some reason or another,
+input lines longer than some maximum are impossible,
+but it's also possible to be
+mistaken,
+<a href="oslinelen.html" rel=subdocument>[footnote]</a>
+and in any case it's just
+as easy to use <TT>fgets</TT>.)
+</p><p>
+
+
+
+The Standard <TT>fgets</TT> function
+is a vast improvement over <TT>gets()</TT>,
+although it's not perfect, either.
+(If long lines are a real possibility,
+their proper handling must be carefully considered.)
+</p><p>One other difference between 
+<TT>fgets()</TT> and <TT>gets()</TT>
+is that <TT>fgets()</TT> retains the <TT>'\n'</TT>,
+but it is straightforward to strip it out.
+See question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#malloc1">7.1</a> 
+for a code fragment illustrating
+the replacement of <TT>gets()</TT> with <TT>fgets()</TT>.
+</p>
+
+<p>References:
+
+Rationale Sec. 4.9.7.2
+<br>
+H&amp;S Sec. 15.7 p. 356
+<hr><hr><hr>
+<a name="printferrno">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/printferrno.html"><!-- qtag -->Question 12.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I thought I'd check <TT>errno</TT>
+after a long string of <TT>printf</TT> calls,
+to see if any of them had failed:
+<pre>
+	errno = 0;
+	printf("This\n");
+	printf("is\n");
+	printf("a\n");
+	printf("test.\n");
+	if(errno != 0)
+		fprintf(stderr, "printf failed: %s\n", strerror(errno));
+</pre>
+
+Why is it printing
+something strange like
+``printf failed: Not a typewriter''
+when I redirect the output to a file?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many implementations of the stdio package adjust their
+behavior slightly if <TT>stdout</TT> is a terminal.
+To make the determination,
+these
+implementations perform
+some
+operation which
+happens to
+fail
+(with
+ENOTTY)
+if <TT>stdout</TT> is not a terminal.
+Although the output operation goes
+on to complete successfully, <TT>errno</TT> still contains
+ENOTTY.
+This behavior can be mildly confusing, but it is not
+strictly incorrect, because
+it
+is only meaningful for a
+program to inspect the contents of <TT>errno</TT> after an error has
+been reported.
+(More
+precisely,
+<TT>errno</TT> is only meaningful
+after a library function
+that sets <TT>errno</TT> on error
+has returned an error code.)
+</p><p>In general,
+it's best to detect errors by checking
+a function's
+return value.
+To check for any
+accumulated
+
+error after a long string of stdio calls,
+you can use <TT>ferror</TT>.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#feof">12.2</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#errno">20.4</a>.
+</p>
+
+
+
+
+<p>References:
+
+ISO Sec. 7.1.4, Sec. 7.9.10.3
+<br>
+CT&amp;P Sec. 5.4 p. 73
+<br>
+PCS Sec. 14 p. 254
+<hr><hr><hr>
+<a name="fgetpos">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fgetpos.html"><!-- qtag -->Question 12.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between <TT>fgetpos</TT>/<TT>fsetpos</TT>
+and <TT>ftell</TT>/<TT>fseek</TT>?
+<br>What are <TT>fgetpos</TT> and <TT>fsetpos</TT> good for?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>ftell</TT> and <TT>fseek</TT>
+use type <TT>long&nbsp;int</TT>
+to represent
+offsets
+(positions)
+in a file,
+and
+may therefore be
+limited to offsets
+which can be represented in a <TT>long&nbsp;int</TT>.
+(Type <TT>long&nbsp;int</TT> is not guaranteed to hold values larger
+than
+2**31-1,
+
+
+
+
+limiting the maximum
+offset
+to 2 gigabytes).
+The newer
+<TT>fgetpos</TT> and <TT>fsetpos</TT>
+functions,
+on the other hand,
+use a
+special
+typedef,
+<TT>fpos_t</TT>,
+to represent the offsets.
+The type behind this typedef,
+if chosen appropriately,
+can represent arbitrarily large offsets,
+so <TT>fgetpos</TT> and <TT>fsetpos</TT> can be used with
+arbitrarily huge files.
+<TT>fgetpos</TT> and <TT>fsetpos</TT> also
+record
+the state associated with multibyte streams.
+See
+also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#octabyte">1.4</a>.
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. B1.6 p. 248
+<br>
+ISO Sec. 7.9.1, Secs. 7.9.9.1,7.9.9.3
+<br>
+H&amp;S Sec. 15.5 p. 252
+<hr><hr><hr>
+<a name="stdinflush">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/stdinflush.html"><!-- qtag -->Question 12.26a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I flush pending input so that a user's typeahead
+isn't read at the next prompt?
+Will <TT>fflush(stdin)</TT>
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>fflush</TT> is defined only for output streams.
+Since its definition of ``flush''
+is to complete the writing of buffered characters
+(not to discard them),
+discarding unread input
+would not be an analogous meaning
+for <TT>fflush</TT> on input streams.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#stdinflush2">12.26b</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.5.2
+<br>
+H&amp;S Sec. 15.2
+<hr><hr><hr>
+<a name="stdinflush2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/stdinflush2.html"><!-- qtag -->Question 12.26b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If <TT>fflush</TT> won't work,
+what can I use to flush input?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It depends on what you're trying to do.
+If you're trying to get rid of
+an unread newline
+or other unexpected input
+after calling <TT>scanf</TT>
+(see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfinterlace">12.18a</a>-<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfjam">12.19</a>),
+you really need to rewrite or replace
+the call to <TT>scanf</TT>
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#scanfprobs">12.20</a>).
+Alternatively, you can consume the rest of a partially-read line
+with a simple code fragment like
+<pre>
+	while((c = getchar()) != '\n' &amp;&amp; c != EOF)
+		/* discard */ ;
+</pre>
+</p><p>(You may also be able to
+use the curses <TT>flushinp</TT> function.)
+</p><p>There is no standard way to discard unread characters from a
+stdio input
+stream.
+Some vendors do implement <TT>fflush</TT>
+so that <TT>fflush(stdin)</TT> discards unread characters,
+although portable programs
+cannot depend on this.
+(Some versions of
+the stdio library
+implement <TT>fpurge</TT>
+or <TT>fabort</TT> calls
+which do the same thing,
+but these aren't standard, either.)
+Note, too, that flushing stdio input buffers
+is not necessarily
+sufficient:
+unread characters can also accumulate in other, OS-level input
+buffers.
+If you're trying to actively discard
+input
+(perhaps in anticipation of issuing
+an unexpected
+prompt
+to confirm a destructive action,
+for which an accidentally-typed ``y'' could be disastrous),
+you'll have
+to use a system-specific technique to detect the presence of typed-ahead input;
+see
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#cbreak">19.1</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#readavail">19.2</a>.
+
+
+
+Keep in mind that users can become frustrated
+if you discard input that happened to be typed
+too quickly.
+
+
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.5.2
+<br>
+H&amp;S Sec. 15.2
+<hr><hr><hr>
+<a name="fopenfp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fopenfp.html"><!-- qtag -->Question 12.27</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I wrote this routine which is supposed to open a file:
+<pre>
+	myfopen(char *filename, FILE *fp)
+	{
+		fp = fopen(filename, "r");
+	}
+</pre>
+But when I call it like this:
+<pre>
+		FILE *infp;
+		myfopen("filename.dat", infp);
+</pre>
+the <TT>infp</TT> variable
+in the caller doesn't get set properly.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Functions in C always receive copies of their arguments,
+so a function can never ``return'' a value to the 
+caller by assigning to an argument.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#passptrinit">4.8</a>.
+</p><p>For this example,
+one fix is to
+change <TT>myfopen</TT> to return a <TT>FILE&nbsp;*</TT>:
+<pre>
+	FILE *myfopen(char *filename)
+	{
+		FILE *fp = fopen(filename, "r");
+		return fp;
+	}
+</pre>
+and call it like this:
+<pre>
+		FILE *infp;
+		infp = myfopen("filename.dat");
+</pre>
+Alternatively,
+have <TT>myfopen</TT> accept a <em>pointer</em> to a <TT>FILE&nbsp;*</TT>
+(a pointer-to-pointer-to-<TT>FILE</TT>):
+<pre>
+	myfopen(char *filename, FILE **fpp)
+	{
+		FILE *fp = fopen(filename, "r");
+		*fpp = fp;
+	}
+</pre>
+and call it like this:
+<pre>
+		FILE *infp;
+		myfopen("filename.dat", &amp;infp);
+</pre>
+<hr><hr><hr>
+<a name="fopenmodec">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fopenmodec.html"><!-- qtag -->Question 12.28</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I can't even get a simple <TT>fopen</TT> call to work!
+What's wrong with
+this call?
+<pre>
+	FILE *fp = fopen(filename, 'r');
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+<TT>fopen</TT>'s mode argument must be a string,
+like <TT>"r"</TT>,
+not a character
+like <TT>'r'</TT>.
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#strvschar">8.1</a>.
+<hr><hr><hr>
+<a name="constrpath">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/constrpath.html"><!-- qtag -->Question 12.28b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I open files with names like
+``<TT>file1</TT>'',
+``<TT>file2</TT>'',
+``<TT>file3</TT>'',
+etc.,
+where the numeric part is controlled by a variable?
+Basically I want ``<TT>file%d</TT>'',
+like <TT>printf</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You want <TT>printf</TT>'s close cousin <TT>sprintf</TT>,
+which ``prints'' to a string:
+<pre>
+	char filename[FILENAME_MAX];
+	sprintf(filename, "file%d", i);
+	fp = fopen(filename, "r");
+</pre>
+<hr><hr><hr>
+<a name="fopenpath">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fopenpath.html"><!-- qtag -->Question 12.29</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+<TT>fopen</TT> is failing for certain pathnames.
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#dospath">19.17</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#fopenenv">19.17b</a>.
+<hr><hr><hr>
+<a name="fupdate">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fupdate.html"><!-- qtag -->Question 12.30</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to update a file in place,
+by using <TT>fopen</TT> mode <TT>"r+"</TT>,
+reading a certain string,
+and writing back a modified string,
+but it's not working.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Be sure to call <TT>fseek</TT>
+
+before you write,
+both
+to seek back
+to the beginning of the string you're trying to overwrite,
+and
+because
+an <TT>fseek</TT> or <TT>fflush</TT>
+
+is always required between
+reading and writing in the read/write <TT>"+"</TT> modes.
+
+Also, remember that you can only overwrite characters
+with the same number of replacement
+characters;
+there is no way to insert or delete characters in place.
+Finally,
+remember
+that overwriting in text mode
+may truncate the file at that point,
+and that you may have to preserve line lengths.
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#insdelrec">19.14</a>.
+</p>
+<p>References:
+
+ISO Sec. 7.9.5.3
+<hr><hr><hr>
+<a name="insdelrec">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/insdelrec.html"><!-- qtag -->Question 12.31</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I insert or delete a line
+(or record)
+in the middle of a file?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#insdelrec">19.14</a>.
+<hr><hr><hr>
+<a name="fdfilename">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fdfilename.html"><!-- qtag -->Question 12.32</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I recover the file name given an open
+stream?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#fdfilename">19.15</a>.
+<hr><hr><hr>
+<a name="freopen">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/freopen.html"><!-- qtag -->Question 12.33</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I redirect <TT>stdin</TT> or <TT>stdout</TT>
+to a file
+from within a program?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Use <TT>freopen</TT>.
+If you're calling a function <TT>f()</TT>
+which writes to <TT>stdout</TT>,
+and you want to send its output to a file,
+and you don't have the option of rewriting <TT>f</TT>,
+you can use a sequence like:
+<pre>
+	freopen(file, "w", stdout);
+	f();
+</pre>
+
+See, however,
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#undofreopen">12.34</a>.
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.5.4
+<br>
+H&amp;S Sec. 15.2
+<hr><hr><hr>
+<a name="undofreopen">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/undofreopen.html"><!-- qtag -->Question 12.34</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Once I've used <TT>freopen</TT>, how can I get the original
+<TT>stdout</TT>
+(or <TT>stdin</TT>)
+back?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There isn't a good way.
+If you need to switch back,
+the
+best solution
+is not to
+have used
+<TT>freopen</TT> in the
+first place.
+Try using your own explicit output (or input) stream variable,
+which you can reassign at will, while leaving the original
+<TT>stdout</TT> (or <TT>stdin</TT>) undisturbed.
+For example, declare a global
+<pre>
+	FILE *ofp;
+</pre>
+and replace all calls to <TT>printf( </TT>...<TT> )</TT> with
+<TT>fprintf(ofp, </TT>...<TT> )</TT>.
+(Obviously, you'll have to check for calls to
+<TT>putchar</TT> and <TT>puts</TT>, too.)
+Then you can set <TT>ofp</TT> to <TT>stdout</TT>
+or
+to anything else.
+</p><p>You might wonder if you could skip <TT>freopen</TT> entirely,
+and do something like
+<pre>
+	FILE *savestdout = stdout;
+	stdout = fopen(file, "w");	/* WRONG */
+</pre>
+leaving yourself able to restore <TT>stdout</TT> later by doing
+<pre>
+	stdout = savestdout;		/* WRONG */
+</pre>
+but code like this is not likely to work,
+
+
+because <TT>stdout</TT>
+(and <TT>stdin</TT> and <TT>stderr</TT>)
+are
+
+typically constants which cannot be reassigned
+
+(which
+is why <TT>freopen</TT> exists in the first place).
+</p><p>It may be possible,
+in a nonportable way,
+to save away
+information about a stream
+before
+calling <TT>freopen</TT>
+to open some file in its place,
+such that the original stream can later be restored.
+The most straightforward and reliable way is to manipulate the
+underlying file descriptors using 
+a system-specific call such as
+<TT>dup</TT>
+or
+<TT>dup2</TT>,
+if available (<a href="rd.kirby.c">example</a>).
+Another is to
+copy or inspect the contents of the
+<TT>FILE</TT>
+structure,
+but this is exceedingly
+nonportable
+and unreliable.
+</p><p>Under some systems,
+you might be able to reopen a special device file
+(such as <TT>/dev/fd/1</TT> under modern versions of Unix)
+which is still attached to (for example) the original standard output.
+You can,
+under some systems,
+explicitly re-open the controlling terminal
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#devtty">12.36</a>),
+but this isn't necessarily what you want,
+since the
+original
+input or output
+(i.e. what <TT>stdin</TT> or <TT>stdout</TT> had been
+before you called <TT>freopen</TT>)
+could have been redirected
+from the command line.
+</p><p>All of this pertains to stdio redirection
+initially performed by <TT>freopen</TT>,
+affecting the I/O calls
+within the same program that called <TT>freopen</TT>.
+If what you're trying to do is capture the result of a 
+subprogram
+
+
+execution,
+<TT>freopen</TT> probably won't work
+anyway;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#popen">19.30</a> instead.
+</p><p>Additional links:
+<a href="sd13.html" rel=subdocument>examples</a>
+<hr><hr><hr>
+<a name="redirp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/redirp.html"><!-- qtag -->Question 12.35</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I tell if standard input or output is redirected
+(i.e. whether ``<TT>&lt;</TT>'' or ``<TT>&gt;</TT>''
+was used on the invocation command line)?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can't tell directly,
+but you can usually look at a few other things
+to make whatever decision you need to.
+
+If
+you want
+your program
+to
+take input
+from <TT>stdin</TT> when not given any input files,
+you can do so if <TT>argv</TT> doesn't mention any input files
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#argv">20.3</a>),
+or perhaps if you're given a placeholder like
+``<TT>-</TT>''
+
+instead of
+a filename.
+If you want to suppress prompts
+if input is not coming from an interactive terminal,
+on some systems
+(e.g. Unix, and usually MS-DOS)
+you can use <TT>isatty(0)</TT> or <TT>isatty(fileno(stdin))</TT>
+to make the determination.
+<hr><hr><hr>
+<a name="devtty">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/devtty.html"><!-- qtag -->Question 12.36</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to write a program like ``<TT>more</TT>.''
+
+How can I
+get
+back
+to
+the interactive keyboard if <TT>stdin</TT> is redirected?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is no portable way of doing this.
+
+Under Unix,
+you can open the special file <TT>/dev/tty</TT>.
+Under MS-DOS,
+you can try opening
+the ``file'' <TT>CON</TT>,
+or use routines
+or BIOS calls
+such as <TT>getch</TT>
+which
+may go to the keyboard
+whether or not input is redirected.
+<hr><hr><hr>
+<a name="multiway">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/multiway.html"><!-- qtag -->Question 12.36b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I arrange to have output go two places at once,
+e.g. to the screen and to a file?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You can't do this directly,
+but you
+could write your own <TT>printf</TT> variant
+which printed everything twice.
+Here is a sample <TT>logprintf</TT> function
+which
+prints to both <TT>stdout</TT> and a preopened log file:
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+
+extern FILE *logfp;
+
+void logprintf(char *fmt, ...)
+{
+	va_list argp;
+	va_start(argp, fmt);
+	vfprintf(stdout, fmt, argp);
+	va_end(argp);
+	va_start(argp, fmt);
+	vfprintf(logfp, fmt, argp);
+	va_end(argp);
+}
+</pre>
+Now, whenever you call <TT>logprintf</TT>
+(which you can call with format strings just like <TT>printf</TT>),
+it prints both to <TT>stdout</TT> and to <TT>logfp</TT>,
+which you have presumably opened to your desired log file.
+Another way to arrange this would be
+<pre>
+void f2printf(FILE *fp1, FILE *fp2, char *fmt, ...)
+{
+	va_list argp;
+	va_start(argp, fmt); vfprintf(fp1, fmt, argp); va_end(argp);
+	va_start(argp, fmt); vfprintf(fp2, fmt, argp); va_end(argp);
+}
+</pre>
+where <TT>f2printf</TT> is just like <TT>fprintf</TT>
+except that you give it two file pointers
+(e.g. <TT>stdout</TT> and <TT>logfp</TT>)
+and it prints to both of them.
+</p><p>Both of these techniques obviously require you to use explicit
+calls to <TT>logprintf</TT> or <TT>f2printf</TT>.
+There is no known way
+in Standard C to arrange implicitly
+(i.e. via some call analogous to <TT>freopen</TT>)
+that one stream,
+which you print to once with a normal call like <TT>fprintf</TT>,
+print to two places at once.
+<a href="functional.html" rel=subdocument>[footnote]</a>
+</p><p>See
+also
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs#vprintf">15.5</a>.
+<hr><hr><hr>
+<a name="binaryio">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/binaryio.html"><!-- qtag -->Question 12.37</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I want to
+read and write numbers
+between files and memory
+in a byte-at-a-time way,
+not as formatted characters
+the way <TT>fprintf</TT> and <TT>fscanf</TT> do.
+How
+can I do this?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+What you're trying to do is usually called ``binary'' I/O.
+First,
+make sure that you are calling <TT>fopen</TT> with the 
+<TT>"b"</TT> modifier
+(<TT>"rb"</TT>, <TT>"wb"</TT>, etc.;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#fopenbinary">12.38</a>).
+Then,
+use the <TT>&amp;</TT> and <TT>sizeof</TT> operators
+to
+get a handle on
+
+the sequences of bytes
+you are trying to transfer.
+Usually,
+the <TT>fread</TT>
+and <TT>fwrite</TT> functions
+are what you 
+want to use;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#io">2.11</a>
+for an example.
+</p><p>Note, though,
+that <TT>fread</TT> and <TT>fwrite</TT> do not necessarily imply
+binary I/O.
+If you've opened a file in binary mode,
+you can use any I/O calls on it
+(see
+for example
+the
+examples in
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#extconform">12.42</a>);
+if you've opened it in text mode,
+you can
+use <TT>fread</TT> or <TT>fwrite</TT> if they're 
+convenient.
+</p><p>Finally,
+note that binary data files are not very portable;
+see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#textvsbinary">12.40</a>.
+<hr><hr><hr>
+<a name="fopenbinary">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/fopenbinary.html"><!-- qtag -->Question 12.38</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I read a binary data file properly?
+I'm occasionally seeing <TT>0x0a</TT> and <TT>0x0d</TT> values getting garbled,
+and
+I seem
+to hit EOF prematurely if the data contains the value <TT>0x1a</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When you're reading a binary data file,
+you should
+
+specify <TT>"rb"</TT> mode
+when calling <TT>fopen</TT>,
+to make sure that text file translations do not occur.
+Similarly,
+when writing binary data files, use <TT>"wb"</TT>.
+(Under operating systems
+such as Unix
+which don't distinguish between text and binary files,
+<TT>"b"</TT>
+may not be required,
+but is harmless.)
+</p><p>Note that
+the text/binary distinction is made when you open the file:
+once a file is open,
+it doesn't matter which I/O calls you use on it.
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#binaryio">12.37</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#textvsbinary">12.40</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#extconform">12.42</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.
+
+
+</p>
+
+<p>References:
+
+ISO Sec. 7.9.5.3
+<br>
+H&amp;S Sec. 15.2.1 p. 348
+<hr><hr><hr>
+<a name="stdinbinary">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/stdinbinary.html"><!-- qtag -->Question 12.39</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm writing a
+``filter''
+for binary files,
+but <TT>stdin</TT> and <TT>stdout</TT> are preopened
+as text streams.
+How can I change
+their mode
+to binary?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+There is no standard way to do this.
+On Unix-like systems,
+there is no text/binary distinction,
+so
+there is no need to change the mode.
+Some MS-DOS compilers supply a <TT>setmode</TT> call.
+Otherwise, you're on your own.
+<hr><hr><hr>
+<a name="textvsbinary">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/textvsbinary.html"><!-- qtag -->Question 12.40</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between text and binary I/O?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In text mode,
+a file is assumed to consist of
+lines of printable characters
+(perhaps including tabs).
+The routines in the stdio library
+(<TT>getc</TT>, <TT>putc</TT>, and all the rest)
+translate between
+the underlying system's
+end-of-line representation
+and the single <TT>\n</TT> used in C programs.
+C programs
+which simply read and write text
+therefore don't have to worry about
+the underlying system's
+newline conventions:
+when a C program writes a <TT>'\n'</TT>,
+the stdio library
+writes
+the appropriate end-of-line indication,
+and when the stdio library detects
+an end-of-line while reading,
+it returns a single <TT>'\n'</TT>
+to the calling program.
+<a href="recfs.html" rel=subdocument>[footnote]</a>
+</p><p>In binary mode, on the other hand,
+bytes are read and written between the program and the file 
+without any interpretation.
+(On MS-DOS systems,
+binary mode also turns off
+testing for control-Z
+as an in-band
+end-of-file character.)
+</p><p>Text mode translations
+also
+affect the apparent size of a file as it's read.
+Because the characters
+read from and written to
+a file in text mode
+do not necessarily match
+the characters
+stored in the file 
+exactly,
+the
+size of the file on disk
+may not always match
+the number of characters which can be read from it.
+Furthermore,
+for analogous reasons,
+the <TT>fseek</TT> and
+<TT>ftell</TT> functions
+do not
+necessarily
+deal in pure byte offsets from the beginning of the file.
+(Strictly speaking,
+in text mode,
+the offset values used by <TT>fseek</TT> and <TT>ftell</TT>
+should not be interpreted at all:
+a value returned by <TT>ftell</TT>
+should only be used as a later argument to <TT>fseek</TT>,
+and <em>only</em> values returned by <TT>ftell</TT>
+should be used as arguments to <TT>fseek</TT>.)
+</p><p>In binary mode,
+<TT>fseek</TT> and <TT>ftell</TT> do use pure byte offsets.
+However,
+some systems may have to append
+a number of
+null bytes at the end
+of a binary file
+to pad it out to
+a full record.
+</p><p>See also questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#binaryio">12.37</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#filesize">19.12</a>.
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 7.9.2
+<br>
+Rationale Sec. 4.9.2
+<br>
+H&amp;S Sec. 15 p. 344, Sec. 15.2.1 p. 348
+<hr><hr><hr>
+<a name="structio">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/structio.html"><!-- qtag -->Question 12.41</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I read/write structures from/to
+
+data files?
+
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#io">2.11</a>.
+<hr><hr><hr>
+<a name="extconform">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/extconform.html"><!-- qtag -->Question 12.42</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I write code to conform to these old, binary data file formats?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's hard,
+because of word size and byte order differences,
+floating-point formats,
+and
+structure padding.
+To
+get the control you need over
+these
+particulars,
+you may have to read and write
+things
+a byte at a time,
+shuffling and rearranging as you go.
+(This isn't always as bad as it sounds,
+and gives you both portability
+of your code
+and complete control.)
+</p><p>For example, to read
+a data structure
+consisting of a character, a 32-bit integer, and a 16-bit integer,
+from the stream <TT>fp</TT>,
+
+into the C structure
+
+<pre>
+struct mystruct {
+	char c;
+	long int i32;
+	int i16;
+} s;
+</pre>
+you might use
+code like this:
+<pre>
+	s.c = getc(fp);
+
+	s.i32 = (long)getc(fp) &lt;&lt; 24;
+	s.i32 |= (long)getc(fp) &lt;&lt; 16;
+	s.i32 |= (unsigned)(getc(fp) &lt;&lt; 8);
+	s.i32 |= getc(fp);
+
+	s.i16 = getc(fp) &lt;&lt; 8;
+	s.i16 |= getc(fp);
+</pre>
+This code assumes that <TT>getc</TT> reads
+8-bit characters,
+and that the data is stored
+most significant byte first
+(``big endian'').
+The casts to <TT>(long)</TT> ensure that the 16- and 24-bit shifts
+operate on <TT>long</TT> values
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#intoverflow1">3.14</a>),
+and the cast to <TT>(unsigned)</TT> guards against sign extension.
+(In general,
+it's safer to use all <TT>unsigned</TT>
+types when writing code like this,
+but see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=expr#preservingrules">3.19</a>.)
+</p><p>The corresponding code to write the structure might look like:
+<pre>
+	putc(s.c, fp);
+
+	putc((unsigned)((s.i32 &gt;&gt; 24) &amp; 0xff), fp);
+	putc((unsigned)((s.i32 &gt;&gt; 16) &amp; 0xff), fp);
+	putc((unsigned)((s.i32 &gt;&gt; 8) &amp; 0xff), fp);
+	putc((unsigned)(s.i32 &amp; 0xff), fp);
+
+
+	putc((s.i16 &gt;&gt; 8) &amp; 0xff, fp);
+	putc(s.i16 &amp; 0xff, fp);
+</pre>
+</p><p>See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#fopenbinary">12.38</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.
+<hr><hr><hr>
+<a name="runtimesc2">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../stdio/runtimesc2.html"><!-- qtag -->Question 12.43</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm reading
+strings
+typed by
+the user
+into an array,
+and then printing them out later.
+When the user types
+a sequence like <TT>\n</TT>,
+why
+isn't it being
+handled properly?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#runtimesc">8.8</a>.
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

@@ -1,0 +1,1541 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:45 2005 by faqproc version 2.7 -->
+<!-- from source file struct.sgml dated Wed Dec 21 16:15:32 2005 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/struct/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Structures, Unions, and Enumerations</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>2. Structures, Unions, and Enumerations</H1>
+<a name="typedef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/typedef.html"><!-- qtag -->Question 2.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+these two declarations?
+<pre>
+	struct x1 { ... };
+	typedef struct { ... } x2;
+</pre>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The first form declares a <a href="../sx1/index.html#structure tag"><dfn>structure tag</dfn></a>;
+the second declares a <a href="../sx1/index.html#typedef"><dfn>typedef</dfn></a>.
+The
+
+main
+difference is
+that
+the second declaration is of a slightly more abstract
+type--its
+users don't necessarily know that it is a structure,
+and
+the keyword <TT>struct</TT> is 
+not used when declaring instances of
+it:
+<pre>
+	x2 b;
+</pre>
+</p><p>Structures declared with
+tags,
+on the other hand,
+must be defined with the
+<pre>
+	struct x1 a;
+</pre>
+form.
+<a href="cplpl.html" rel=subdocument>[footnote]</a>
+</p><p>(It's
+also possible to play it both ways:
+<pre>
+	typedef struct x3 { ... } x3;
+</pre>
+It's legal,
+if potentially obscure,
+to use the same name for both the tag and the typedef,
+since they live in separate namespaces.
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#namespace">1.29</a>.)
+
+<hr><hr><hr>
+<a name="impltypedef">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/impltypedef.html"><!-- qtag -->Question 2.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't
+<pre>
+struct x { ... };
+x thestruct;</pre>
+
+work?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+C is not C++.
+Typedef
+
+names are not automatically generated for structure tags.
+Either declare structure instances using the <TT>struct</TT> keyword:
+<pre>
+	struct x thestruct;
+</pre>
+or declare a typedef when you declare a structure:
+<pre>
+	typedef struct { ... } x;
+
+	x thestruct;
+</pre>
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#selfrefstruct">1.14</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#typedef">2.1</a>.
+<hr><hr><hr>
+<a name="selfref">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/selfref.html"><!-- qtag -->Question 2.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Can a structure contain a pointer
+to itself?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Most certainly.
+A problem can arise if you try to use typedefs;
+see
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#selfrefstruct">1.14</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#mutrefstructs">1.15</a>.
+<hr><hr><hr>
+<a name="opaquetypes">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/opaquetypes.html"><!-- qtag -->Question 2.4</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I implement
+opaque (abstract) data types in C?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+One good way is
+for clients
+to use structure pointers
+(perhaps additionally hidden behind typedefs)
+which point to structure types which are not publicly defined.
+In other words,
+a client uses structure pointers
+(and calls functions accepting and returning structure pointers)
+without knowing
+anything about
+what the fields of the structure are.
+(As long as
+the details of the structure aren't
+needed--e.g. as
+long as
+the
+<TT>-&gt;</TT>
+and
+<TT>sizeof</TT>
+operators are not used--C
+is perfectly happy
+to handle pointers to structures of
+
+incomplete type.<a href="jst3.html" rel=subdocument>[footnote]</a>
+)
+Only within the source files
+implementing the abstract data type
+are
+
+complete declarations for the structures actually in scope.
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#structinproto">11.5</a>.
+</p><p>Additional links:
+<br>
+<br>
+<a href="opaque.examp.html">example</a>
+<br>
+<br>
+<a href="sd1.html" rel=subdocument>slightly shorter, slightly goofier example</a>
+<hr><hr><hr>
+<a name="oop">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/oop.html"><!-- qtag -->Question 2.4b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there a good way of simulating OOP-style inheritance,
+or other OOP features,
+in C?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's straightforward to implement simple ``methods''
+by placing function pointers in structures.
+You can make various clumsy, brute-force attempts at inheritance
+using the preprocessor
+or by having structures contain ``base types''
+as initial subsets,
+but it won't be perfect.
+There's obviously no operator overloading,
+
+and overriding
+(i.e. of ``methods'' in ``derived classes'')
+would have to be done by hand.
+</p><p>Obviously, if you need ``real'' OOP,
+you'll want to use a language that supports it,
+such as C++.
+</p><p>Additional links:
+
+
+
+
+An
+<a href="oop.jxh.html">article by James Hu</a>
+exploring some possibilities in more detail.
+<hr><hr><hr>
+<a name="fcnproto">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/fcnproto.html"><!-- qtag -->Question 2.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does the declaration
+<pre>
+extern int f(struct x *p);</pre>
+
+give me
+an obscure
+warning message
+about
+``struct x declared inside parameter list''?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#structinproto">11.5</a>.
+<hr><hr><hr>
+<a name="structhack">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/structhack.html"><!-- qtag -->Question 2.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I came across some code that declared a structure
+like this:
+<pre>
+struct name {
+	int namelen;
+	char namestr[1];
+};
+</pre>
+and then did some tricky allocation to make
+the
+<TT>namestr</TT>
+array act like it
+had several elements,
+with the number
+recorded by <TT>namelen</TT>.
+How does this work?
+Is
+it
+legal or portable?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It's not clear if it's legal or portable,
+but it is rather popular.
+An implementation of the technique
+might look
+something like this:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct name *makename(char *newname)
+{
+	struct name *ret =
+		malloc(sizeof(struct name)-1 + strlen(newname)+1);
+				/* -1 for initial [1]; +1 for \0 */
+	if(ret != NULL) {
+		ret-&gt;namelen = strlen(newname);
+		strcpy(ret-&gt;namestr, newname);
+	}
+
+	return ret;
+}
+</pre>
+This function allocates
+an instance of the <TT>name</TT> structure
+with the size adjusted
+so that the <TT>namestr</TT> field can hold the requested name
+(not just one character,
+as the structure declaration would suggest).
+</p><p>Despite its popularity,
+
+the technique is also somewhat notorious:
+Dennis Ritchie has called it
+``unwarranted chumminess with the
+
+
+C implementation,''
+and an
+official interpretation
+
+has deemed that it
+is not
+strictly conforming
+with the C Standard,
+although
+it does seem to work under
+all known implementations.
+(Compilers which check array bounds carefully
+might issue warnings.)
+</p><p>Another possibility is
+to declare the variable-size element very
+large, rather than very small.
+The
+above example
+could be rewritten like this:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define MAXSIZE 100
+
+struct name {
+	int namelen;
+	char namestr[MAXSIZE];
+};
+
+struct name *makename(char *newname)
+{
+	struct name *ret =
+		malloc(sizeof(struct name)-MAXSIZE+strlen(newname)+1);
+								/* +1 for \0 */
+	if(ret != NULL) {
+		ret-&gt;namelen = strlen(newname);
+		strcpy(ret-&gt;namestr, newname);
+	}
+
+	return ret;
+}
+</pre>
+where <TT>MAXSIZE</TT> is larger than any name which will be stored.
+However,
+it looks like this technique is disallowed by
+a strict interpretation of the Standard
+as well.
+Furthermore,
+either of these ``chummy'' structures must be used with care,
+since the programmer knows more about their size than the compiler does.
+</p><p>Of course, to be truly safe,
+the right thing to do is use a character pointer instead of an array:
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct name {
+	int namelen;
+	char *namep;
+};
+
+struct name *makename(char *newname)
+{
+	struct name *ret = malloc(sizeof(struct name));
+	if(ret != NULL) {
+		ret-&gt;namelen = strlen(newname);
+		ret-&gt;namep = malloc(ret-&gt;namelen + 1);
+		if(ret-&gt;namep == NULL) {
+			free(ret);
+			return NULL;
+		}
+		strcpy(ret-&gt;namep, newname);
+	}
+
+	return ret;
+}
+</pre>
+(Obviously, the ``convenience'' of having
+the length and the string stored in the same block of memory
+has now been lost,
+and freeing instances of this structure will require two calls to <TT>free</TT>;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=malloc#freeforall">7.23</a>.)
+</p><p>When the data type being stored is characters,
+as in the above examples,
+it is straightforward to coalesce the two calls to 
+<TT>malloc</TT> into one,
+to preserve contiguity
+(and therefore rescue the ability to use a single call to <TT>free</TT>):
+<pre>
+struct name *makename(char *newname)
+{
+	char *buf = malloc(sizeof(struct name) +
+				strlen(newname) + 1);
+	struct name *ret = (struct name *)buf;
+	ret-&gt;namelen = strlen(newname);
+	ret-&gt;namep = buf + sizeof(struct name);
+	strcpy(ret-&gt;namep, newname);
+
+	return ret;
+}
+</pre>
+</p><p>However,
+piggybacking a second region
+onto a single <TT>malloc</TT> call
+like this
+is only portable
+if the second region is to be treated as an array of <TT>char</TT>.
+For any larger type,
+alignment
+(see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>)
+becomes significant and would have to be preserved.
+</p><p>C99 introduces
+the concept of a <a href="../sx1/index.html#flexible array member"><dfn>flexible array member</dfn></a>,
+which allows
+the size of an array to be omitted if it 
+is the last member in a structure,
+thus
+providing a well-defined solution.
+</p>
+
+<p>References:
+
+Rationale Sec. 3.5.4.2
+<br>
+C9X Sec. 6.5.2.1
+<hr><hr><hr>
+<a name="firstclass">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/firstclass.html"><!-- qtag -->Question 2.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I heard
+that structures could be assigned
+to variables and passed to and from functions, but K&amp;R1
+says
+not.
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+What K&amp;R1 said
+(though
+this was quite some time ago by now)
+was that the restrictions on structure operations would
+be lifted in a forthcoming version of the compiler, and in
+fact
+the operations
+
+of
+assigning structures,
+passing structures as function arguments,
+and returning structures from functions
+were fully functional in
+Ritchie's
+compiler
+even as K&amp;R1 was being published.
+A few ancient compilers may have lacked
+these operations,
+but
+all modern compilers support them,
+and they are part of the ANSI C standard,
+so there should be no reluctance to use them.
+
+<a href="fn14.html" rel=subdocument>[footnote]</a>
+</p><p>(Note that when a structure is assigned, passed, or returned,
+the
+copying is done monolithically.
+This means that
+the copies of any pointer fields
+will point
+to the same place
+as the original.
+In other words,
+the data pointed to
+is <em>not</em> copied.)
+
+</p><p>See the code fragments in question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#complex">14.11</a>
+for an example of structure operations in action.
+
+</p>
+
+
+
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 6.2 p. 121
+<br>
+K&amp;R2 Sec. 6.2 p. 129
+<br>
+ISO Sec. 6.1.2.5, Sec. 6.2.2.1, Sec. 6.3.16
+<br>
+H&amp;S Sec. 5.6.2 p. 133
+<hr><hr><hr>
+<a name="compare">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/compare.html"><!-- qtag -->Question 2.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there a way to
+compare structures
+automatically?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+There is
+not a
+good
+way
+
+for a compiler to implement
+structure
+comparison
+(i.e. to support the <TT>==</TT> operator for structures)
+which is consistent with C's low-level flavor.
+A
+simple
+
+byte-by-byte comparison could
+founder on
+
+random bits
+present in unused ``holes'' in the structure
+(such padding is used
+to keep the alignment of later fields correct;
+see
+question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>).
+A field-by-field comparison might require unacceptable amounts of
+repetitive
+code for large structures.
+Any
+
+
+compiler-generated
+comparison
+could not be expected
+to compare pointer
+fields
+appropriately
+in all cases:
+for example,
+it's often appropriate to compare <TT>char&nbsp;*</TT>
+
+fields
+with <TT>strcmp</TT> rather than <TT>==</TT>
+(see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=charstring#stringeq">8.2</a>).
+</p><p>
+If you
+need
+to compare two structures,
+you'll have to
+write your own function to do so,
+field by field.
+</p>
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 6.2 p. 129
+<br>
+Rationale Sec. 3.3.9
+<br>
+H&amp;S Sec. 5.6.2 p. 133
+<hr><hr><hr>
+<a name="passret">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/passret.html"><!-- qtag -->Question 2.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How
+are
+structure passing and returning
+implemented?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+When structures are passed as arguments to functions,
+the entire structure is typically pushed on the stack,
+using as many words as are required.
+
+(Programmers often choose to use
+pointers to structures instead,
+precisely to avoid this overhead.)
+Some compilers
+merely
+pass a pointer
+to the structure,
+though they may have to make a local copy
+to preserve
+pass-by-value
+
+semantics.
+
+</p><p>Structures are often returned from functions
+in a location pointed to by an extra,
+compiler-supplied
+``hidden'' argument
+to the function.
+
+Some older compilers used a special, static location for structure returns,
+although this made structure-valued functions
+non-reentrant,
+which ANSI C disallows.
+</p>
+
+<p>References:
+
+ISO Sec. 5.2.3
+<hr><hr><hr>
+<a name="anonstruct">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/anonstruct.html"><!-- qtag -->Question 2.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can
+I pass constant values to functions which accept structure arguments?
+How can I create nameless, immediate, constant structure values?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Traditional C had no way of generating anonymous structure values;
+you had to use a temporary structure variable
+
+
+
+or
+a little structure-building function;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#complex">14.11</a> for an example.
+</p><p>C99 introduces ``compound literals'',
+one form of which
+provides for
+structure constants.
+For example, to pass a constant coordinate pair
+to a
+hypothetical
+<TT>plotpoint</TT> function
+which expects a <TT>struct&nbsp;point</TT>,
+you can call
+<pre>
+	plotpoint((struct point){1, 2});
+</pre>
+Combined with ``designated initializers''
+(another C99 feature),
+it is also possible to specify member values by name:
+<pre>
+	plotpoint((struct point){.x=1, .y=2});
+</pre>
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ptrs#refconst">4.10</a>.
+</p>
+
+<p>References:
+
+C9X Sec. 6.3.2.5, Sec. 6.5.8
+<hr><hr><hr>
+<a name="io">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/io.html"><!-- qtag -->Question 2.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I read/write structures from/to
+
+data files?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is relatively straightforward
+to write a structure
+out
+using <TT>fwrite</TT>:
+<pre>
+	fwrite(&amp;somestruct, sizeof somestruct, 1, fp);
+</pre>
+
+and a corresponding
+<TT>fread</TT> invocation can read it back in.
+What happens here is that
+<TT>fwrite</TT> receives a pointer to the structure,
+and writes
+(or <TT>fread</TT> correspondingly reads)
+the memory image of the structure
+as a stream of bytes.
+The <TT>sizeof</TT> operator determines
+how many bytes the structure occupies.
+</p><p>(The
+call to <TT>fwrite</TT> above is correct
+under an ANSI compiler
+as long as a prototype for <TT>fwrite</TT> is in scope,
+usually because <TT>&lt;stdio.h&gt;</TT> is <TT>#include</TT>d.
+</p><p>However,
+data files
+written
+as memory images
+in this way
+will
+<em>not</em>
+be
+portable,
+particularly
+if they contain floating-point fields or pointers.
+The memory layout of structures is
+machine and
+compiler dependent.
+Different compilers may use different amounts of padding
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>),
+and
+the sizes and byte orders of fundamental types
+vary across machines.
+Therefore,
+structures written as memory images
+cannot necessarily be read back in
+by programs running on other machines
+(or even compiled by other compilers),
+and this is an
+important concern if
+the data files you're writing
+will ever be interchanged between machines.
+See also
+
+questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.
+</p><p>Also,
+if the structure contains any pointers
+(<TT>char&nbsp;*</TT> strings,
+or pointers to other data structures),
+only the pointer values will be written,
+and they are most unlikely to be valid when read back in.
+Finally,
+note
+that
+for widespread portability
+you must use the <TT>"b"</TT> flag
+when opening the files;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=stdio#fopenbinary">12.38</a>.
+</p><p>A more portable solution,
+though it's a bit more work initially,
+is to write a pair of functions
+for writing and reading a structure,
+field-by-field,
+in a portable
+(perhaps even human-readable)
+way.
+
+</p>
+<p>References:
+
+H&amp;S Sec. 15.13 p. 381
+<hr><hr><hr>
+<a name="padding">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/padding.html"><!-- qtag -->Question 2.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why is my
+compiler
+leaving holes in structures,
+wasting space
+and preventing
+
+``binary'' I/O to external data
+files?
+Can
+I turn
+this
+off,
+or otherwise control the alignment of structure fields?
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many machines
+access values in memory
+most efficiently
+when the values are appropriately aligned.
+(For example,
+on a byte-addressed machine,
+<TT>short&nbsp;int</TT>s of size 2
+might best be placed at even addresses,
+and
+<TT>long&nbsp;int</TT>s of size 4
+at addresses which are a multiple of 4.)
+Some machines cannot perform unaligned accesses
+at all,
+and
+<em>require</em> that
+all data
+be appropriately aligned.
+</p><p>Therefore, if you declare a structure like
+<pre>
+	struct {
+		char c;
+		int i;
+	};
+</pre>
+the compiler will usually
+leave an unnamed, unused hole
+between the <TT>char</TT> and <TT>int</TT> fields,
+to ensure that the
+
+<TT>int</TT> field
+is properly aligned.
+(This incremental alignment of the second field
+based on the first
+relies on the fact
+that the structure itself
+is always properly aligned,
+with the most conservative
+
+alignment requirement.
+The compiler guarantees this alignment for structures it allocates,
+as does <TT>malloc</TT>.)
+</p><p>Your compiler may provide an extension to give you
+control
+over the packing of structures
+(i.e. whether they are padded or not),
+perhaps
+with
+a <TT>#pragma</TT> (see
+question <a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#pragma">11.20</a>),
+but there
+is no standard method.
+</p><p>If you're worried about wasted space,
+you can minimize the effects of padding
+by ordering the members of
+a
+structure
+
+
+based on their base types,
+from largest to smallest.
+
+You can sometimes get more control over size and alignment
+by using bit-fields,
+although they
+have their own drawbacks.
+(See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#bitfields">2.26</a>.)
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#endpad">2.13</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#ptralign">16.7</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.
+
+</p><p>Additional links:
+<br>
+<br>
+A bit more
+
+
+
+
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#align">explanation of ``alignment''</a>
+and why it requires paddding
+<br>
+<br>
+Additional
+<a href="align.esr.html">ideas on working with alignment and padding</a>
+by Eric Raymond,
+couched in the form of six new FAQ list questions
+<br>
+<br>
+Corrections to the above from
+<a href="align.esr2.html">Norm Diamond</a>
+and
+<a href="align.esr3.html">Clive Feather</a>
+</p>
+
+<p>References:
+
+K&amp;R2 Sec. 6.4 p. 138
+<br>
+H&amp;S Sec. 5.6.4 p. 135
+<hr><hr><hr>
+<a name="endpad">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/endpad.html"><!-- qtag -->Question 2.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why does <TT>sizeof</TT> report a larger size than I expect for a
+structure type,
+as if there were padding at the end?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Padding at the end of a structure may be necessary
+to preserve alignment
+
+when an array of contiguous structures is allocated.
+
+
+
+Even
+when
+the structure is not part of an array,
+the
+padding remains,
+so that <TT>sizeof</TT> can always return a consistent
+
+size.
+
+See also question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>.
+</p>
+<p>References:
+
+H&amp;S Sec. 5.6.7 pp. 139-40
+<hr><hr><hr>
+<a name="offsetof">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/offsetof.html"><!-- qtag -->Question 2.14</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I determine the byte offset of a field within a structure?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+ANSI C defines the <TT>offsetof()</TT> macro
+in <TT>&lt;stddef.h&gt;</TT>,
+
+which lets you compute
+the offset of field <TT>f</TT> in struct <TT>s</TT>
+as
+<TT>offsetof(struct&nbsp;s,&nbsp;f)</TT>.
+If for some reason you have to code this sort of thing yourself,
+one possibility is
+<pre>
+	#define offsetof(type, f) ((size_t) \
+		((char *)&amp;((type *)0)-&gt;f - (char *)(type *)0))
+</pre>
+</p><p>This implementation is not 100% portable;
+some compilers may legitimately refuse to accept it.
+</p><p>(The complexities
+
+of
+the definition above
+bear a bit of explanation.
+
+The subtraction of a carefully converted null pointer
+
+
+
+is
+supposed
+to guarantee
+that a simple offset is computed
+even if the internal representation of the null pointer
+is not 0.
+The casts to <TT>(char&nbsp;*)</TT> arrange
+that the offset
+so computed
+is a byte offset.
+The nonportability is in pretending,
+if only for the purposes of address calculation,
+that there is an instance of the <TT>type</TT> sitting at address 0.
+Note, however,
+that since the pretend instance is not actually referenced,
+an access violation is unlikely.)
+</p>
+
+
+
+<p>References:
+
+ISO Sec. 7.1.6
+<br>
+Rationale Sec. 3.5.4.2
+<br>
+H&amp;S Sec. 11.1 pp. 292-3
+<hr><hr><hr>
+<a name="fieldnames">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/fieldnames.html"><!-- qtag -->Question 2.15</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I access structure fields by name at run time?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Keep track
+of the field
+offsets as computed
+
+using the <TT>offsetof()</TT> macro
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#offsetof">2.14</a>).
+If <TT>structp</TT> is a pointer to
+an instance of the structure,
+and field <TT>f</TT> is an <TT>int</TT>
+having offset <TT>offsetf</TT>,
+<TT>f</TT>'s value can be set indirectly with
+<pre>
+	*(int *)((char *)structp + offsetf) = value;
+</pre>
+<hr><hr><hr>
+<a name="withxref">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/withxref.html"><!-- qtag -->Question 2.16</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Does C have an equivalent to Pascal's
+<TT>with</TT> statement?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#with">20.23</a>.
+<hr><hr><hr>
+<a name="decay">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/decay.html"><!-- qtag -->Question 2.17</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+If an array name acts like a pointer to the base of an array,
+why isn't the same thing true of a structure?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The rule
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=aryptr#aryptrequiv">6.3</a>)
+that causes array references to ``decay'' into pointers
+is a special case which applies only to arrays,
+and reflects their
+
+``second class'' status in C.
+(An analogous rule applies to functions.)
+Structures, however,
+are first class objects:
+when you mention a structure,
+you get the
+entire
+structure.
+<hr><hr><hr>
+<a name="retcrash">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/retcrash.html"><!-- qtag -->Question 2.18</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+This program
+works correctly, but
+it
+dumps core
+after it
+finishes.
+Why?
+<pre>
+	struct list {
+		char *item;
+		struct list *next;
+	}
+
+	/* Here is the main program. */
+
+	main(argc, argv)
+	{ ... }
+</pre>
+
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A missing semicolon
+at the end of the structure declaration
+causes
+<TT>main</TT> to be declared as returning
+a structure.
+(The connection is hard to see because of the intervening comment.)
+Since
+structure-valued functions are
+usually
+implemented by adding a hidden
+return pointer
+(see question
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#passret">2.9</a>),
+the generated code
+for <TT>main()</TT> tries to accept three arguments,
+although only two are passed
+(in this case, by the C
+start-up code).
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#headerglom">10.9</a>
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=strangeprob#crashatexit">16.4</a>.
+</p>
+<p>References:
+
+CT&amp;P Sec. 2.3 pp. 21-2
+<hr><hr><hr>
+<a name="union">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/union.html"><!-- qtag -->Question 2.19</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between a structure and a union, anyway?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+A union is essentially a structure in which all of the fields overlay 
+each other;
+you can only use one field at a time.
+(You can also
+cheat by writing to one field and reading from another,
+to
+inspect
+a type's bit patterns
+or interpret them
+differently,
+
+
+but that's obviously pretty
+
+machine-dependent.)
+The size of a union is the maximum of the sizes of its 
+individual members,
+while the size of a structure is the sum of the sizes of its members.
+(In both cases,
+the size may be increased by padding;
+see questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a>
+and <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#endpad">2.13</a>.)
+</p>
+
+<p>References:
+
+ISO Sec. 6.5.2.1
+<br>
+H&amp;S Sec. 5.7 pp. 140-145 esp. Sec. 5.7.4
+<hr><hr><hr>
+<a name="initunion">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/initunion.html"><!-- qtag -->Question 2.20</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Can I initialize unions?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+In the original ANSI C,
+an initializer was allowed only for
+
+the first-named
+member
+of a union.
+C99 introduces ``designated initializers''
+which can be used to initialize any member.
+
+</p><p>In the absence of designated initializers,
+if you're desperate,
+you can
+sometimes
+define several variant copies of a union,
+with the members in different orders,
+so that you can declare and initialize
+the one having the appropriate first member.
+
+(These variants are guaranteed to be implemented compatibly,
+so it's okay to ``pun'' them
+by initializing one
+and then using the
+other.)
+</p>
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 6.8 pp. 148-9
+<br>
+ISO Sec. 6.5.7
+<br>
+C9X Sec. 6.5.8
+<br>
+H&amp;S Sec. 4.6.7 p. 100
+<hr><hr><hr>
+<a name="taggedunion">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/taggedunion.html"><!-- qtag -->Question 2.21</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there an automatic way
+to keep track of which field of a union is in use?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+You can implement an explicitly ``tagged''
+
+union yourself:
+<pre>
+struct taggedunion {
+	enum {UNKNOWN, INT, LONG, DOUBLE, POINTER} code;
+	union {
+		int i;
+		long l;
+		double d;
+		void *p;
+	} u;
+};
+</pre>
+You will have to
+make
+sure that the <TT>code</TT> field
+is always set appropriately
+when the union is written to;
+the compiler won't do any of this for you automatically.
+(C unions are not like
+Pascal variant records.)
+</p>
+<p>References:
+
+H&amp;S Sec. 5.7.3 p. 143
+<hr><hr><hr>
+<a name="enumvsdefine">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/enumvsdefine.html"><!-- qtag -->Question 2.22</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's the difference between
+an enumeration and a set of
+preprocessor <TT>#define</TT>s?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+There is
+little
+difference.
+The
+C Standard
+says that enumerations
+have integral type
+and that enumeration constants are of type <TT>int</TT>,
+
+so both
+may be freely intermixed with
+other
+integral
+types, without errors.
+(If,
+on the other hand,
+such intermixing were disallowed without explicit casts,
+judicious use of enumerations could catch certain programming errors.)
+</p><p>Some
+advantages of enumerations are
+that the numeric
+values are automatically assigned,
+that a debugger may be able to display
+the symbolic values when enumeration variables are examined,
+and
+
+
+that they obey block scope.
+(A
+compiler may
+also
+generate nonfatal warnings when enumerations
+are
+indiscriminately mixed,
+since doing so
+
+can still be considered bad style
+even though
+it is not strictly illegal.)
+A disadvantage
+
+is that the programmer has little control
+over those nonfatal warnings;
+some programmers also resent not having control
+over the sizes of enumeration variables.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>References:
+
+K&amp;R2 Sec. 2.3 p. 39, Sec. A4.2 p. 196
+<br>
+ISO Sec. 6.1.2.5, Sec. 6.5.2, Sec. 6.5.2.2, Annex F
+<br>
+H&amp;S Sec. 5.5 pp. 127-9, Sec. 5.11.2 p. 153
+<hr><hr><hr>
+<a name="enumport">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/enumport.html"><!-- qtag -->Question 2.23</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Are enumerations really portable?
+<br>Aren't they Pascalish?
+<br>
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Enumerations were a
+mildly
+late addition
+to the language
+(they were not in K&amp;R1),
+but they are definitely part of the language now:
+they're in the C Standard,
+and all modern compilers support them.
+They're quite portable,
+although historical uncertainty about
+
+their precise
+
+definition
+led to their
+specification
+in the Standard being rather weak
+(see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#enumvsdefine">2.22</a>).
+<hr><hr><hr>
+<a name="enumprint">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/enumprint.html"><!-- qtag -->Question 2.24</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Is there an easy way to print enumeration values symbolically?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+No.
+You can write a little function
+(one per enumeration)
+to
+map an enumeration constant to a string,
+either
+by using a <TT>switch</TT> statement
+or by searching an array.
+
+(For debugging purposes,
+a good debugger
+should automatically print enumeration constants symbolically.)
+<hr><hr><hr>
+<a name="bitfield0">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/bitfield0.html"><!-- qtag -->Question 2.25</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I came across some structure declarations with colons and 
+numbers next to certain
+fields,
+like this:
+<pre>
+struct record {
+	char *name;
+	int refcount : 4;
+	unsigned dirty : 1;
+};
+</pre>
+What gives?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Those are <a href="../sx1/index.html#bit-fields"><dfn>bit-fields</dfn></a>;
+the number gives the exact size of the field,
+in bits.
+(See any complete book on C for
+the details.)
+Bit-fields can be used to save space
+in structures having several binary flags or other
+small fields,
+and they can also be used
+
+in an attempt to conform to externally-imposed storage layouts.
+(Their success at the latter task is mitigated
+
+
+by the fact that bit-fields are assigned left-to-right on some 
+machines and right-to-left on others).
+</p><p>Note that the colon notation
+for specifying the size of a field in bits
+is <em>only</em> valid in structures
+(and in unions);
+you cannot use this mechanism
+to specify the size of arbitrary
+variables.
+(See questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#exactsizes">1.2</a> and <a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#int16">1.3</a>.)
+</p>
+
+
+
+<p>References:
+
+K&amp;R1 Sec. 6.7 pp. 136-8
+<br>
+K&amp;R2 Sec. 6.9 pp. 149-50
+<br>
+ISO Sec. 6.5.2.1
+<br>
+H&amp;S Sec. 5.6.5 pp. 136-8
+<hr><hr><hr>
+<a name="bitfields">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../struct/bitfields.html"><!-- qtag -->Question 2.26</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why do people use explicit masks and
+bit-twiddling
+code so much,
+instead of declaring bit-fields?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Bit-fields are thought to be nonportable,
+although they are no less portable
+than other parts of the language.
+(You don't know how big they can be,
+but that's equally true for values of type <TT>int</TT>.
+You don't know by default whether they're signed,
+but that's equally true of type <TT>char</TT>.
+You don't know
+whether they're laid out from left to right or right to left in 
+memory,
+but that's equally true of the bytes
+of <em>all</em> types,
+and only matters if you're trying to
+conform to externally-imposed storage layouts,
+which is always nonportable;
+see also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#padding">2.12</a> 
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#binaryfiles">20.5</a>.)
+</p><p>Bit-fields are inconvenient
+when you also want to be able to
+manipulate some collection of bits as a whole
+(perhaps to copy a set of flags).
+You can't have arrays of bit-fields;
+see also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=misc#bitsets">20.8</a>.
+Many programmers suspect that the compiler won't generate good
+code for bit-fields (historically, this was sometimes true).
+</p><p>
+Straightforward code using
+bit-fields is certainly clearer
+than the equivalent explicit masking instructions;
+it's too bad
+that
+bit-fields can't be used more often.
+
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=expr" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>

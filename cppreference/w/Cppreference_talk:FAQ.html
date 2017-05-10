@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<title>Cppreference talk:FAQ - cppreference.com</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="MediaWiki 1.21.2" />
+<link rel="alternate" type="application/x-wiki" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit" />
+<link rel="edit" title="Edit" href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit" />
+<link rel="shortcut icon" href="../favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://en.cppreference.com/mwiki/opensearch_desc.php" title="cppreference.com (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="http://en.cppreference.com/mwiki/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="cppreference.com Atom feed" href="http://en.cppreference.com/mwiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=ext.gadget.ColiruCompiler%257Cext.rtlcite%257Cmediawiki.legacy.commonPrint%252Cshared%257Cskins.cppreference2&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=cppreference2&amp;*.css" />
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}#toc{display:none}.editsection{display:none}
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-css:7:472787eddcf4605d11de8c7ef047234f */</style>
+
+<script src="../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"Project_talk","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":5,"wgPageName":"Cppreference_talk:FAQ","wgTitle":"FAQ","wgCurRevisionId":88846,"wgArticleId":2145,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Cppreference_talk:FAQ","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":0,"showtoolbar":1,"skin":"cppreference2","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-ColiruCompiler":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});;},{},{});
+/* cache key: mwiki1-mwiki_en_:resourceloader:filter:minify-js:7:ca03345b1e2c4d90a25d968753a73b92 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<style type="text/css">/*<![CDATA[*/
+.source-cpp {line-height: normal;}
+.source-cpp li, .source-cpp pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for cpp
+ * CSS class: source-cpp, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.cpp.source-cpp .de1, .cpp.source-cpp .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.cpp.source-cpp  {font-family:monospace;}
+.cpp.source-cpp .imp {font-weight: bold; color: red;}
+.cpp.source-cpp li, .cpp.source-cpp .li1 {font-weight: normal; vertical-align:top;}
+.cpp.source-cpp .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.cpp.source-cpp .li2 {font-weight: bold; vertical-align:top;}
+.cpp.source-cpp .kw1 {color: #0000dd;}
+.cpp.source-cpp .kw2 {color: #0000ff;}
+.cpp.source-cpp .kw3 {color: #0000dd;}
+.cpp.source-cpp .kw4 {color: #0000ff;}
+.cpp.source-cpp .co1 {color: #909090;}
+.cpp.source-cpp .co2 {color: #339900;}
+.cpp.source-cpp .coMULTI {color: #ff0000; font-style: italic;}
+.cpp.source-cpp .es0 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es1 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es2 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es3 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es4 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .es5 {color: #008000; font-weight: bold;}
+.cpp.source-cpp .br0 {color: #008000;}
+.cpp.source-cpp .sy0 {color: #008000;}
+.cpp.source-cpp .sy1 {color: #000080;}
+.cpp.source-cpp .sy2 {color: #000040;}
+.cpp.source-cpp .sy3 {color: #000040;}
+.cpp.source-cpp .sy4 {color: #008080;}
+.cpp.source-cpp .st0 {color: #008000;}
+.cpp.source-cpp .nu0 {color: #000080;}
+.cpp.source-cpp .nu6 {color: #000080;}
+.cpp.source-cpp .nu8 {color: #000080;}
+.cpp.source-cpp .nu12 {color: #000080;}
+.cpp.source-cpp .nu16 {color:#000080;}
+.cpp.source-cpp .nu17 {color:#000080;}
+.cpp.source-cpp .nu18 {color:#000080;}
+.cpp.source-cpp .nu19 {color:#000080;}
+.cpp.source-cpp .ln-xtra, .cpp.source-cpp li.ln-xtra, .cpp.source-cpp div.ln-xtra {background-color: #ffc;}
+.cpp.source-cpp span.xtra { display:block; }
+
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/mwiki/skins/cppreference2/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-5 ns-talk page-Cppreference_talk_FAQ skin-cppreference2 action-view">
+        <!-- header -->
+        <div id="mw-head" class="noprint">
+            <div id="cpp-head-first-base">
+                <div id="cpp-head-first">
+                    <h5><a href="http://en.cppreference.com/">
+                        cppreference.com                        </a></h5>
+                    <div id="cpp-head-search">
+                        
+<!-- 0 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="http://en.cppreference.com/mwiki/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input name="search" title="Search cppreference.com [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search the pages for this text" id="searchButton"><img src="../mwiki/skins/cppreference2/images/search-ltr.png%3F303" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /0 -->
+                    </div>
+                    <div id="cpp-head-personal">
+                        
+<!-- 0 -->
+<div id="p-personal" class="">
+<span id="pt-createaccount"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Cppreference+talk%3AFAQ&amp;type=signup">Create account</a></span>	<div class="menu">
+        <ul>
+<li id="pt-login"><a href="http://en.cppreference.com/mwiki/index.php?title=Special:UserLogin&amp;returnto=Cppreference+talk%3AFAQ" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>        </ul>
+    </div>
+</div>
+
+<!-- /0 -->
+                    </div>
+
+                </div>
+            </div>
+            <div id="cpp-head-second-base">
+                <div id="cpp-head-second">
+                    <div id="cpp-head-tools-left">
+                        
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-project"><span><a href="./Cppreference:About.html"  title="View the project page [a]" accesskey="a">Project page</a></span></li>
+					<li  id="ca-talk" class="selected"><span><a href="./Cppreference_talk:FAQ.html"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="./Cppreference_talk:FAQ.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                    <div id="cpp-head-tools-right">
+                        
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="./Cppreference_talk:FAQ.html" >View</a></span></li>
+					<li id="ca-edit" class=" istalk"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit"  title="You can edit this page. Please use the preview button before saving [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-addsection" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=new"  title="Start a new section [+]" accesskey="+">+</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">History</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="./Cppreference_talk:FAQ.html#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /header -->
+        <!-- content -->
+        <div id="cpp-content-base">
+            <div id="content">
+                <a id="top"></a>
+                <div id="mw-js-message" style="display:none;"></div>
+                                <!-- firstHeading -->
+                <h1 id="firstHeading" class="firstHeading">Cppreference talk:FAQ</h1>
+                <!-- /firstHeading -->
+                <!-- bodyContent -->
+                <div id="bodyContent">
+                                        <!-- tagline -->
+                    <div id="siteSub">From cppreference.com</div>
+                    <!-- /tagline -->
+                                        <!-- subtitle -->
+                    <div id="contentSub"></div>
+                    <!-- /subtitle -->
+                                                            <!-- bodycontent -->
+                    <div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><table id="toc" class="toc"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="./Cppreference_talk:FAQ.html#Grammer_either.2For"><span class="tocnumber">1</span> <span class="toctext">Grammer either/or</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="./Cppreference_talk:FAQ.html#TR1.3F"><span class="tocnumber">2</span> <span class="toctext">TR1?</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="./Cppreference_talk:FAQ.html#2011_C.2B.2B_Standard"><span class="tocnumber">3</span> <span class="toctext">2011 C++ Standard</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="./Cppreference_talk:FAQ.html#C_Reference"><span class="tocnumber">4</span> <span class="toctext">C Reference</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="./Cppreference_talk:FAQ.html#Broken_links"><span class="tocnumber">5</span> <span class="toctext">Broken links</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="./Cppreference_talk:FAQ.html#CSS"><span class="tocnumber">6</span> <span class="toctext">CSS</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="./Cppreference_talk:FAQ.html#Boost_Documentation.3F"><span class="tocnumber">7</span> <span class="toctext">Boost Documentation?</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="./Cppreference_talk:FAQ.html#Too_strict_introduction"><span class="tocnumber">8</span> <span class="toctext">Too strict introduction</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="./Cppreference_talk:FAQ.html#Reference_to_c.2B.2B_standard"><span class="tocnumber">9</span> <span class="toctext">Reference to c++ standard</span></a>
+<ul>
+<li class="toclevel-2 tocsection-10"><a href="./Cppreference_talk:FAQ.html#References"><span class="tocnumber">9.1</span> <span class="toctext">References</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="./Cppreference_talk:FAQ.html#References_2"><span class="tocnumber">9.2</span> <span class="toctext">References</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-12"><a href="./Cppreference_talk:FAQ.html#Bug_with_the_Coliru_editor"><span class="tocnumber">10</span> <span class="toctext">Bug with the Coliru editor</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="./Cppreference_talk:FAQ.html#Which_revision_of_the_C_Standard_does_this_reference_adhere_to.3F"><span class="tocnumber">11</span> <span class="toctext">Which revision of the C Standard does this reference adhere to?</span></a></li>
+<li class="toclevel-1 tocsection-14"><a href="./Cppreference_talk:FAQ.html#Conversion_Constructors"><span class="tocnumber">12</span> <span class="toctext">Conversion Constructors</span></a></li>
+<li class="toclevel-1 tocsection-15"><a href="./Cppreference_talk:FAQ.html#Search_to_redirect_on_exact_match_.3F"><span class="tocnumber">13</span> <span class="toctext">Search to redirect on exact match&#160;?</span></a></li>
+<li class="toclevel-1 tocsection-16"><a href="./Cppreference_talk:FAQ.html#Typo"><span class="tocnumber">14</span> <span class="toctext">Typo</span></a></li>
+</ul>
+</td></tr></table>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=1" title="Edit section: Grammer either/or">edit</a>]</span> <span class="mw-headline" id="Grammer_either.2For"> Grammer either/or </span></h2>
+<p>The line "Note, however, that you don't need to know neither of the complex templates, nor abovementioned guidelines in order to contribute" should read "Note, however, that you don't need to know either the complex templates, or abovementioned guidelines in order to contribute".
+</p><p>-P
+</p>
+<dl><dd> Fixed, thanks! --<a href="./User:P12.html" title="User:P12">P12</a> 19:32, 7 August 2015 (PDT)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=2" title="Edit section: TR1?">edit</a>]</span> <span class="mw-headline" id="TR1.3F"> TR1? </span></h2>
+<p>Should we include information about TR1?  -- <a href="./User:Jaredgrubb.html" title="User:Jaredgrubb">Jaredgrubb</a> 07:41, 2 July 2011 (PDT)
+</p>
+<dl><dd> Fixed.<a href="./User:P12.html" title="User:P12">P12</a> 12:34, 2 July 2011 (PDT)
+</dd></dl>
+<dl><dd><dl><dd> Neither TR1 (which is now obsolete of course) nor TR2 (far from finished, but already supported in small part (<span class="t-c"><span class="mw-geshi cpp source-cpp"><span class="co2">#include &lt;filesystem&gt;</span></span></span>) by Microsoft, of all things) are curretnly mentioned on this page. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 08:50, 30 April 2012 (PDT)
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=3" title="Edit section: 2011 C++ Standard">edit</a>]</span> <span class="mw-headline" id="2011_C.2B.2B_Standard"> 2011 C++ Standard </span></h2>
+<p><a rel="nofollow" class="external text" href="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=50372">ISO/IEC 14882:2011</a> is now published.  This page shouldn't be talking of drafts. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Jonathan_de_Boyne_Pollard&amp;action=edit&amp;redlink=1" class="new" title="User:Jonathan de Boyne Pollard (page does not exist)">Jonathan de Boyne Pollard</a> 02:27, 24 March 2012 (PDT)
+</p>
+<ul><li>The linked draft is the latest publicly downloadable --<a href="./User:Bazzy.html" title="User:Bazzy">Bazzy</a> 02:51, 24 March 2012 (PDT)
+<ul><li>That's complete rubbish.  Aside from the fact that it isn't the latest <i>draft</i> at all but is over a year behind the actual latest draft, the URL of one of the places where members of the public can get a copy of the <i>non-draft</i> standard is <i>right there, above</i>. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Jonathan_de_Boyne_Pollard&amp;action=edit&amp;redlink=1" class="new" title="User:Jonathan de Boyne Pollard (page does not exist)">Jonathan de Boyne Pollard</a> 07:11, 25 March 2012 (PDT)
+</li></ul>
+</li></ul>
+<dl><dd><dl><dd><dl><dd> We can't expect all editors to have a copy of the actual standard as it isn't freely available. Aside from that, the FAQ is surely outdated, thanks for pointing that out. -- <a href="./User:P12.html" title="User:P12">P12</a> 08:04, 25 March 2012 (PDT)
+</dd></dl>
+</dd></dl>
+</dd><dd> We should add the ANSI Store purchase link for C++11, which is 10 times cheaper than the ISO store currently linked: <a rel="nofollow" class="external free" href="http://webstore.ansi.org/RecordDetail.aspx?sku=INCITS%2FISO%2FIEC+14882-2012">http://webstore.ansi.org/RecordDetail.aspx?sku=INCITS%2FISO%2FIEC+14882-2012</a> --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 07:49, 25 July 2012 (PDT)
+<dl><dd> Good idea -- done. --<a href="./User:Nate.html" title="User:Nate">Nate</a> 13:07, 25 July 2012 (PDT)
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=4" title="Edit section: C Reference">edit</a>]</span> <span class="mw-headline" id="C_Reference"> C Reference </span></h2>
+<p>This page should be updated to mention the new C reference section of the site. --- <a href="http://en.cppreference.com/mwiki/index.php?title=Undeterminant&amp;action=edit&amp;redlink=1" class="new" title="Undeterminant (page does not exist)">Undeterminant</a> 10:34, 22 April 2012 (PDT)
+</p>
+<dl><dd>Updated. Thanks. -- <a href="./User:P12.html" title="User:P12">P12</a> 10:52, 22 April 2012 (PDT)
+<dl><dd> Might as well give the <a rel="nofollow" class="external text" href="http://webstore.ansi.org/RecordDetail.aspx?sku=INCITS%2fISO%2fIEC+9899-2012#.UGCvLIHyaHM">C11 ANSI store</a> too (I can't seem to be able to edit this page). --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 12:08, 24 September 2012 (PDT)
+<dl><dd> I've relaxed the permissions for this page a bit; you should be able to edit it now, @cubbi.  (@p12: we can go back to admin-only write-access for the FAQ if this was done on purpose -- I'm assuming that it makes sense for this page to have the same protection as e.g. the front pages.) <a href="./User:Nate.html" title="User:Nate">Nate</a> 15:57, 24 September 2012 (PDT)
+<dl><dd> There's indeed no reason why the page should be only admin-editable. -- <a href="./User:P12.html" title="User:P12">P12</a> 05:03, 25 September 2012 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=5" title="Edit section: Broken links">edit</a>]</span> <span class="mw-headline" id="Broken_links"> Broken links </span></h2>
+<p><small>Information about broken links on this website can be reported below</small>
+</p><p>There are couple of links "std::terminate_handler" on the page <a rel="nofollow" class="external free" href="cpp/error/terminate.html">http://en.cppreference.com/w/cpp/error/terminate</a> that points to <a rel="nofollow" class="external free" href="http://en.cppreference.com/w/cpp/error/terminated_handler">http://en.cppreference.com/w/cpp/error/terminated_handler</a> instead of <a rel="nofollow" class="external free" href="cpp/error/terminate_handler.html">http://en.cppreference.com/w/cpp/error/terminate_handler</a>
+</p>
+<dl><dd> Thanks; looks like a typo in our syntax highlighter that was just fixed: <a rel="nofollow" class="external free" href="https://github.com/p12tic/cppreference-doc/commit/bcb0271a87519c44b522563ddee7dccfd7c6830b">https://github.com/p12tic/cppreference-doc/commit/bcb0271a87519c44b522563ddee7dccfd7c6830b</a>.  The next time we refresh, the page should be fixed. -<a href="./User:Nate.html" title="User:Nate">Nate</a> 11:25, 31 October 2012 (PDT)
+</dd></dl>
+<p>The book version misses working links to CSS on some pages, e.g. std::search_n. --<a href="./Special:Contributions/91.96.47.34.html" title="Special:Contributions/91.96.47.34">91.96.47.34</a> 12:06, 4 June 2014 (PDT)
+</p><p>Not exactly a broken link, but the URL "<a rel="nofollow" class="external free" href="cpp/language/implicit_cast.html">http://en.cppreference.com/w/cpp/language/implicit_cast</a>" is misleading. There is no such thing as an "implicit cast"; a cast is an *explicit* conversion. The page itself correctly refers to "implicit conversions". I suggest renaming that page to "implicit_conversion" and making "implicit_cast" link to it. (Removing the existing URL would cause problems.) <a href="http://en.cppreference.com/mwiki/index.php?title=User:Kst&amp;action=edit&amp;redlink=1" class="new" title="User:Kst (page does not exist)">Keith Thompson</a> (<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:Kst&amp;action=edit&amp;redlink=1" class="new" title="User talk:Kst (page does not exist)">talk</a>) 09:03, 1 April 2016 (PDT)
+</p>
+<dl><dd> yes, indeed the content of the page doesn't match the URL.. renamed leaving a redirect, thanks. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="./User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 12:45, 1 April 2016 (PDT)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=6" title="Edit section: CSS">edit</a>]</span> <span class="mw-headline" id="CSS"> CSS </span></h2>
+<p>The limitation width and max-width for the whole page should be removed. I have located 3 of them in the latest HTML-Book-Version, files common/loadfe52.css and common/load7fe1.css. After removing them the pages look much better. My download of the offline version some months ago had the same "bugs". <a href="./Special:Contributions/80.147.4.22.html" title="Special:Contributions/80.147.4.22">80.147.4.22</a> 02:49, 4 June 2014 (PDT)
+</p>
+<dl><dd> Are you concerned about the width settings for the HTML-book-version or the live site (or both?) --<a href="./User:Nate.html" title="User:Nate">Nate</a> (<a href="./User_talk:Nate.html" title="User talk:Nate">talk</a>) 06:53, 4 June 2014 (PDT)
+</dd></dl>
+<dl><dd><dl><dd> All 3 versions, book, Raw and live, have text bodies with fixed width (and centered). At least the non-book versions should have variable width as recommended by W3, I think. Why killing one of the most reasonable features of HTML for nothing? --<a href="./Special:Contributions/91.97.19.47.html" title="Special:Contributions/91.97.19.47">91.97.19.47</a> 11:45, 4 June 2014 (PDT)
+</dd></dl>
+</dd></dl>
+<p>The css Mediawiki:Common.css for languages other than english is not up to date. Would you please synchronize them to the english version?
+<a href="http://en.cppreference.com/mwiki/index.php?title=User:Hiroo&amp;action=edit&amp;redlink=1" class="new" title="User:Hiroo (page does not exist)">Hiroo</a> (<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:Hiroo&amp;action=edit&amp;redlink=1" class="new" title="User talk:Hiroo (page does not exist)">talk</a>) 00:09, 26 May 2015 (PDT)
+</p><p>There is a problem with <a rel="nofollow" class="external free" href="cpp/atomic/ATOMIC_FLAG_INIT.html">http://en.cppreference.com/w/cpp/atomic/ATOMIC_FLAG_INIT</a> it does not render correctly.
+</p>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=7" title="Edit section: Boost Documentation?">edit</a>]</span> <span class="mw-headline" id="Boost_Documentation.3F"> Boost Documentation? </span></h2>
+<p>According to the FAQ:
+</p>
+<blockquote>Some boost libraries could also be candidates for inclusion though. While their tutorials are very good, the reference documentation is often very inflexible and inconvenient.</blockquote>
+<p>I feel the same way, and every C++ programmer I've spoken to about Boost seems to say the same thing.  I really think the inclusion of popular Boost libs on cppreference.com would be incredibly useful to the community.
+</p><p>Is there some way we can come to a consensus on this issue?  I realize this would mean a scope change for this wiki, which would raise the question about other external libraries being documented here.  From an OOD standpoint, I can see the elegance of restricting the scope of this site to the pure language standards, so perhaps this is a case for a new open source library reference wiki?
+</p><p><a href="./User:CStubing.html" title="User:CStubing">CStubing at EFNet</a> 10:55, 31 December 2012 (PST)
+</p>
+<dl><dd> Personally, I find their tutorials to be lacking compared to the documentation, but I've been using Boost for many years so I guess I got used to it. I agree that simple examples like the ones we put for standard C++ components would be useful (making a small flood-filled .PNG file with Boost.GIL is two lines, but there is no tutorial that shows how. People see the wall of text about generic algorithms and move on to other libraries). There's still a lot of redlinks in standard C++ library, though. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 11:29, 31 December 2012 (PST)
+</dd></dl>
+<dl><dd><dl><dd> I like this idea.  I suspect that the missing piece for getting boost on cppreference.com is finding a person to lead an initial push to get the overall structure of boost docs figured out.  The three main issues that I can think of are:
+<ul><li> boost is big: I don't have good numbers on this, but based on the sources for boost_1_52 and libstdc++-v3, I'd say boost might be 2-3 times the size of libstdc++.  That's a lot of content to cover.
+</li><li> boost is released more frequently: I'm not entirely satisfied with the way that we're handling versioning on the existing wiki, and any problems that we currently have involving multiple versions are going to be magnified for boost.
+</li><li> boost is copyrighted (?): We have to check any possible licensing issues, especially if we're interested in importing any of the existing boost tutorials or reference material.
+</li></ul>
+</dd><dd> If we can find satisfactory answers to those issues, I think we could start building a boost section similar to /w/c and /w/cpp.  --<a href="./User:Nate.html" title="User:Nate">Nate</a> 11:22, 1 January 2013 (PST)
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd> A couple of thoughts:
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd> 1) IMO it's hardly possible to cover all boost libraries in the foreseeable future unless there's a lot of new contributors. A possible solution would be to allow all contributions, but only show the libraries in the main page once the documentation is actually useful -- i.e. sufficiently documents most popular functionality, etc.
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd> 2) This problem will be hard to solve. An additional problem is that boost is not backwards compatible in quite a lot of cases. Some libraries have had major overhauls and it's hardly possible to document them without completely separating the documentation for each version of the library.
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd> 3) Most of the documentation is distributed under Boost software license, which is a BSD-like license -- we can do anything we want if we include the copyright text somewhere. A note on the main page of each library should be sufficient.
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd> <a href="./User:P12.html" title="User:P12">P12</a> 09:50, 2 January 2013 (PST)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=8" title="Edit section: Too strict introduction">edit</a>]</span> <span class="mw-headline" id="Too_strict_introduction">Too strict introduction</span></h2>
+<p>I think that the following text in the FAQ is overly strict. 
+</p>
+<blockquote>
+Unfortunately this means that being a good educational resource is not among our objectives. It is assumed that the reader has good knowledge of C and/or C++. As a consequence, a lot of things, e.g. tutorials, comments about usage cases of one feature or another, detailed explanations of things that are implicitly clear to an experienced programmer, etc., are not included and should not be added. Basically, we try to keep things simple and clear for a programmer looking for reference of a feature he already knows.
+</blockquote>
+<p>When I wrote this some time ago I wanted to prevent the mess that appeared in some pages of the old Dokuwiki based cppreference.com website. It seems that there's little chance for that happening now, so I've <a rel="nofollow" class="external text" href="http://en.cppreference.com/mwiki/index.php?title=Cppreference:FAQ&amp;diff=45538&amp;oldid=45537">relaxed</a> the above guideline. <a href="./User:P12.html" title="User:P12">P12</a> 10:17, 2 January 2013 (PST)
+</p>
+<dl><dd> Looks peachy. --<a href="./User:Nate.html" title="User:Nate">Nate</a> 17:45, 2 January 2013 (PST)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=9" title="Edit section: Reference to c++ standard">edit</a>]</span> <span class="mw-headline" id="Reference_to_c.2B.2B_standard">Reference to c++ standard</span></h2>
+<p>I think, maybe it is a good idea sometimes add a link to the c++ standard ISO/IEC 14882?
+Like this: <b>8.3.6 Default arguments (1-2,4)</b> or like this <b>[dcl.fct.default](1-2,4)</b>.
+<a href="http://en.cppreference.com/mwiki/index.php?title=User:Ruslo&amp;action=edit&amp;redlink=1" class="new" title="User:Ruslo (page does not exist)">Ruslo</a> 00:09, 19 August 2013 (PDT)
+</p>
+<dl><dd> This could be an useful bit of information. We could list all sections of the standard(s) the information of a particular page is derived from. It could be put into the references section, for example:
+</dd></dl>
+<div style="background-color:#eeffee; padding: 1em; margin-left: 2em; border: 1px solid silver;">
+<h3><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=10" title="Edit section: References">edit</a>]</span> <span class="mw-headline" id="References">References</span></h3>
+<ul><li> C++11 standard (ISO/IEC 14882:2011): 8.3.6 Default arguments [dcl.fct.default] (p. 1-2,4)
+</li></ul>
+</div>
+<dl><dd> Or (hypothetical)
+</dd></dl>
+<div style="background-color:#eeffee; padding: 1em; margin-left: 2em; border: 1px solid silver;">
+<h3><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=11" title="Edit section: References">edit</a>]</span> <span class="mw-headline" id="References_2">References</span></h3>
+<ul><li> C++11 standard (ISO/IEC 14882:2011):
+</li></ul>
+<dl><dd><ul><li> 8.3.5 Functions [dcl.fct]
+</li><li> 8.3.6 Default arguments [dcl.fct.default] (p. 1-2,4)
+</li></ul>
+</dd></dl>
+<ul><li> C++98 standard (ISO/IEC 14882:1998):
+</li></ul>
+<dl><dd><ul><li> 8.3.5 Functions [dcl.fct]
+</li><li> 8.3.6 Default arguments [dcl.fct.default] (p. 1-2,4)
+</li></ul>
+</dd></dl>
+</div>
+<dl><dd> For consistent formatting, we could optionally use templates, for example:
+</dd></dl>
+<div style="margin-left:2em;"><pre>
+===References===
+{{ref std c++11}}
+{{ref std | section=8.3.5 | title=Functions | id=dcl.fct}}
+{{ref std | section=8.3.6 | title=Default arguments | id=dcl.fct.default | p=1-2,4}}
+{{ref std c++98}}
+...
+</pre></div>
+<dl><dd> Note, that adding this information on all pages is a lot of work, thus I'm unsure whether this initiative is worth pursuing until there's a volunteer willing to spend some time adding this information to a major part of the wiki (say 1000 pages out of ~3000 total, this would take ~10-15 hours). <a href="./User:P12.html" title="User:P12">P12</a> 05:56, 19 August 2013 (PDT)
+</dd></dl>
+<dl><dd><dl><dd>Yes, I argee. It's a lot of work, but I think it's not the main goal. Like examples - hack something, if you feel it can be improved and <b>save</b> it (to others and to youself). The goal is not to lose some link searching work. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Ruslo&amp;action=edit&amp;redlink=1" class="new" title="User:Ruslo (page does not exist)">Ruslo</a> 07:10, 19 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd>Second version is looks very nice and solve versioning problem. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Ruslo&amp;action=edit&amp;redlink=1" class="new" title="User:Ruslo (page does not exist)">Ruslo</a> 07:10, 19 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+<dl><dd> Any other opinions? <a href="./User:P12.html" title="User:P12">P12</a> 05:56, 19 August 2013 (PDT)
+</dd></dl>
+<dl><dd><dl><dd> I think references (and &lt;/references&gt;) sections are a good thing. As a formerly active Wikipedia editor, I would even enjoy seeing proper citation templates in use ( like  <a rel="nofollow" class="external free" href="http://en.wikipedia.org/wiki/Category:Citation_Style_1_templates">http://en.wikipedia.org/wiki/Category:Citation_Style_1_templates</a> ). It's true that it would be boring to go over all (or even the most popular thousand) of the existing pages, but if there is a standard way to do it, I, for one, would add a reference section whenever I edit a page.. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 06:24, 19 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd> I like it, assuming:
+<ul><li> ...it's not too much work to create a ref template.
+</li><li> ...it's placed at the bottom of pages, because (a) that's where references typically are found and (b) casual users of the site are probably more interested in the API and examples.
+</li><li> ...we can come up with a way of specifying references that isn't too complicated. I like the ref template proposed above.  Cubbi, can you give an example of what "proper citation templates" might look like? --<a href="./User:Nate.html" title="User:Nate">Nate</a> 07:41, 19 August 2013 (PDT)
+</li></ul>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd> I meant like {{cite ISO|number=14882|year=2011|title=|sectionname= |section=|paragraph=}}, which could be used with other standard documents referenced: ISO 9599, 10646, 10967, 60559, Ecma 262, and which could then be wrapped in &lt;ref&gt; tags to mark specific sentences and to pop up in &lt;/references&gt; (which is <a href="cpp/language/exceptions.html" title="cpp/language/exceptions">already supported here</a>). --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 08:27, 19 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd> So the {{ref}} template could generate &lt;ref&gt;-based output, which could be displayed in a references section using &lt;/references&gt;?  Do you think that the built-in references stuff that mediawiki has would allow us to selectively display references for C++98, C++11, etc.?  (Eventually it would be neat to have a javascript-based drop-down menu that selects what standard version a given page displays.) --<a href="./User:Nate.html" title="User:Nate">Nate</a> 13:22, 19 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd> Selective display and renumbering of references would be doable even with &lt;ref&gt; based system. However, I'd prefer a simple text/template approach -- this way only the end of the page <i>source</i> would contain reference definitions and the main text would not be cluttered. This is especially useful on templated pages, since e.g. <a href="./Template:cpp/container/insert.html" title="Template:cpp/container/insert">Template:cpp/container/insert</a> would need to use {{#switch: and describe different sections of the standard for different containers. Also, we're not Wikipedia, it's probably not very useful to put a citation near each sentence or paragraph -- most of the pages here are quite short and describe a very specific subject, thus it's usually obvious which citation is for which paragraph. The exception is, of course, the description of C and C++ languages (cpp/language/*) -- &lt;ref&gt; is useful there.
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd> By the way, {{cite ISO|number=14882|year=2011|title=|sectionname= |section=|paragraph=}} could be short-circuited to something like {{cite std c++11|title=|sectionname=|section=|paragraph=}} as it's hard to remember the exact ISO standard number. Proper templates could be used for the rest of references.
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><a href="./User:P12.html" title="User:P12">P12</a> 06:11, 20 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd> Okay, after giving it a bit more thought, I do agree that overwhelming majority of pages on this wiki have just one source (with versions that some day could become user-preferences/tabs), so general-purpose wikipedia approach isn't suitable. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> 07:01, 20 August 2013 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd><dl><dd> FYI I've created the templates for the references section. Documentation is <a href="./Template:ref_std/doc.html" title="Template:ref std/doc"> here</a>. --<a href="./User:P12.html" title="User:P12">P12</a> 12:28, 23 September 2013 (PDT)
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd><dd>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=12" title="Edit section: Bug with the Coliru editor">edit</a>]</span> <span class="mw-headline" id="Bug_with_the_Coliru_editor"> Bug with the Coliru editor </span></h2>
+<p>There seems to be a bug in where if I enter in a macro definition, say for example:
+</p>
+<div class="t-example"><div class="t-example-live-link"><div class="coliru-btn coliru-btn-run-init">Run this code</div></div>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="cpp source-cpp"><pre class="de1"><span class="co2">#define size mysize</span></pre></div></div>
+<p><br /> 
+</p>
+</div>
+<p>In a few seconds the compiler will change it to this
+</p>
+<div class="t-example"><div class="t-example-live-link"><div class="coliru-btn coliru-btn-run-init">Run this code</div></div>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="cpp source-cpp"><pre class="de1"><span class="co2"># Define  you in mysiz</span></pre></div></div>
+<p><br /> 
+</p>
+</div>
+<p>I've only found it to be doing this when I enter in <code>size</code> as the macro name and use a 6-letter alphabetic definition like the above. Try it yourself and you will see.
+</p>
+<dl><dd> I'm not sure how to reproduce this. When I run your first example, all I get is a bunch of linker errors complaining about a missing main function -- but the #define remains intact. When I add a main, it compiles and runs without modifying main. Did you see this behavior with a specific compiler? --<a href="./User:Nate.html" title="User:Nate">Nate</a> (<a href="./User_talk:Nate.html" title="User talk:Nate">talk</a>) 06:48, 14 April 2014 (PDT)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=13" title="Edit section: Which revision of the C Standard does this reference adhere to?">edit</a>]</span> <span class="mw-headline" id="Which_revision_of_the_C_Standard_does_this_reference_adhere_to.3F"> Which revision of the C Standard does this reference adhere to? </span></h2>
+<p>Since you request in the FAQ that differences between C89, C99 and C11 should be marked as such, would it be worthwhile to mention that n1256 describes C99 and that n???? describes C89?  <a href="http://en.cppreference.com/mwiki/index.php?title=User:Newatthis&amp;action=edit&amp;redlink=1" class="new" title="User:Newatthis (page does not exist)">Newatthis</a> (<a href="./User_talk:Newatthis.html" title="User talk:Newatthis">talk</a>) 11:55, 15 July 2014 (PDT)
+</p>
+<dl><dd> It is worth mentioning that n1256 is a <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf">freely-available</a> final draft of ISO/IEC 9899:1999/Cor.3:2007(E), which was the last revision of C99 (see <a href="c/language/history.html" title="c/language/history">History of C</a> for the list of major and minor revisions of C). The final draft for C89 was X3J11/90-013 (ANSI numbering) or n119 (WG14 numbering), although I am not sure if it can be found for free. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="./User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 16:18, 15 July 2014 (PDT)
+</dd></dl>
+<dl><dd> I inserted a link to n1256 and included the doc numbers for C89.  At iso.org, I found ISO/IEC 9899 entries listed among the withdrawn documents. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Newatthis&amp;action=edit&amp;redlink=1" class="new" title="User:Newatthis (page does not exist)">Newatthis</a> (<a href="./User_talk:Newatthis.html" title="User talk:Newatthis">talk</a>) 07:17, 16 July 2014 (PDT)
+</dd></dl>
+<dl><dd> The most recent draft of the C11 standard is <a rel="nofollow" class="external text" href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf">N1570</a>.  <a rel="nofollow" class="external text" href="http://flash-gordon.me.uk/ansi.c.txt">ansi.c.txt</a> is a plain-text draft of the 1989 ANSI C standard; the 1990 ISO C standard differs from ANSI C only in the addition of some boilerplate material and some renumbering of sections. <a href="http://en.cppreference.com/mwiki/index.php?title=User:Kst&amp;action=edit&amp;redlink=1" class="new" title="User:Kst (page does not exist)">Keith Thompson</a> (<a href="http://en.cppreference.com/mwiki/index.php?title=User_talk:Kst&amp;action=edit&amp;redlink=1" class="new" title="User talk:Kst (page does not exist)">talk</a>) 08:57, 1 April 2016 (PDT)
+</dd></dl>
+<dl><dd><dl><dd> Right, this page links to n1570 for C11 (<a rel="nofollow" class="external text" href="http://en.cppreference.com/mwiki/index.php?title=Cppreference%3AFAQ&amp;diff=39711&amp;oldid=38191">since 2012</a>). As for that particular ansi.c.txt, it differs from the published standard in the number of max seconds in <span class="t-lc">tm</span>'s tm_sec (draft says 61, standard says, erroneously, 62). Are there no other differences? --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="./User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 12:42, 1 April 2016 (PDT)
+</dd></dl>
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=14" title="Edit section: Conversion Constructors">edit</a>]</span> <span class="mw-headline" id="Conversion_Constructors"> Conversion Constructors </span></h2>
+<p>Please create a page for Conversion Constructors
+</p>
+<dl><dd>thank you for being bold and creating it yourself. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="./User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 16:35, 22 September 2014 (PDT)
+</dd></dl>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=15" title="Edit section: Search to redirect on exact match ?">edit</a>]</span> <span class="mw-headline" id="Search_to_redirect_on_exact_match_.3F"> Search to redirect on exact match&#160;? </span></h2>
+<p>I'm not sure where to post this, but it would be cool if e.g. <a rel="nofollow" class="external free" href="http://en.cppreference.com/mwiki/index.php?title=Special:Search&amp;search=std::basic_string">http://en.cppreference.com/mwiki/index.php?title=Special:Search&amp;search=std::basic_string</a> redirected to its exact match <a rel="nofollow" class="external free" href="cpp/string/basic_string.html">http://en.cppreference.com/w/cpp/string/basic_string</a>. Hopefully the idea hasn't been dismissed before, sorry if that's the case. Best, Nick
+</p>
+<h2><span class="editsection">[<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=edit&amp;section=16" title="Edit section: Typo">edit</a>]</span> <span class="mw-headline" id="Typo"> Typo </span></h2>
+<p>There's a typo in the page: "not publicly availbale".
+</p>
+<dl><dd>indeed there was, corrected. --<a href="./User:Cubbi.html" title="User:Cubbi">Cubbi</a> (<a href="./User_talk:Cubbi.html" title="User talk:Cubbi">talk</a>) 06:58, 14 September 2016 (PDT)
+</dd></dl>
+
+<!-- 
+NewPP limit report
+Preprocessor visited node count: 301/1000000
+Preprocessor generated node count: 888/1000000
+Post‐expand include size: 1115/2097152 bytes
+Template argument size: 177/2097152 bytes
+Highest expansion depth: 6/40
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key mwiki1-mwiki_en_:pcache:idhash:2145-0!*!0!!en!*!* and timestamp 20161215153600 -->
+</div>                    <!-- /bodycontent -->
+                                        <!-- printfooter -->
+                    <div class="printfooter">
+                    Retrieved from "<a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;oldid=88846">http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;oldid=88846</a>"                    </div>
+                    <!-- /printfooter -->
+                                                            <!-- catlinks -->
+                    <div id='catlinks' class='catlinks catlinks-allhidden'></div>                    <!-- /catlinks -->
+                                                            <div class="visualClear"></div>
+                    <!-- debughtml -->
+                                        <!-- /debughtml -->
+                </div>
+                <!-- /bodyContent -->
+            </div>
+        </div>
+        <!-- /content -->
+        <!-- footer -->
+        <div id="cpp-footer-base" class="noprint">
+            <div id="footer">
+                        <div id="cpp-navigation">
+            <h5>Navigation</h5>
+            <ul>
+<li id="n-Support-us"><a href="http://www.cppreference.com/support" rel="nofollow">Support us</a></li><li id="n-recentchanges"><a href="./Special:RecentChanges.html" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-FAQ"><a href="./Cppreference:About.html">FAQ</a></li><li id="n-Offline-version"><a href="./Cppreference:Archives.html">Offline version</a></li>            </ul>
+        </div>
+                        <div id="cpp-toolbox">
+            <h5><span>Toolbox</span><a href="./Cppreference_talk:FAQ.html#"></a></h5>
+            <ul>
+<li id="t-whatlinkshere"><a href="./Special:WhatLinksHere/Cppreference_talk:FAQ.html" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="./Special:RecentChangesLinked/Cppreference_talk:FAQ.html" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="http://upload.cppreference.com/w/Special:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="./Special:SpecialPages.html" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;oldid=88846" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="http://en.cppreference.com/mwiki/index.php?title=Cppreference_talk:FAQ&amp;action=info">Page information</a></li>            </ul>
+        </div>
+                            <ul id="footer-info">
+                                    <li id="footer-info-lastmod"> This page was last modified on 15 December 2016, at 07:36.</li>
+                                    <li id="footer-info-viewcount">This page has been accessed 11,023 times.</li>
+                            </ul>
+                    <ul id="footer-places">
+                                    <li id="footer-places-privacy"><a href="./Cppreference:Privacy_policy.html" title="Cppreference:Privacy policy">Privacy policy</a></li>
+                                    <li id="footer-places-about"><a href="./Cppreference:About.html" title="Cppreference:About">About cppreference.com</a></li>
+                                    <li id="footer-places-disclaimer"><a href="./Cppreference:General_disclaimer.html" title="Cppreference:General disclaimer">Disclaimers</a></li>
+                            </ul>
+                                    <ul id="footer-icons" class="noprint">
+                                    <li id="footer-poweredbyico">
+                                            <a href="http://www.mediawiki.org/"><img src="../mwiki/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>                                            <a href="http://qbnz.com/highlighter/"><img src="http://upload.cppreference.com/mwiki/images/2/2b/powered_by_geshi_88x31.png" alt="Powered by GeSHi" height="31" width="88" /></a>                                            <a href="http://www.tigertech.net/referral/cppreference.com"><img src="http://upload.cppreference.com/mwiki/images/9/94/powered_by_tigertech_88x31.png" alt="Hosted by Tiger Technologies" height="31" width="88" /></a>                                        </li>
+                                </ul>
+                        <div style="clear:both">
+            </div>
+            </div>
+        </div>
+        <!-- /footer -->
+        <script>if(window.mw){
+mw.loader.state({"site":"loading","user":"missing","user.groups":"ready"});
+}</script>
+<script src="../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=skins.cppreference2&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.page.ready","mediawiki.searchSuggest","mediawiki.hidpi","ext.gadget.ColiruCompiler"], null, true);
+}</script>
+<script src="../mwiki/load.php%3Fdebug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=cppreference2&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-2828341-1']);
+_gaq.push(['_setDomainName', 'cppreference.com']);
+_gaq.push(['_trackPageview']);
+</script><!-- Served in 0.057 secs. -->
+	</body>
+<!-- Cached 20161215153601 -->
+</html>

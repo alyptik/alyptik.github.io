@@ -1,0 +1,840 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!-- This collection of hypertext pages is Copyright 1995-2005 by Steve Summit. -->
+<!-- Content from the book "C Programming FAQs: Frequently Asked Questions" -->
+<!-- (Addison-Wesley, 1995, ISBN 0-201-84519-9) is made available here by -->
+<!-- permission of the author and the publisher as a service to the community. -->
+<!-- It is intended to complement the use of the published text -->
+<!-- and is protected by international copyright laws. -->
+<!-- The on-line content may be accessed freely for personal use -->
+<!-- but may not be published or retransmitted without explicit permission. -->
+<!-- -->
+<!-- this page built Sat Dec 24 21:47:46 2005 by faqproc version 2.7 -->
+<!-- from source file fp.sgml dated Fri Jul  2 23:51:18 2004 -->
+<!-- corresponding to FAQ list version 4.0 -->
+<html>
+<head>
+<base href="http://c-faq.com/fp/index.html">
+<meta name=GENERATOR content="faqproc">
+<title>Floating Point</title>
+</head>
+<body bgcolor="#ffffff">
+<H1>14. Floating Point</H1>
+<a name="printfprec">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/printfprec.html"><!-- qtag -->Question 14.1</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+When I set a <TT>float</TT> variable to, say, 3.1,
+why is <TT>printf</TT> printing it as 3.0999999?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+
+Most computers use base 2
+for floating-point numbers
+as well as for integers,
+and
+just
+as for base 10,
+not all fractions are representable exactly in base 2.
+It's well-known that
+in base 10,
+a fraction like
+1/3 = 0.333333...
+repeats
+infinitely.
+It turns out that
+in
+base 2,
+one tenth
+is
+also
+an infinitely-repeating fraction
+(0.0001100110011...),
+so
+exact decimal fractions
+such as 3.1
+cannot be represented exactly in binary.
+Depending on how carefully
+your compiler's binary/decimal conversion routines
+(such as those used by <TT>printf</TT>)
+have been written,
+you may see discrepancies when
+numbers
+not exactly representable in base 2
+are assigned or read in and then printed
+(i.e. converted from base 10 to base 2 and back again).
+<a href="fn77.html" rel=subdocument>[footnote]</a>
+See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#round">14.6</a>.
+<hr><hr><hr>
+<a name="fpdecl">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/fpdecl.html"><!-- qtag -->Question 14.2</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to take some
+square roots,
+and I've simplified the code down to
+<pre>
+	main()
+	{
+		printf("%f\n", sqrt(144.));
+	}
+</pre>
+but I'm
+still
+getting
+crazy numbers.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Make sure that you have #included <TT>&lt;math.h&gt;</TT>,
+and
+correctly declared other functions returning <TT>double</TT>.
+(Another
+library function
+to be careful with
+is <TT>atof</TT>,
+which is declared in <TT>&lt;stdlib.h&gt;</TT>.)
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=decl#implfdecl">1.25</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#libm">14.3</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#strangefp">14.4a</a>.
+</p>
+<p>References:
+
+CT&amp;P Sec. 4.5 pp. 65-6
+<hr><hr><hr>
+<a name="libm">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/libm.html"><!-- qtag -->Question 14.3</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm trying to do some simple
+trig,
+
+and I am #including <TT>&lt;math.h&gt;</TT>,
+but
+
+the linker keeps
+complaining
+that functions like <TT>sin</TT>
+and <TT>cos</TT>
+are undefined.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Make sure you're actually linking with the math library.
+For instance,
+due to a longstanding bug in Unix and Linux systems,
+you usually need to use an explicit <TT>-lm</TT>
+flag,
+at the
+<em>end</em>
+of the command line,
+when compiling/linking.
+See also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#extlibs">13.25</a>,
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib#libsearch">13.26</a>,
+and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#fpdecl">14.2</a>.
+<hr><hr><hr>
+<a name="strangefp">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/strangefp.html"><!-- qtag -->Question 14.4a</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+My floating-point calculations are acting strangely and giving me
+different answers on different machines.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+First,
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#fpdecl">14.2</a>.
+</p><p>If the problem isn't that simple,
+recall that
+digital computers
+usually
+use floating-point formats which provide a
+close but by no means exact simulation of real number arithmetic.
+Among other things, the associative and distributive
+laws do not
+hold completely;
+
+that is,
+order of operation may be important,
+and
+repeated addition is not necessarily equivalent to multiplication.
+Underflow,
+cumulative precision loss,
+and other anomalies are often troublesome.
+</p><p>Don't assume that floating-point results will be exact,
+and especially don't assume that floating-point values can be
+compared for equality.
+(Don't throw haphazard ``fuzz factors'' in, either;
+see question <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#fpequal">14.5</a>.)
+Beware that some machines have more precision available
+in
+floating-point computation registers
+than in <TT>double</TT> values stored in memory,
+which can lead
+to floating-point inequalities
+when it would seem that two values just
+<em>have</em>
+to be equal.
+
+
+</p><p>These problems are
+no
+worse for C than they are for any other
+computer language.
+
+Certain aspects of
+floating-point
+are usually defined as ``however
+the processor does them''
+(see also questions
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#undef">11.33</a> and
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=ansi#appalled">11.34</a>),
+otherwise a compiler for a machine without the ``right''
+model would have to do prohibitively expensive emulations.
+</p><p>This document cannot begin to list the pitfalls associated with,
+and workarounds appropriate for, floating-point work.
+A good
+numerical
+programming text should cover the basics;
+see also the references below.
+(Beware, though, that subtle problems can occupy numerical analysts for
+years.)
+</p>
+
+
+
+<p>References:
+
+Kernighan and Plauger,
+<I>The Elements of Programming Style</I> Sec. 6 pp. 115-8
+<br>
+Knuth, Volume 2 chapter 4
+<br>
+David Goldberg,
+``What Every Computer Scientist Should Know
+about Floating-Point Arithmetic''
+<hr><hr><hr>
+<a name="degrees">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/degrees.html"><!-- qtag -->Question 14.4b</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm sure I've got the
+trig functions
+declared correctly,
+but they're still giving me wrong answers.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+You weren't handing them angles in degrees, were you?
+C's trig functions (like FORTRAN's and most other languages)
+accept angles in radians.
+The conversion from degrees to radians is simple enough:
+<pre>
+	sin(degrees * pi / 180)
+</pre>
+<hr><hr><hr>
+<a name="fpequal">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/fpequal.html"><!-- qtag -->Question 14.5</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's a good way to check for ``close enough''
+floating-point equality?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Since the absolute accuracy of floating point values varies,
+by definition,
+with their magnitude,
+
+the
+best way
+of comparing two floating point values
+is to use an accuracy threshold
+which is relative
+to the magnitude of the numbers being compared.
+Rather than
+
+<pre>
+	double a, b;
+	...
+	if(a == b)	/* WRONG */
+</pre>
+use something like
+
+<pre>
+	#include &lt;math.h&gt;
+
+	if(fabs(a - b) &lt;= epsilon * fabs(a))
+</pre>
+where
+<TT>epsilon</TT>
+is a value chosen to set the
+degree of ``closeness''
+(and where you know that <TT>a</TT> will not be zero).
+The precise value of <TT>epsilon</TT> may still have to be chosen with
+care:
+its appropriate value may be quite small and related only to the
+machine's floating-point
+precision,
+or
+
+it may be larger
+if the numbers being compared
+are inherently less accurate
+or are the results of
+a chain of calculations
+which
+compounds
+
+accuracy losses
+over several steps.
+(Also,
+you may have to make the threshold
+a function of <TT>b</TT>,
+or of both <TT>a</TT> and <TT>b</TT>.)
+</p><p>A decidedly inferior approach,
+not generally recommended,
+would be to use an absolute threshold:
+<pre>
+	if(fabs(a - b) &lt; 0.001)		/* POOR */
+</pre>
+Absolute
+``fuzz factors''
+like
+0.001
+never seem to work
+for very long,
+however.
+As the numbers
+being compared
+change,
+it's likely that two
+small
+numbers
+that should be taken as different
+happen to be within 0.001 of each other,
+or that two large numbers,
+which should have been treated as equal,
+differ by more than 0.001 .
+(And,
+
+of course,
+the problems merely shift around,
+and do not go away,
+when the fuzz factor is tweaked to 0.005,
+or 0.0001,
+or any other absolute number.)
+</p><p>
+
+
+Doug Gwyn suggests
+using
+the
+following
+``relative difference''
+function.
+It
+returns the relative difference of two real numbers:
+0.0 if they are exactly the same,
+otherwise the ratio of the difference to the larger of the two.
+<pre>
+#define Abs(x)    ((x) &lt; 0 ? -(x) : (x))
+#define Max(a, b) ((a) &gt; (b) ? (a) : (b))
+
+double RelDif(double a, double b)
+{
+	double c = Abs(a);
+	double d = Abs(b);
+
+	d = Max(c, d);
+
+	return d == 0.0 ? 0.0 : Abs(a - b) / d;
+}
+</pre>
+Typical usage is
+<pre>
+	if(RelDif(a, b) &lt;= TOLERANCE) ...
+</pre>
+</p>
+<p>References:
+
+Knuth Sec. 4.2.2 pp. 217-8
+<hr><hr><hr>
+<a name="round">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/round.html"><!-- qtag -->Question 14.6</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How do I round numbers?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+The simplest
+and most straightforward
+way is with code like
+<pre>
+(int)(x + 0.5)</pre>
+
+C's floating to integer conversion
+truncates (discards) the fractional part,
+so adding 0.5 before truncating
+arranges that fractions
+&gt;=
+0.5 will be rounded up.
+(This
+technique won't work properly for negative numbers,
+though,
+for
+which you could use something like
+<TT>(int)(x&nbsp;&lt;&nbsp;0&nbsp;?&nbsp;x&nbsp;-&nbsp;0.5&nbsp;:&nbsp;x&nbsp;+&nbsp;0.5)</TT>,
+or play around with the
+
+
+
+<TT>floor</TT> and <TT>ceil</TT>
+functions.)
+</p><p>You can round to a certain precision by scaling:
+<pre>
+	(int)(x / precision + 0.5) * precision
+</pre>
+
+Handling negative numbers,
+or
+implementing
+even/odd rounding,
+is slightly trickier.
+</p><p>Note that
+because truncation is otherwise the default,
+it's
+usually
+a good idea to use an explicit rounding
+step
+when converting floating-point numbers to integers.
+Unless you're careful,
+it's
+quite possible
+for a number which you thought was 8.0
+to be represented internally as 7.999999
+and to be truncated to 7.
+</p><p>Additional links:
+<a href="sd17.html" rel=subdocument>further reading</a>
+<hr><hr><hr>
+<a name="pow">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/pow.html"><!-- qtag -->Question 14.7</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+Why doesn't C have an
+exponentiation operator?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+One reason is
+probably
+that
+few processors have
+a built-in
+exponentiation instruction.
+C has a
+<TT>pow</TT> function
+(declared in <TT>&lt;math.h&gt;</TT>)
+for performing exponentiation,
+although explicit multiplication is usually better
+for small positive integral exponents.
+<a href="fn78.html" rel=subdocument>[footnote]</a>
+In other words, <TT>pow(x,&nbsp;2.)</TT>
+is probably inferior
+to
+<TT>x&nbsp;*&nbsp;x</TT>.
+(If you're tempted to make
+a <TT>Square()</TT> macro,
+though,
+check question <a href="/~scs/cgi-bin/faqcat.cgi?sec=cpp#safemacros">10.1</a> first.)
+</p>
+
+<p>References:
+
+ISO Sec. 7.5.5.1
+<br>
+H&amp;S Sec. 17.6 p. 393
+<hr><hr><hr>
+<a name="mpi">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/mpi.html"><!-- qtag -->Question 14.8</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+The predefined constant <TT>M_PI</TT>
+seems to be missing from
+my machine's copy of
+<TT>&lt;math.h&gt;</TT>.
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+That constant
+(which is apparently supposed to be the value of pi,
+accurate to the machine's precision),
+is not
+standard;
+in fact a standard-conforming copy of <TT>&lt;math.h&gt;</TT>
+should
+
+<em>not</em> <TT>#define</TT> a symbol <TT>M_PI</TT>.
+<a href="fn79.html" rel=subdocument>[footnote]</a>
+If you need pi, you'll have to define it yourself,
+or compute it with <TT>4*atan(1.0)</TT>
+or
+
+
+
+
+<TT>acos(-1.0)</TT>.
+(You could use
+a
+construction
+like
+<pre>
+	#ifndef M_PI
+	#define M_PI 3.1415926535897932385
+	#endif
+</pre>
+to provide your own #definition
+only if some system header file has not.)
+</p>
+<p>References:
+
+PCS Sec. 13 p. 237
+<hr><hr><hr>
+<a name="nan">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/nan.html"><!-- qtag -->Question 14.9</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How do I
+set variables to, or
+test for
+IEEE NaN
+(``Not a Number'')
+and other special values?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Many systems
+
+with high-quality IEEE floating-point implementations provide
+facilities
+(e.g.
+predefined constants,
+and functions
+like
+<TT>isnan()</TT>,
+either
+as nonstandard extensions
+in <TT>&lt;math.h&gt;</TT>
+or perhaps
+in
+<TT>&lt;ieee.h&gt;</TT>
+or
+<TT>&lt;nan.h&gt;</TT>)
+
+to deal with these values cleanly,
+and
+work is being done
+to formally standardize such facilities.
+A crude but usually effective test for NaN
+can be written based on the fact that IEEE NaN's
+never compare equal to anything,
+even themselves;
+therefore
+a number that doesn't compare equal to itself
+must be a NaN:
+<pre>
+	#define isnan(x) ((x) != (x))
+</pre>
+Beware, though, that
+non-IEEE-aware compilers may
+optimize the test away.
+(Note also that
+even if you do have a predefined constant like <TT>NAN</TT>,
+you <em>cannot</em> use it in comparisons like 
+<TT>if(x&nbsp;==&nbsp;NAN)</TT>,
+again because
+NaN's do not compare equal to themselves.)
+</p><p>C99 provides
+<TT>isnan()</TT>,
+<TT>fpclassify()</TT>,
+and several other classification routines.
+</p><p>Another
+possibility
+is
+to format
+the value in question
+using
+<TT>sprintf</TT>:
+on
+many systems
+it
+
+generates
+strings like <TT>"NaN"</TT> and <TT>"Inf"</TT>
+which you could compare for
+
+in a pinch.
+
+</p><p>To initialize variables with these values
+(and if your system does not provide cleaner solutions),
+you may be able to get away with some compile-time
+``arithmetic'':
+<pre>
+	double nan = 0./0.;
+	double inf = 1./0.;
+</pre>
+Don't be too
+surprised,
+though,
+if these don't work
+(or if they abort the compiler with a floating-point exception).
+</p><p>(The most reliable way of setting up these special values
+would use a hex representation of their internal bit patterns,
+but initializing a floating-point value with a bit pattern
+would require using a union or some other type punning mechanism
+and
+would obviously be
+machine-dependent.)
+</p><p>See also question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#fpexcepts">19.39</a>.
+</p>
+<p>References:
+
+C9X Sec. 7.7.3
+<hr><hr><hr>
+<a name="fpexcepts">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/fpexcepts.html"><!-- qtag -->Question 14.10</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+How can I
+handle
+floating-point exceptions gracefully?
+</p>
+<p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+See question <a href="/~scs/cgi-bin/faqcat.cgi?sec=osdep#fpexcepts">19.39</a>.
+<hr><hr><hr>
+<a name="complex">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/complex.html"><!-- qtag -->Question 14.11</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+What's a good way to implement complex numbers in C?
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+It is straightforward to define a simple structure
+and some arithmetic functions to manipulate them.
+C99 supports <TT>complex</TT> as a standard type.
+<a href="fn80.html" rel=subdocument>[footnote]</a>
+Here is a
+tiny
+example,
+to give you a feel for it:
+<pre>
+typedef struct {
+	double real;
+	double imag;
+	} complex;
+
+#define Real(c) (c).real
+#define Imag(c) (c).imag
+
+complex cpx_make(double real, double imag)
+{
+	complex ret;
+	ret.real = real;
+	ret.imag = imag;
+	return ret;
+}
+
+complex cpx_add(complex a, complex b)
+{
+	return cpx_make(Real(a) + Real(b), Imag(a) + Imag(b));
+}
+</pre>
+You can use these routines
+with code like
+<pre>
+	complex a = cpx_make(1, 2);
+	complex b = cpx_make(3, 4);
+	complex c = cpx_add(a, b);
+</pre>
+or, even more simply,
+<pre>
+	complex c = cpx_add(cpx_make(1, 2), cpx_make(3, 4));
+</pre>
+</p><p>See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#firstclass">2.7</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=struct#anonstruct">2.10</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=fp#mathsrc">14.12</a>.
+</p>
+
+<p>References:
+
+C9X Sec. 6.1.2.5, Sec. 7.8
+<hr><hr><hr>
+<a name="mathsrc">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/mathsrc.html"><!-- qtag -->Question 14.12</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm looking for some
+code to do:
+</p><p>Fast Fourier Transforms (FFT's)
+<br>matrix arithmetic (multiplication, inversion, etc.)
+<br>complex arithmetic
+<br></p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Ajay Shah
+has prepared a nice
+index of free numerical
+software
+which has been archived pretty widely;
+one URL
+is
+<a href="ftp://ftp.math.psu.edu/pub/FAQ/numcomp-free-c"><TT>ftp://ftp.math.psu.edu/pub/FAQ/numcomp-free-c</TT></a>
+.
+
+See also
+questions <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#tutsources">18.9b</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#stdlibsrc">18.13</a>, <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#miscsrcs">18.15c</a>, and <a href="/~scs/cgi-bin/faqcat.cgi?sec=resources#sources">18.16</a>.
+<hr><hr><hr>
+<a name="fpnotlinked">
+<h1>
+comp.lang.c FAQ list
+<font color=blue>&middot;</font>
+<a href="../fp/fpnotlinked.html"><!-- qtag -->Question 14.13</a>
+</h1>
+<p>
+<font face=Helvetica size=8 color=blue><b>Q:</b></font>
+I'm having trouble with a Turbo C program which crashes and says
+something like
+``floating point formats not linked.''
+</p><p><hr>
+<p>
+<font face=Helvetica size=8 color=blue><b>A:</b></font>
+Some compilers for small machines, including
+Turbo C
+(and Ritchie's 
+original PDP-11 compiler),
+leave out
+certain
+floating point support if it looks like it will not be needed.
+In particular, the non-floating-point versions
+of <TT>printf</TT>
+and <TT>scanf</TT>
+save space by not including
+code to handle <TT>%e</TT>, <TT>%f</TT>,
+and <TT>%g</TT>.
+It happens that
+Borland's
+heuristics for determining
+whether the program uses floating point
+are insufficient,
+and the
+programmer must
+sometimes
+insert
+a dummy
+call
+to a floating-point library function
+(such as <TT>sqrt</TT>; any will
+do)
+to force loading of
+floating-point support.
+(See the comp.os.msdos.programmer FAQ list for more
+information.)
+</p><p>A partially-related problem,
+resulting in a similar error message
+(perhaps ``floating point not loaded'')
+can apparently occur
+under
+some
+MS-DOS compilers
+when
+an incorrect variant of the floating-point library is linked.
+Check your compiler
+manual's
+description of the various
+floating-point libraries.
+</p><p>Additional links:
+<a href="sd18.html" rel=subdocument>another possibility</a>
+<hr><hr><hr>
+<hr>
+<p>
+Read sequentially:
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=lib" rev=precedes>prev</a>
+<a href="/~scs/cgi-bin/faqcat.cgi?sec=varargs" rel=precedes>next</a>
+<a href="/~scs/cgi-bin/faqcat.cgi" rev=subdocument>up</a>
+</p>
+<hr>
+<p>
+<br><!-- lastfooter -->
+<a href="../about.html">about this FAQ list</a>
+&nbsp;
+<a href="../eskimo.html">about eskimo</a>
+&nbsp;
+<a href="../search.html">search</a>
+&nbsp;
+<a href="../feedback.html">feedback</a>
+&nbsp;
+<a href="copyright.html">copyright</a>
+<p>
+Hosted by
+<a href="http://www.eskimo.com/"><img src="http://www.eskimo.com/img/link/eskitiny.gif" alt="Eskimo North"></a>
+</body>
+</html>
