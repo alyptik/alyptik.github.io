@@ -1,5 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector.</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/all.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-07-26T00:38:00-10:00</updated><entry><title>just fucking do it already</title><link href="https://alyp.tk/just-fucking-do-it-already.html" rel="alternate"></link><published>2017-07-26T00:38:00-10:00</published><updated>2017-07-26T00:38:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-26:/just-fucking-do-it-already.html</id><summary type="html">&lt;p&gt;&lt;img alt="justfuckingdoitalready" src="https://alyp.tk/images/justfuckingdoitalready.png"&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector.</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/all.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-08-08T20:25:00-10:00</updated><entry><title>license and patents and stallman, oh my!</title><link href="https://alyp.tk/license-and-patents-and-stallman-oh-my.html" rel="alternate"></link><published>2017-08-08T20:25:00-10:00</published><updated>2017-08-08T20:25:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-08:/license-and-patents-and-stallman-oh-my.html</id><summary type="html">&lt;p&gt;&lt;img alt="gpl" src="https://alyp.tk/images/gpl.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;I love Linux and open source software to death. Anyone who has moved from
+Windows or Mac to this unassuming open source operating system knows exactly
+why: freedom.&lt;/p&gt;
+&lt;p&gt;“Oh hey, I need to make a Powerpoint, but I don't actually own Microsoft
+Office… Oh wait, I am on Linux and …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="gpl" src="https://alyp.tk/images/gpl.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;I love Linux and open source software to death. Anyone who has moved from
+Windows or Mac to this unassuming open source operating system knows exactly
+why: freedom.&lt;/p&gt;
+&lt;p&gt;“Oh hey, I need to make a Powerpoint, but I don't actually own Microsoft
+Office… Oh wait, I am on Linux and can just search my distribution repositories
+for an office suite!”&lt;/p&gt;
+&lt;p&gt;“Egads, I need to calculate the boolean matrix product of these two truth
+tables! Oh wait, I can just feed the data into /bin/genius!”&lt;/p&gt;
+&lt;p&gt;The sheer power that Linux and open source software puts at your fingertips
+can be staggering at times. But to quote dear, old Uncle Ben, "With great power
+comes great responsibility.”&lt;/p&gt;
+&lt;p&gt;Just like anything else, open source has its flaws. Having your code available
+free-of-charge to whomever cares enough to looks for it means that you can't
+rely on having “special” un-duplicatable features as the driving force
+behind your profit margin. Another company can easily just look for your
+code and copy it. This is the nature of the beast itself, and many companies
+have worked around it by selling support or other sorts of services that cannot
+be duplicated.&lt;/p&gt;
+&lt;p&gt;However, a very heated debate is, and has been, raging in the world of open
+source; licensing. And one of the most controversial licensing debated is
+regarding the GPL.&lt;/p&gt;
+&lt;p&gt;For those of you who don't know, GPL stand for the GNU Public License. It is
+one of, if not THE most, ubiquitous licenses currently being used is the world
+of open source. Now the crusade of the GPL is, I personally believe, a noble
+one. The creator of the GPL, Richard M. Stallman states,&lt;/p&gt;
+&lt;p&gt;“The simplest way to make a program free software is to put it in the public
+domain, uncopyrighted. This allows people to share the program and their
+improvements, if they are so minded. But it also allows uncooperative people
+to convert the program into proprietary software. They can make changes, many
+or few, and distribute the result as a proprietary product. People who receive
+the program in that modified form do not have the freedom that the original
+author gave them; the middleman has stripped it away.”&lt;/p&gt;
+&lt;p&gt;People of course, will be people; give an inch, they'll take a mile, etc. I
+do personally believe the GPL has done wonders for the entire industry, and one
+could argue, the world. But the latest revision of the GPL, dubbed GPLv3, is not
+one I personally feel comfortable using by default.&lt;/p&gt;
+&lt;p&gt;The GPLv2 is, in my opinion, a wonderful document. It very simply states that
+you may use this source code free-of-charge, as long you propogate your changes
+upstream. Of course these are a few more intricacies to this, as is always the
+case when dealing with legalities, but this is the general gist of it. You, as
+the software developer, can understand this easily, without having to spend
+hours worrying about what exactly your responsibilities are when using this
+code.&lt;/p&gt;
+&lt;p&gt;There are no patent clauses to worry about, no subtleties about what you are
+required to do with the end product itself, just simple terms that are part of
+a simple license. The GPLv3 on the other hand, is a far more complex beast.&lt;/p&gt;
+&lt;p&gt;I honestly have yet to meet a software developer who has confidently asserted
+to me that they understand the GPLv3; what use is a license which is so complex
+that none of the people it was designed to protect understand it? And with this
+uncertainty comes hesitance to adopt, splitting the community into those who
+use it and those who despise it.&lt;/p&gt;
+&lt;p&gt;This is made even worse by the fact that the GPL, by nature, is what is
+unadoringly refered to as a “viral” license. In short, this means that if your
+product uses code that is GPL, even if it is simply linking against a shared
+library such as the ubiquitous GNU readline, you are forced to license your
+entire product under the GPL.&lt;/p&gt;
+&lt;p&gt;As you can imagine, developers are not jumping for joy at the fact that they
+may very realistically have to license they entire project under something
+as all encompassing as the GPL.&lt;/p&gt;
+&lt;p&gt;Linux itself is license under the GPLv2. Linux Torvalds, the creator of the
+Linux kernel, states:&lt;/p&gt;
+&lt;p&gt;“For example, the GPLv2 in no way limits your use of the software. If you're a
+mad scientist, you can use GPLv2'd software for your evil plans to take over
+the world ("Sharks with lasers on their heads!!"), and the GPLv2 just says
+that you have to give source code back. And that's OK by me. I like sharks
+with lasers. I just want the mad scientists of the world to pay me back in
+kind. I made source code available to them, they have to make their changes
+to it available to me. After that, they can fry me with their shark-mounted
+lasers all they want.”&lt;/p&gt;
+&lt;p&gt;“[GPL] version 3 was not a good "here we give you version 2" and then we try
+to sneak in this new rules and try force everyone to upgrade; that was the
+part I disliked. The FSF did really sneaky stuff, downright immoral in my
+opinion.”&lt;/p&gt;
+&lt;p&gt;Just doing the research for this post itself was horrible in and of itself;
+trying to figure out the GPLv3 patent clause just about drove me mad. I had to
+eventually give in and bug one of my lawyer buddies to give it a good read-over
+before I finally understood that the patent clause, thankfully was the soft one,
+where it only applied to patent lawsuit related to that software, instead of a
+hard one such as the one that Apple uses which states that you cannot file ANY
+patent claims whatsoever; included ones completely unrelated to the project
+itself.&lt;/p&gt;
+&lt;p&gt;So I have to petition the reader to ask him or herself: “Is all of this
+complexity and unnecessary madness really worth it?” When companies would
+rather pass over your code for something else instead of work with you due to
+the fact that it is GPLv3, is this really benefiting the open-source community?
+When you are FORCED to use a specific license just because you link against
+something that is essential to any programs in that specific field of
+programming, can you really say that this is what freedom tastes like?&lt;/p&gt;
+&lt;p&gt;I won't, and can't, force you to have an opinion on these issues; at the end of
+the day however, if I've persuaded you to think about simpler, yet vastly
+important questions like these, then I can sleep soundly, knowing my job here
+is done.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sources:&lt;/strong&gt;&lt;br&gt;
+&lt;a href="https://lwn.net/Articles/200422/"&gt;Kernel developers' position on GPLv3.&lt;/a&gt; (2006, September 22). Retrieved August 11, 2017, from https://lwn.net/Articles/200422&lt;br&gt;
+&lt;a href="https://youtu.be/PaKIZ7gJlRU"&gt;Linus Torvalds says GPL v3 violates everything that GPLv2 stood for.&lt;/a&gt; (2014, September 04). Retrieved August 11, 2017, from https://youtu.be/PaKIZ7gJlRU&lt;br&gt;
+&lt;a href="http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128?"&gt;The Torvalds Transcript: Why I 'Absolutely Love' GPL Version 2.&lt;/a&gt; (2007, March 19). Retrieved August 11, 2017, from http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128  &lt;/p&gt;</content></entry><entry><title>just fucking do it already</title><link href="https://alyp.tk/just-fucking-do-it-already.html" rel="alternate"></link><published>2017-07-26T00:38:00-10:00</published><updated>2017-07-26T00:38:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-26:/just-fucking-do-it-already.html</id><summary type="html">&lt;p&gt;&lt;img alt="justfuckingdoitalready" src="https://alyp.tk/images/justfuckingdoitalready.png"&gt;&lt;/p&gt;
 &lt;p&gt;I don't usually like being around other people. I don't usually care
 much for interacting with other people. For a long time, I sort of told myself
 it was because I happened to be some sort of weirdo misanthrope, but after a
