@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Joey Pabalinas — caveat lector. - Joey Pabalinas</title><link>https://alyp.tk/</link><description>hello, i'm joey and i drink, smoke, and smile too much.</description><lastBuildDate>Wed, 23 Aug 2017 22:43:00 -1000</lastBuildDate><item><title>on dreams</title><link>https://alyp.tk/on-dreams.html</link><description>&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
+<rss version="2.0"><channel><title>Joey Pabalinas — caveat lector. - Joey Pabalinas</title><link>https://alyp.tk/</link><description>hello, i'm joey and i drink, smoke, and smile too much.</description><lastBuildDate>Wed, 27 Sep 2017 01:28:00 -1000</lastBuildDate><item><title>on masquerades</title><link>https://alyp.tk/on-masquerades.html</link><description>&lt;p&gt;&lt;img alt="masquerades" src="https://alyp.tk/images/masquerades.png"&gt;&lt;/p&gt;
+&lt;p&gt;the crickets are deafening.  &lt;/p&gt;
+&lt;p&gt;it is a bit strange how you don't really notice yourself normally, isn't it?&lt;br&gt;
+going about your normal day without a care in the world.&lt;br&gt;
+i do know the feeling.  &lt;/p&gt;
+&lt;p&gt;it is sort of surreal when you take a moment to do the opposite.&lt;br&gt;
+whether by …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Wed, 27 Sep 2017 01:28:00 -1000</pubDate><guid isPermaLink="false">tag:alyp.tk,2017-09-27:/on-masquerades.html</guid></item><item><title>on dreams</title><link>https://alyp.tk/on-dreams.html</link><description>&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
 &lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Wed, 23 Aug 2017 22:43:00 -1000</pubDate><guid isPermaLink="false">tag:alyp.tk,2017-08-23:/on-dreams.html</guid></item><item><title>license and patents and stallman, oh my!</title><link>https://alyp.tk/license-and-patents-and-stallman-oh-my.html</link><description>&lt;p&gt;&lt;img alt="gpl" src="https://alyp.tk/images/gpl.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;I love Linux and open source software to death. Anyone who has moved from
 Windows or Mac to this unassuming open source operating system knows exactly
