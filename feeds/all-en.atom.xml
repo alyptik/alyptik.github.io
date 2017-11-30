@@ -14,7 +14,7 @@
 &lt;p&gt;“The language makes it far too easy to shoot yourself in the foot!”  &lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;And granted, these criticisms are not without merit. C is a old language; the origins of C take place around 1971, when &lt;em&gt;Dennis M. Ritchie&lt;/em&gt; of &lt;em&gt;Bell Labs&lt;/em&gt; rewrote B as a language named NB, which he eventually refined into C. However, in my opinion the greatest sins commonly committed by C programmers is the tendency to snob the features and inventions of other languages, dismissing potentially useful constructs with an attitude of it being the “easy way out,” even when there is a great productivity boon to be had. Two of these constructs are the dynamic array and the dispatch table, both common in modern, dynamically typed languages.  &lt;/p&gt;
-&lt;p&gt;The dynamic array is the simple of the two concepts, and the most ubiquitous:&lt;/p&gt;
+&lt;p&gt;The dynamic array is the simpler of the two concepts, and the most ubiquitous:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# instantiate an array containing `1, 2, 3`&lt;/span&gt;
 &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sx"&gt;qw/1 2 3/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
