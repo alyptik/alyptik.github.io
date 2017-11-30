@@ -1,11 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector.</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/all-en.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-09-27T01:28:00-10:00</updated><entry><title>on masquerades</title><link href="https://alyp.tk/on-masquerades.html" rel="alternate"></link><published>2017-09-27T01:28:00-10:00</published><updated>2017-09-27T01:28:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-09-27:/on-masquerades.html</id><summary type="html">&lt;p&gt;&lt;img alt="masquerades" src="https://alyp.tk/images/masquerades.png"&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector.</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/all-en.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-11-29T21:16:00-10:00</updated><entry><title>the magic of dispatch tables and dynamic arrays</title><link href="https://alyp.tk/the-magic-of-dispatch-tables-and-dynamic-arrays.html" rel="alternate"></link><published>2017-11-29T21:16:00-10:00</published><updated>2017-11-29T21:16:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-11-29:/the-magic-of-dispatch-tables-and-dynamic-arrays.html</id><summary type="html">&lt;p&gt;I &lt;em&gt;love&lt;/em&gt; C. Quite simply, I find it an incredibly fun language to program in. Even through all the weird, little Heisenbugs, the segmentation faults, the incredibly confusing linker errors, it is still my favorite programming language by far. You will hear a lot of bad press about C:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“There …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;I &lt;em&gt;love&lt;/em&gt; C. Quite simply, I find it an incredibly fun language to program in. Even through all the weird, little Heisenbugs, the segmentation faults, the incredibly confusing linker errors, it is still my favorite programming language by far. You will hear a lot of bad press about C:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“There is no memory safety!”  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;or  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“The typing system is dated and unreliable!”  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;maybe even  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“The language makes it far too easy to shoot yourself in the foot!”  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And granted, these criticisms are not without merit. C is a old language; the origins of C take place around 1971, when &lt;em&gt;Dennis M. Ritchie&lt;/em&gt; of &lt;em&gt;Bell Labs&lt;/em&gt; rewrote B as a language named NB, which he eventually refined into C. However, in my opinion the greatest sins commonly committed by C programmers is the tendency to snob the features and inventions of other languages, dismissing potentially useful constructs with an attitude of it being the “easy way out,” even when there is a great productivity boon to be had. Two of these constructs are the dynamic array and the dispatch table, both common in modern, dynamically typed languages.  &lt;/p&gt;
+&lt;p&gt;The dynamic array is the simple of the two concepts, and the most ubiquitous:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# instantiate an array containing `1, 2, 3`&lt;/span&gt;
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sx"&gt;qw/1 2 3/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;is a simple, contrived example of an array (or more pedantically, list,) of length 3 in Perl. Unlike C, if you want to change the length of the array, it would be as simple as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# instantiate an array containing `1, 2, 3`&lt;/span&gt;
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sx"&gt;qw/1 2 3/&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# append `4` and `5`&lt;/span&gt;
+&lt;span class="nb"&gt;push&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nb"&gt;push&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# pop `5` off the end&lt;/span&gt;
+&lt;span class="nb"&gt;pop&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# shift `1` off the beginning&lt;/span&gt;
+&lt;span class="nb"&gt;shift&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# prepend `1`&lt;/span&gt;
+&lt;span class="nb"&gt;unshift&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# prints `1, 2, 3, 4`&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nb"&gt;join&lt;/span&gt; &lt;span class="s"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and you now have an array of length 4 containing &lt;code&gt;1, 2, 3, 4&lt;/code&gt;.  &lt;/p&gt;
+&lt;p&gt;Easy, right? A dispatch table is a slightly more complex beast, but really not all that complicated either. A dispatch table is simply a table of functions which you can refer to by index to call:  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Define the table using one anonymous code-ref and one named code-ref&lt;/span&gt;
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;%dispatch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;hi&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="n"&gt;bye&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;\&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;say_goodbye&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;say_goodbye&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;goodbye&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Fetch the code ref from the table, and invoke it&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nv"&gt;$dispatch&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;hi&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nv"&gt;$dispatch&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;bye&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which will simply call the subroutines indexed by the entries “hi” and “bye”.  &lt;/p&gt;
+&lt;p&gt;“Now this is all well and good, but this is Perl! I thought this post was about C?!” Ah, but it is! Although the code required to implement these constructs may not be quite the same, and a few semantics may be a bit different, it is indeed possible to implement these just as satisfactorily in C.  &lt;/p&gt;
+&lt;p&gt;To implement a dynamic array data structure, since C is a statically typed language, you have to pick what kind of data this will be an array of. To keep things simple, I will be demonstrating using an &lt;code&gt;int&lt;/code&gt; lists but I have just as easily applied this same technique to string lists, &lt;code&gt;struct&lt;/code&gt; lists, and even &lt;code&gt;void *&lt;/code&gt; lists.  &lt;/p&gt;
+&lt;p&gt;A simple implementation in C would look something like this:  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(This code depends only on the standard library; you are encouraged to compile and try it out yourself)&lt;/strong&gt;  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdint.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* struct definition for dynamic array */&lt;/span&gt;
+&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;int_list&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* `size_t` members to keep track of current length and allocation size */&lt;/span&gt;
+    &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;cnt&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* dynamically allocated array containing our data */&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* `malloc()` wrapper */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;xmalloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* sanity check */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* allocate or die */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="nl"&gt;msg&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;xrealloc()&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* `calloc()` wrapper */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;xcalloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;nmemb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* sanity check */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* allocate or die */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nmemb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="nl"&gt;msg&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;xcalloc()&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* `realloc()` wrapper */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;xrealloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* sanity check */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* allocate or die */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;realloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="nl"&gt;msg&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;xrealloc()&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* initilization of our dynamic array */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;array_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;int_list&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* initialize current length to `0` and current size to `1` */&lt;/span&gt;
+    &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;xcalloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;array_init()&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* append an integer to our array */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;array_append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;int_list&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* increment length */&lt;/span&gt;
+    &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* realloc if `cnt` reaches current size */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="cm"&gt;/* check if size too large */&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SIZE_MAX&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="cm"&gt;/* reallocate double current size */&lt;/span&gt;
+        &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;xrealloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;array_append()&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="cm"&gt;/* append the value */&lt;/span&gt;
+    &lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;list_struct&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* declare a dynamic array and initialize it */&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;int_list&lt;/span&gt; &lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;array_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* append `0, 1, 2, 3, 4` */&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;array_append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* print out the values */&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%s[%zu] = %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;dyn_arr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* free our list now that we are done */&lt;/span&gt;
+    &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dyn_arr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This may seem like more code than necessary, and it may well be, but doing your implementation in this manner allows you to easily reuse your code; say when you decide you want a list of strings (&lt;code&gt;char *&lt;/code&gt;) instead of integers. All you have to do is a quick text substitution in a few places, and you have a fairly generic implementation that can be applied anywhere. In addition, since you allocate double the current size every time you call &lt;code&gt;realloc()&lt;/code&gt;, you end up with an “amortized” dynamic array, which, in simple terms, means that when you append a value you end up only paying the cost of reallocation every power-of-two array length.  &lt;/p&gt;
+&lt;p&gt;The wrapping of the allocation functions allows to to simplify your error checking, while keeping the code around your allocations clean and uncluttered. Reducing the work you do may seem lazy, but in fact it is the best way to keep your code bug-free; the less chance you have of eliding important, though tedious, tasks such as check the return of &lt;code&gt;malloc()&lt;/code&gt;, the less chance of human error in general.  &lt;/p&gt;
+&lt;p&gt;A dispatch table can also be implemented fairly easily in C using an array of function pointers. I recently used this data structure to vastly simplify the parsing of PGP packets, by have a dispatch table of constructor and destructor functions, which meant I could implement the parsing of a GnuPG key one packet at a time, and simply leave the other entries &lt;code&gt;NULL&lt;/code&gt; until I got around to implementing them. Here is simplified version of my implementation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(This snippet, unfortunately, is not compilable, but the full source can be found at &lt;a href="http://github.com/alyptik/derpgp"&gt;alyptik/derpgp&lt;/a&gt;)&lt;/strong&gt;:  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cm"&gt;/* dispatch table forward declaration */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nf"&gt;size_t&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;dispatch_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* function prototypes */&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="nf"&gt;parse_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="nf"&gt;parse_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="nf"&gt;free_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="nf"&gt;free_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;packet&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* dispatch each packet to a parser */&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="nf"&gt;parse_pgp_packets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_LIST&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* dispatch each packet to parsers */&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="cm"&gt;/* get the type of the packet */&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;packet_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TAGBITS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="n"&gt;pheader&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="cm"&gt;/* use the type as an index into the table of function pointers */&lt;/span&gt;
+        &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;parse_pkt&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dispatch_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;packet_type&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parse_pkt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;parse_pkt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* free list of packets */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;free_pgp_list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PGP_LIST&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* return if passed NULL pointers */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="cm"&gt;/* get the type of the packet */&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;packet_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TAGBITS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="n"&gt;pheader&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="cm"&gt;/* use the type as an index into the table of function pointers */&lt;/span&gt;
+        &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;cleanup_pkt&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dispatch_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;packet_type&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cleanup_pkt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;cleanup_pkt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+        &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="n"&gt;pdata&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;cnt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;pkts&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* static function pointer array indexed by packet tag number */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nf"&gt;size_t&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;dispatch_table&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])(&lt;/span&gt;&lt;span class="n"&gt;PGP_PACKET&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kr"&gt;restrict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_RSRVD&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PKESESS&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SIG&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SKESESS&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_OPSIG&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SECKEY&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;parse_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;free_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PUBKEY&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;parse_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;free_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SECSUBKEY&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;parse_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;free_seckey_packet&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_CDATA&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SEDATA&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_MARKER&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_LITDATA&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_TRUST&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_UID&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PUBSUBKEY&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;parse_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;free_pubkey_packet&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_UATTR&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_SEIPDATA&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_MDCODE&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PRVT0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PRVT1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PRVT2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TAG_PRVT3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Just like that, I suddenly have a modular, reusable system for dispatching to the relevant constructor and destructor functions. I can implement them at whatever pace works for me, and leave the unimplemented entries &lt;code&gt;NULL&lt;/code&gt;. This allows a simple &lt;code&gt;if (ptr)&lt;/code&gt; check inside of a &lt;code&gt;for&lt;/code&gt; loop to suffice for dispatching to all of the implemented functions in my table, safely, correctly, and most important of all, &lt;strong&gt;easily&lt;/strong&gt;. Keeping your code simple and too the point, decoupling and isolating as many part of your program as possible, and keeping an open mind are crucial if you want to keep you code maintainable by others as well as yourself.  &lt;/p&gt;
+&lt;p&gt;Maybe you are an old, grizzled C veteran who cares not for all these fancy new languages, or maybe your aren't. Maybe C is a large part of your day-to-day career, or maybe you are just a C-hacker on the weekends. Regardless of your current relationship with C, it would be a grave mistake to ignore the innovations that other languages offer. It is an undisputed tautology that an open mind will always have an advantage over a closed one, and you will find that many useful data structures and algorithms from other programming languages are actually completely language-agnostic.  &lt;/p&gt;
+&lt;p&gt;So give it a shot; who knows, learning a little Perl or Python may, in fact, end up being the best decision you ever made.&lt;/p&gt;</content></entry><entry><title>on masquerades</title><link href="https://alyp.tk/on-masquerades.html" rel="alternate"></link><published>2017-09-27T01:28:00-10:00</published><updated>2017-09-27T01:28:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-09-27:/on-masquerades.html</id><summary type="html">&lt;!-- ![masquerades]({fileame}/images/masquerades.png) --&gt;
+
 &lt;p&gt;the crickets are deafening.  &lt;/p&gt;
 &lt;p&gt;it is a bit strange how you don't really notice yourself normally, isn't it?&lt;br&gt;
 going about your normal day without a care in the world.&lt;br&gt;
 i do know the feeling.  &lt;/p&gt;
 &lt;p&gt;it is sort of surreal when you take a moment to do the opposite.&lt;br&gt;
-whether by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="masquerades" src="https://alyp.tk/images/masquerades.png"&gt;&lt;/p&gt;
+whether by …&lt;/p&gt;</summary><content type="html">&lt;!-- ![masquerades]({fileame}/images/masquerades.png) --&gt;
+
 &lt;p&gt;the crickets are deafening.  &lt;/p&gt;
 &lt;p&gt;it is a bit strange how you don't really notice yourself normally, isn't it?&lt;br&gt;
 going about your normal day without a care in the world.&lt;br&gt;
@@ -67,8 +314,10 @@ but…  &lt;/p&gt;
 &lt;p&gt;ah, the whiskey is gone.&lt;br&gt;
 the internet is back.&lt;br&gt;
 the cigarette pack teases empty.&lt;br&gt;
-and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dreams</title><link href="https://alyp.tk/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-23:/on-dreams.html</id><summary type="html">&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
-&lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
+and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dreams</title><link href="https://alyp.tk/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-23:/on-dreams.html</id><summary type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
+
+&lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</summary><content type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
+
 &lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure out library function prototypes? Why do I want to make it nearly a certainty that I will end up with an RSI later in life; some sort of typing related horror that will probably make daily task incredibly annoying?&lt;/p&gt;
 &lt;p&gt;Well, the short and simple answer is &lt;strong&gt;because it's fun&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;It's a joy hacking away at code, dereferencing pointers with reckless abandon, clobbering registers for the fun of it, coming up with ridiculously hacky solutions to problems that would make most normal people swoon.&lt;/p&gt;
@@ -109,12 +358,14 @@ and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dr
 &lt;p&gt;And to be humble, as simple as it may seem, is NOT easy.&lt;/p&gt;
 &lt;p&gt;So what are my long-term aspirations? I have no clue. I haven't fully planned out my life apart from a general direction I have pointed myself in, and I don't really feel a pressing need to do so. I just want to be happy, spending my days hacking away at projects that tickle my fancy, creating programs others find useful; everyone wants to make some sort of mark on the world after all.&lt;/p&gt;
 &lt;p&gt;I do want to be good at my craft, and I will not pretend I am without sin; the sins I have gone over I am guilty of committing far more than a few times. I will not apologize for being human. But I am earnestly working at it. In the end, if I were to ask myself: “Where am I going? What is it I really want to be in this unimaginably huge sea of possibilities?” Well, at this point, the only answer I can give right now would be a simple one, maybe one that would be considered a bit corny by most, but it would be something given in surety:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>license and patents and stallman, oh my!</title><link href="https://alyp.tk/license-and-patents-and-stallman-oh-my.html" rel="alternate"></link><published>2017-08-08T20:25:00-10:00</published><updated>2017-08-08T20:25:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-08:/license-and-patents-and-stallman-oh-my.html</id><summary type="html">&lt;p&gt;&lt;img alt="gpl" src="https://alyp.tk/images/gpl.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>license and patents and stallman, oh my!</title><link href="https://alyp.tk/license-and-patents-and-stallman-oh-my.html" rel="alternate"></link><published>2017-08-08T20:25:00-10:00</published><updated>2017-08-08T20:25:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-08:/license-and-patents-and-stallman-oh-my.html</id><summary type="html">&lt;!-- ![gpl]({filename}/images/gpl.jpg) --&gt;
+
 &lt;p&gt;I love Linux and open source software to death. Anyone who has moved from
 Windows or Mac to this unassuming open source operating system knows exactly
 why: freedom.&lt;/p&gt;
 &lt;p&gt;“Oh hey, I need to make a Powerpoint, but I don't actually own Microsoft
-Office… Oh wait, I am on Linux and …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="gpl" src="https://alyp.tk/images/gpl.jpg"&gt;&lt;/p&gt;
+Office… Oh wait, I am on Linux and …&lt;/p&gt;</summary><content type="html">&lt;!-- ![gpl]({filename}/images/gpl.jpg) --&gt;
+
 &lt;p&gt;I love Linux and open source software to death. Anyone who has moved from
 Windows or Mac to this unassuming open source operating system knows exactly
 why: freedom.&lt;/p&gt;
@@ -210,11 +461,13 @@ is done.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sources:&lt;/strong&gt;&lt;br&gt;
 &lt;a href="https://lwn.net/Articles/200422/"&gt;Kernel developers' position on GPLv3.&lt;/a&gt; (2006, September 22). Retrieved August 11, 2017, from https://lwn.net/Articles/200422&lt;br&gt;
 &lt;a href="https://youtu.be/PaKIZ7gJlRU"&gt;Linus Torvalds says GPL v3 violates everything that GPLv2 stood for.&lt;/a&gt; (2014, September 04). Retrieved August 11, 2017, from https://youtu.be/PaKIZ7gJlRU&lt;br&gt;
-&lt;a href="http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128?"&gt;The Torvalds Transcript: Why I 'Absolutely Love' GPL Version 2.&lt;/a&gt; (2007, March 19). Retrieved August 11, 2017, from http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128  &lt;/p&gt;</content></entry><entry><title>just fucking do it already</title><link href="https://alyp.tk/just-fucking-do-it-already.html" rel="alternate"></link><published>2017-07-26T00:38:00-10:00</published><updated>2017-07-26T00:38:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-26:/just-fucking-do-it-already.html</id><summary type="html">&lt;p&gt;&lt;img alt="justfuckingdoitalready" src="https://alyp.tk/images/justfuckingdoitalready.png"&gt;&lt;/p&gt;
+&lt;a href="http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128?"&gt;The Torvalds Transcript: Why I 'Absolutely Love' GPL Version 2.&lt;/a&gt; (2007, March 19). Retrieved August 11, 2017, from http://www.informationweek.com/the-torvalds-transcript-why-i-absolutely-love-gpl-version-2/d/d-id/1053128  &lt;/p&gt;</content></entry><entry><title>just fucking do it already</title><link href="https://alyp.tk/just-fucking-do-it-already.html" rel="alternate"></link><published>2017-07-26T00:38:00-10:00</published><updated>2017-07-26T00:38:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-26:/just-fucking-do-it-already.html</id><summary type="html">&lt;!-- ![justfuckingdoitalready]({filename}/images/justfuckingdoitalready.png) --&gt;
+
 &lt;p&gt;I don't usually like being around other people. I don't usually care
 much for interacting with other people. For a long time, I sort of told myself
 it was because I happened to be some sort of weirdo misanthrope, but after a
-while I realized that I didn't actually hate …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="justfuckingdoitalready" src="https://alyp.tk/images/justfuckingdoitalready.png"&gt;&lt;/p&gt;
+while I realized that I didn't actually hate …&lt;/p&gt;</summary><content type="html">&lt;!-- ![justfuckingdoitalready]({filename}/images/justfuckingdoitalready.png) --&gt;
+
 &lt;p&gt;I don't usually like being around other people. I don't usually care
 much for interacting with other people. For a long time, I sort of told myself
 it was because I happened to be some sort of weirdo misanthrope, but after a
@@ -301,11 +554,13 @@ that maybe,
 just maybe,
 you may just happen to discover that,
 shit,&lt;/p&gt;
-&lt;p&gt;it was worth it.&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyp.tk/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;p&gt;&lt;img alt="onbeingafuckingadult" src="https://alyp.tk/images/onbeingafuckingadult.png"&gt;&lt;/p&gt;
+&lt;p&gt;it was worth it.&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyp.tk/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
+
 &lt;p&gt;for me personally, prose is the thing i was born to. prose is the thing i
 could do drunk off my ass in the middle of the night. prose is the thing i
 could never seem to fuck up as completely as everything else in my life.&lt;/p&gt;
-&lt;p&gt;but it's easy …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="onbeingafuckingadult" src="https://alyp.tk/images/onbeingafuckingadult.png"&gt;&lt;/p&gt;
+&lt;p&gt;but it's easy …&lt;/p&gt;</summary><content type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
+
 &lt;p&gt;for me personally, prose is the thing i was born to. prose is the thing i
 could do drunk off my ass in the middle of the night. prose is the thing i
 could never seem to fuck up as completely as everything else in my life.&lt;/p&gt;

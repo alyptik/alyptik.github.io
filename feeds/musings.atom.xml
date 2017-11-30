@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector. - musings</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/musings.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-09-27T01:28:00-10:00</updated><entry><title>on masquerades</title><link href="https://alyp.tk/on-masquerades.html" rel="alternate"></link><published>2017-09-27T01:28:00-10:00</published><updated>2017-09-27T01:28:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-09-27:/on-masquerades.html</id><summary type="html">&lt;p&gt;&lt;img alt="masquerades" src="https://alyp.tk/images/masquerades.png"&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — caveat lector. - musings</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/musings.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2017-09-27T01:28:00-10:00</updated><entry><title>on masquerades</title><link href="https://alyp.tk/on-masquerades.html" rel="alternate"></link><published>2017-09-27T01:28:00-10:00</published><updated>2017-09-27T01:28:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-09-27:/on-masquerades.html</id><summary type="html">&lt;!-- ![masquerades]({fileame}/images/masquerades.png) --&gt;
+
 &lt;p&gt;the crickets are deafening.  &lt;/p&gt;
 &lt;p&gt;it is a bit strange how you don't really notice yourself normally, isn't it?&lt;br&gt;
 going about your normal day without a care in the world.&lt;br&gt;
 i do know the feeling.  &lt;/p&gt;
 &lt;p&gt;it is sort of surreal when you take a moment to do the opposite.&lt;br&gt;
-whether by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="masquerades" src="https://alyp.tk/images/masquerades.png"&gt;&lt;/p&gt;
+whether by …&lt;/p&gt;</summary><content type="html">&lt;!-- ![masquerades]({fileame}/images/masquerades.png) --&gt;
+
 &lt;p&gt;the crickets are deafening.  &lt;/p&gt;
 &lt;p&gt;it is a bit strange how you don't really notice yourself normally, isn't it?&lt;br&gt;
 going about your normal day without a care in the world.&lt;br&gt;
@@ -67,8 +69,10 @@ but…  &lt;/p&gt;
 &lt;p&gt;ah, the whiskey is gone.&lt;br&gt;
 the internet is back.&lt;br&gt;
 the cigarette pack teases empty.&lt;br&gt;
-and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dreams</title><link href="https://alyp.tk/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-23:/on-dreams.html</id><summary type="html">&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
-&lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="dreams" src="https://alyp.tk/images/dreams.png"&gt;&lt;/p&gt;
+and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dreams</title><link href="https://alyp.tk/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-23:/on-dreams.html</id><summary type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
+
+&lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</summary><content type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
+
 &lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure out library function prototypes? Why do I want to make it nearly a certainty that I will end up with an RSI later in life; some sort of typing related horror that will probably make daily task incredibly annoying?&lt;/p&gt;
 &lt;p&gt;Well, the short and simple answer is &lt;strong&gt;because it's fun&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;It's a joy hacking away at code, dereferencing pointers with reckless abandon, clobbering registers for the fun of it, coming up with ridiculously hacky solutions to problems that would make most normal people swoon.&lt;/p&gt;
@@ -109,11 +113,13 @@ and the crickets are deafening.  &lt;/p&gt;</content></entry><entry><title>on dr
 &lt;p&gt;And to be humble, as simple as it may seem, is NOT easy.&lt;/p&gt;
 &lt;p&gt;So what are my long-term aspirations? I have no clue. I haven't fully planned out my life apart from a general direction I have pointed myself in, and I don't really feel a pressing need to do so. I just want to be happy, spending my days hacking away at projects that tickle my fancy, creating programs others find useful; everyone wants to make some sort of mark on the world after all.&lt;/p&gt;
 &lt;p&gt;I do want to be good at my craft, and I will not pretend I am without sin; the sins I have gone over I am guilty of committing far more than a few times. I will not apologize for being human. But I am earnestly working at it. In the end, if I were to ask myself: “Where am I going? What is it I really want to be in this unimaginably huge sea of possibilities?” Well, at this point, the only answer I can give right now would be a simple one, maybe one that would be considered a bit corny by most, but it would be something given in surety:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyp.tk/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;p&gt;&lt;img alt="onbeingafuckingadult" src="https://alyp.tk/images/onbeingafuckingadult.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyp.tk/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
+
 &lt;p&gt;for me personally, prose is the thing i was born to. prose is the thing i
 could do drunk off my ass in the middle of the night. prose is the thing i
 could never seem to fuck up as completely as everything else in my life.&lt;/p&gt;
-&lt;p&gt;but it's easy …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="onbeingafuckingadult" src="https://alyp.tk/images/onbeingafuckingadult.png"&gt;&lt;/p&gt;
+&lt;p&gt;but it's easy …&lt;/p&gt;</summary><content type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
+
 &lt;p&gt;for me personally, prose is the thing i was born to. prose is the thing i
 could do drunk off my ass in the middle of the night. prose is the thing i
 could never seem to fuck up as completely as everything else in my life.&lt;/p&gt;
