@@ -216,6 +216,7 @@
         <span class="k">return</span><span class="p">;</span>
     <span class="cm">/* allocate or die */</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="n">ptr</span><span class="p">,</span> <span class="n">sz</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="n">free</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="n">ptr</span><span class="p">);</span>
         <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="n">msg</span> <span class="o">?</span> <span class="nl">msg</span> <span class="p">:</span> <span class="s">&quot;xrealloc()&quot;</span><span class="p">);</span>
         <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
     <span class="p">}</span>
