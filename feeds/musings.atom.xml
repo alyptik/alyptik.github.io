@@ -1,5 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — hello, i'm joey - musings</title><link href="https://alyp.tk/" rel="alternate"></link><link href="https://alyp.tk/feeds/musings.atom.xml" rel="self"></link><id>https://alyp.tk/</id><updated>2018-07-02T06:21:00-10:00</updated><entry><title>music.</title><link href="https://alyp.tk/music.html" rel="alternate"></link><published>2018-07-02T06:21:00-10:00</published><updated>2018-07-02T06:21:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2018-07-02:/music.html</id><summary type="html">&lt;p&gt;music is just another one of those silly little things.  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Joey Pabalinas — hello, i'm joey - musings</title><link href="https://alyptik.org/" rel="alternate"></link><link href="https://alyptik.org/feeds/musings.atom.xml" rel="self"></link><id>https://alyptik.org/</id><updated>2018-09-19T18:20:00-10:00</updated><entry><title>A Plea to Unfuck our Codes of Conduct</title><link href="https://alyptik.org/a-plea-to-unfuck-our-codes-of-conduct.html" rel="alternate"></link><published>2018-09-19T18:20:00-10:00</published><updated>2018-09-19T18:20:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2018-09-19:/a-plea-to-unfuck-our-codes-of-conduct.html</id><summary type="html">&lt;p&gt;I don't usually pride myself on being a person who spends a lot of time caring
+about political or ethical issues (I am honestly still unsure whether this
+particular personality trait of mine is a flaw or not), but recent events
+have caused me to throw my hands up in …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I don't usually pride myself on being a person who spends a lot of time caring
+about political or ethical issues (I am honestly still unsure whether this
+particular personality trait of mine is a flaw or not), but recent events
+have caused me to throw my hands up in disgust and yell profanities at my
+bedroom wall. At this point I feel it has gotten so bad it would be an
+injustice to not comment on them; the issues which I can usually spend a
+large portion of my time ignoring (as they happily ignore me right back) have
+finally touched the one place I had hoped they never would: the Linux Kernel.&lt;/p&gt;
+&lt;p&gt;Maybe it seems insensitive of me to not go out of my way to care about these
+things, and I perhaps have slightly oversimplified my position. It's not
+that I don't care exactly, on the contrary, if I actively see bigotry and
+hatred I will probably spend most of my day trying to change the offending
+opinions. It's more that I just realize who I am:&lt;/p&gt;
+&lt;p&gt;I am a (quite unapologetically) "privileged" not-so-white-on-the-outside
+though quite-white-on-the-inside straight male living in the wonderful state of
+Hawaii. It's because I know exactly what I am that I would feel like a
+pompous, self-aggrandizing blowhard if I were actively protesting issues
+like this. I can't pretend to know what you've been through, but I do know
+hate when I see it and would prefer to only step in when I am damn sure
+someone is being a righteous asshole. How can I be so sure? Because I
+recognize the person I used to be.&lt;/p&gt;
+&lt;p&gt;But that's all just distracting backstory; I'm not what's important here.
+What IS important is the complete disregard of how valuable understanding
+(even TRYING to understand is just as important, really) how another human
+being might be feeling. I usually hate blanket statements, but it is completely
+appropriate to say that we ave collectively decided that such trifles are
+nothing but wastes of time and effort, which I find to be a very sad thing.
+Note that when I say human being, that statement purposely leaves "human being"
+completely unqualified.  Using ANY labels beyond "human" to qualify the topic
+here just completely misses the entire point in the first place. Black, white,
+male, female, divorced potted plant retired in the Florida Keys or whatever
+is absolutely unimportant here.&lt;/p&gt;
+&lt;p&gt;All we are trying to extend is a little bit of empathy after all; why should it
+matter whom the recipient is? They would deserve it just as much.&lt;/p&gt;
+&lt;p&gt;I originally had planned to post examples of behavior we should not be
+promoting. I had myriad examples, oh did I ever! All with accompanying
+commentary, all prepped and ready to go. A bunch of beautiful, click
+bait-esque tweets and inflammatory Github issues later, I realized that
+&lt;em&gt;I&lt;/em&gt; was missing my own damn point. I was about to spew the same hypocritical,
+finger-pointing bullshit I was arguing against. This would obviously help no
+one among us except those looking for a cheap laugh, so instead of posting a
+shining example of how easy how easy it is to fall victim to your own hubris,
+I've elided that entire section of the post :)&lt;/p&gt;
+&lt;p&gt;Instead, I'll make a vaguely-related analogy as to what I feel the problem
+is (with all of my wizened, 27-odd-years on this earth, what could possibly go
+wrong?). Simply put, I believe we all seem to have forgotten the reason we
+all started doing this in the first place. Remember way back? No, no, even
+farther.&lt;/p&gt;
+&lt;p&gt;Why did we even start mucking about with these blasted computers in the first
+place?&lt;/p&gt;
+&lt;p&gt;Because it was &lt;em&gt;fun&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Now why, instead, are we now so dead-set on being so goddamn serious all the
+time?  What happened to simpler times where things like "error: ‘long long
+long’ is too long for GCC" were the norm? What happened to simpler times where
+were used to be able to laugh at ourselves? Sure, there were disagreements and
+the occasional toxic troll, but it was very easy to just pointedly ignore them.&lt;/p&gt;
+&lt;p&gt;Have we forgotten that we don't have to actively like and interact with every
+human being on this planet? More importantly, if everyone was getting along
+fine before, why do we need to change things? Even MORE importantly, when
+everyone happened to NOT be getting along fine, what happened to trying to
+fix the root causes of the discord (and no, I don't mean the societal root
+causes, I mean the specific issues causing these specific troubles), instead
+of lumping everyone together into this A/B good/evil dichotomy?&lt;/p&gt;
+&lt;p&gt;Human beings, in my limited experience, can never just be classified as black
+and white or good and bad about anything, ever. I usually never like using
+absolutes unless I am damn certain of my argument (and even then, being wrong
+has been known to happen which makes me even more hesitant to make such an
+assertion), so trust me when I say that this is something I have spent many
+sleepless nights endlessly debating the truth of in my head before coming
+to this conclusion. There will always be an "except when..." somewhere when
+it comes to things like this, which makes finding the correct answer much
+harder. Unfortunately this same trait also makes jumping to the "easy" solution
+that much more harmful.&lt;/p&gt;
+&lt;p&gt;We are all different people and there are bound to be many others in this
+world who will end up being the oil to our water. Trying to vaccinate the
+planet against everyone we don't like instead of simply solving each problem
+if and when they present themselves is a road leading to madness.&lt;/p&gt;
+&lt;p&gt;If we resign ourselves to just being so goddamn steadfast in our opinions, and
+are no longer open to the possibility that  aybe, just maybe, this time we are
+wrong, we can't realistically expect anything &lt;em&gt;except&lt;/em&gt; conflict to be left.
+This is a point I wish I had the words to express more eloquently, because it
+really is the most important sentence in this entire post.&lt;/p&gt;
+&lt;p&gt;It would be nice if I had some sort of magical solution to offer in conclusion
+to all this ranting, but sadly, it's not that simple. Humans are annoying,
+complicated creatures and sometimes the only correct answer is "it depends."
+It's a bit more annoying to have to put extra thought into things, I agree, but
+that's really the only sane approach here. We need to realize we are talking to
+a human being on the other side of the monitor, and maybe we can't exactly know
+how they feelm but we can damn skippy we can try. Empathy is not impossible by
+any stretch of the imagination, just very, very difficult.&lt;/p&gt;
+&lt;p&gt;Thus, it's with a heart devoid of any sarcasm and a head bowed deeply in respect
+that I ask of the open-source community:&lt;/p&gt;
+&lt;p&gt;Please, for the love of God, can we all just stop this Sisyphean war of attrition
+already? Can we try our best to not persist all of this petty, useless bullshit
+currently doing the rounds in open-source? All of this caustic name-calling
+and tendency to dramatically filibuster any and all opposing opinions is getting
+us nowhere. It truly amounts to nothing but masturbation via mailing list in the
+grand scheme of things.&lt;/p&gt;
+&lt;p&gt;Please don't misunderstand who I am directing this at; both sides (all three if
+you count the apathetic among us) are all equally guilty of what's become a
+ubiquitous he-said-she-said modern-day cliche. At this point, it quite honestly
+doesn't even matter whose fault it is anymore. We all just need to take a step
+back, all of us, and take a long, deep breath. We might just happen to remember
+that we are all adults here.&lt;/p&gt;
+&lt;p&gt;Angry rhetoric or useless statistics should not be our choice vehicle to bring
+about the change we want to see in the world; without fail, EMPATHY should
+always be our weapon of choice.&lt;/p&gt;
+&lt;p&gt;So if this post helps a few people stop and consider that simple piece of advice,
+and maybe think twice before churning my inbox and those of other LKML subscribers
+with haphazardly thrown together solutions for problems that no &lt;code&gt;git apply&lt;/code&gt; could
+ever fix, then I would consider that a more decisive win for equality than any
+"Code of Conduct" I've seen thus far.&lt;/p&gt;
+&lt;p&gt;Anyways, I mostly just wanted to let those poor saps who are stuck up there
+having to make these hard decisions know that some of us realize how truly
+heavy it is for you. Some of us realize the gravity of what we have been
+asking of you, and so I just wanted to say "thank you" for dealing with all
+our trite crap over the years and in the years to come. Sure, maybe you haven't
+always been right, but you are human too, just like the rest of us, and, in
+my humble opinion, don't need to feel this ashamed for trying to run this ship
+as best you knew how.&lt;/p&gt;</content></entry><entry><title>music.</title><link href="https://alyptik.org/music.html" rel="alternate"></link><published>2018-07-02T06:21:00-10:00</published><updated>2018-07-02T06:21:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2018-07-02:/music.html</id><summary type="html">&lt;p&gt;music is just another one of those silly little things.  &lt;/p&gt;
 &lt;p&gt;a silly little thing that makes everything a little bit easier&lt;br&gt;
 a silly little thing that make the world a little bit simpler&lt;br&gt;
 a silly little thing that keeps you from drowning in your own existence&lt;br&gt;
@@ -87,7 +209,7 @@ just a power outage in the sky&lt;br&gt;
 it’s better than complaining to god on hospital floors&lt;br&gt;
 angrily coveting the beautiful things we forgot we already are&lt;br&gt;
 at least the wax melted&lt;br&gt;
-before any of his dreams did.  &lt;/p&gt;</content></entry><entry><title>hello whiskey, my old friend - pt.2</title><link href="https://alyp.tk/hello-whiskey-my-old-friend-pt2.html" rel="alternate"></link><published>2018-05-05T22:16:00-10:00</published><updated>2018-05-05T22:16:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2018-05-05:/hello-whiskey-my-old-friend-pt2.html</id><summary type="html">&lt;blockquote&gt;
+before any of his dreams did.  &lt;/p&gt;</content></entry><entry><title>hello whiskey, my old friend - pt.2</title><link href="https://alyptik.org/hello-whiskey-my-old-friend-pt2.html" rel="alternate"></link><published>2018-05-05T22:16:00-10:00</published><updated>2018-05-05T22:16:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2018-05-05:/hello-whiskey-my-old-friend-pt2.html</id><summary type="html">&lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;[pt.1] &lt;a href="https://theprose.com/post/28499/hello-whiskey-my-old-friend"&gt;https://theprose.com/post/28499/hello-whiskey-my-old-friend&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -196,7 +318,7 @@ I wasn't alive in 1984, and damned if I remember who Aesop even is anymore.  &lt
 &lt;p&gt;What's wrong with &lt;em&gt;not&lt;/em&gt; wanting that?  &lt;/p&gt;
 &lt;p&gt;Maybe, just maybe, it's not so horrid a mortal sin, so taboo a way of life, to just be me or you or whoever you are or want to be today. What's wrong with a bit of contentment? Life isn't action and gunfight and spies and orgies and car chases and cops and robbers and death and chaos. Life is dull and sharp. Life is alive.&lt;/p&gt;
 &lt;p&gt;In the end, Jean Valjean died content, did he not?  &lt;/p&gt;
-&lt;h6&gt;Why not live like that as well?&lt;/h6&gt;</content></entry><entry><title>on dreams</title><link href="https://alyp.tk/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-08-23:/on-dreams.html</id><summary type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
+&lt;h6&gt;Why not live like that as well?&lt;/h6&gt;</content></entry><entry><title>on dreams</title><link href="https://alyptik.org/on-dreams.html" rel="alternate"></link><published>2017-08-23T22:43:00-10:00</published><updated>2017-08-23T22:43:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2017-08-23:/on-dreams.html</id><summary type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
 
 &lt;p&gt;So why do I want to be a programmer? Why do I want to work in software development? Why do I want to spend hours in gdb trying to figure out why my program is segfaulting? Why do I want to spend most of the day reading manpages to figure …&lt;/p&gt;</summary><content type="html">&lt;!-- ![dreams]({filename}/images/dreams.png) --&gt;
 
@@ -240,7 +362,7 @@ I wasn't alive in 1984, and damned if I remember who Aesop even is anymore.  &lt
 &lt;p&gt;And to be humble, as simple as it may seem, is NOT easy.&lt;/p&gt;
 &lt;p&gt;So what are my long-term aspirations? I have no clue. I haven't fully planned out my life apart from a general direction I have pointed myself in, and I don't really feel a pressing need to do so. I just want to be happy, spending my days hacking away at projects that tickle my fancy, creating programs others find useful; everyone wants to make some sort of mark on the world after all.&lt;/p&gt;
 &lt;p&gt;I do want to be good at my craft, and I will not pretend I am without sin; the sins I have gone over I am guilty of committing far more than a few times. I will not apologize for being human. But I am earnestly working at it. In the end, if I were to ask myself: “Where am I going? What is it I really want to be in this unimaginably huge sea of possibilities?” Well, at this point, the only answer I can give right now would be a simple one, maybe one that would be considered a bit corny by most, but it would be something given in surety:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyp.tk/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
+&lt;p&gt;&lt;em&gt;I just want to be a human being worth a damn.&lt;/em&gt;&lt;/p&gt;</content></entry><entry><title>on being a fucking adult</title><link href="https://alyptik.org/on-being-a-fucking-adult.html" rel="alternate"></link><published>2017-07-02T20:06:00-10:00</published><updated>2017-07-02T20:06:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2017-07-02:/on-being-a-fucking-adult.html</id><summary type="html">&lt;!-- ![onbeingafuckingadult]({filename}/images/onbeingafuckingadult.png) --&gt;
 
 &lt;p&gt;for me personally, prose is the thing i was born to. prose is the thing i
 could do drunk off my ass in the middle of the night. prose is the thing i
@@ -276,7 +398,7 @@ they feel absolutely absurd. yes, i agree it never hurts to know what it
 feels like to be in someone else's shoes, but knowing how someone else is
 feeling should never, ever be a prerequisite for taking it upon yourself to
 understand how someone else is feeling.&lt;/p&gt;
-&lt;p&gt;ever.&lt;/p&gt;</content></entry><entry><title>on hubris</title><link href="https://alyp.tk/on-hubris.html" rel="alternate"></link><published>2017-06-20T14:07:00-10:00</published><updated>2017-06-20T14:07:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyp.tk,2017-06-20:/on-hubris.html</id><summary type="html">&lt;p&gt;&lt;em&gt;a quick disclaimer:&lt;/em&gt; i am fairly young with regard to the open-source
+&lt;p&gt;ever.&lt;/p&gt;</content></entry><entry><title>on hubris</title><link href="https://alyptik.org/on-hubris.html" rel="alternate"></link><published>2017-06-20T14:07:00-10:00</published><updated>2017-06-20T14:07:00-10:00</updated><author><name>Joey Pabalinas</name></author><id>tag:alyptik.org,2017-06-20:/on-hubris.html</id><summary type="html">&lt;p&gt;&lt;em&gt;a quick disclaimer:&lt;/em&gt; i am fairly young with regard to the open-source
 movement, and i suppose i am also fairly young with regard to falling
 out of a vagina one could argue, so keep in mind that there is a non-zero
 chance that the following could just be me prancing …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;a quick disclaimer:&lt;/em&gt; i am fairly young with regard to the open-source
@@ -302,7 +424,7 @@ general miasma of half-elitism/half-hubris.&lt;/p&gt;
 &lt;p&gt;but alas, i admit to being just as guilty of both of these things; a few times
 you do wind up having the wisdom to back it up, but most other times you are
 just fallaciously assuming that you do.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="knowledge" src="https://alyp.tk/images/knowledge.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="knowledge" src="https://alyptik.org/images/knowledge.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;of course, we don't need another blog crying about how the sun should be
 rising in the west and setting in the east. a thing as abstract as hubris is
 intransigent by its very nature: humanity, good/evil, ???, meretricious
