@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Joey Pabalinas — hello, i'm joey - Joey Pabalinas</title><link>https://alyptik.org/</link><description>we're all in the gutter anyway, might as well enjoy the stars</description><lastBuildDate>Sat, 02 Jun 2018 08:17:00 -1000</lastBuildDate><item><title>gpg key</title><link>https://alyptik.org/gpg-key.html</link><description>&lt;h2&gt;&lt;strong&gt;gpg public key:&lt;/strong&gt; &lt;code&gt;0x2e02d725af202dc1&lt;/code&gt;&lt;/h2&gt;
+<rss version="2.0"><channel><title>Joey Pabalinas — hello, i'm joey - Joey Pabalinas</title><link>https://alyptik.org/</link><description>we're all in the gutter anyway, might as well enjoy the stars</description><lastBuildDate>Tue, 25 Sep 2018 10:46:00 -1000</lastBuildDate><item><title>autowriting</title><link>https://alyptik.org/autowriting.html</link><description>&lt;p&gt;I randomly remembered a useful creativity exercise which definitely
+warrants sharing:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Your second to last piece of advice is actually something that's commonly
+taught in improvisation classes. It's called 'automatic writing' or 'auto
+reading' and its a very cool technique. What you do is close your eyes
+and imagine a …&lt;/p&gt;&lt;/blockquote&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Tue, 25 Sep 2018 10:46:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2018-09-25:/autowriting.html</guid></item><item><title>gpg key</title><link>https://alyptik.org/gpg-key.html</link><description>&lt;h2&gt;&lt;strong&gt;gpg public key:&lt;/strong&gt; &lt;code&gt;0x64df4e375f4066b6&lt;/code&gt;&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="/joeypabalinas@gmail.com.asc"&gt;https://alyp.tk/joeypabalinas@gmail.com.asc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/joeypabalinas@gmail.com.pub"&gt;https://alyptik.org/joeypabalinas@gmail.com.pub&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----
-
-mQINBFhVTp4BEACbENFr33xrIvq9HMq1lvt9B2WMqCkmZW85JbOs6eiQllC3Fy0V
-pPt5lC/9+vwZe/i/Toa0RXWpVebOEoly2FyiBMO71A237vpBJRADe1tRRDaErFMZ
-f2RZUDvAV0yiFH81ys5aut0vLrTwhNeu2fraDikxvTlE2xaqLT7VRh1gyHZ8MjxW
-UdcnZfYndjZgK+PLEJ/SRjwgzxTutvZ3QjzTrvLWV/ccmmhdf8KmL0dxOP2JEkac
-4egXW3AnbKTZ3303FuVYCIUukckL65CV2f3dJKYzZ9819DJgT59V8d0/NwjmnpzU
-f/D3LovxqVi+5XXg9dZWA2cIsdai/DM1fJkDmYox5BkpArBq4b1spRI42hdHl9XE
-mb14OMdps9ghmnsiH+ge+GuVlCUD1WoPdq171CvFYj9ZCh/Upv6gIh7R1Y2eygQe
-QMUF5Fm2xU8z25FDmWKJpQuEVm5wkElsUhrRn3hlX62PT+Nr55RYWNCNdD1Ly9kM
-+Dw4jUgIE3ZO7XM1zsnTbLKfcGvn3KQ3ZO9M5DIL+9XixGNgS3Ty8sjOmVWNoCt6
-+rzLRm/Yz/FVT/NBQL2f+4ReO7OqOwRGBBAsXO4RcnDcM4NoJyPp3U5DD6fE58xb
-GqxcWTmxEFH08MUbCCy40X0oN8vkY1pF/Wd3qQ8VdSCCNnXI7ChjxY1TXQARAQAB
-tDpKb2V5IFBhYmFsaW5hcyAoaHR0cHM6Ly9hbHlwLnRrLykgPGFseXB0aWtAcHJv
-dG9ubWFpbC5jb20 …&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Sat, 02 Jun 2018 08:17:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2018-06-02:/gpg-key.html</guid></item><item><title>abstractions will make your code sexy again</title><link>https://alyptik.org/abstractions-will-make-your-code-sexy-again.html</link><description>&lt;p&gt;Abstraction is everywhere these days. Functions are abstractions, types are abstractions, classes are abstractions, even programs and programming languages themselves are nothing but abstractions. Abstractions are really the whole foundation of computing not to mention most human achievements over the course of history, really. It is a great tool to …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Fri, 22 Dec 2017 18:48:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2017-12-22:/abstractions-will-make-your-code-sexy-again.html</guid></item><item><title>on simple code</title><link>https://alyptik.org/on-simple-code.html</link><description>&lt;p&gt;As I get older, I have started to notice how many of my childhood habits that I assumed had been useful and intelligent were in fact, horrible ones. All of these fancy words I had thought made me look smart, in actuality, often just made me seem like an egotistical …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Fri, 08 Dec 2017 19:13:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2017-12-08:/on-simple-code.html</guid></item><item><title>the magic of dispatch tables and dynamic arrays</title><link>https://alyptik.org/the-magic-of-dispatch-tables-and-dynamic-arrays.html</link><description>&lt;p&gt;I &lt;em&gt;love&lt;/em&gt; C. Quite simply, I find it an incredibly fun language to program in. Even through all the weird, little Heisenbugs, the segmentation faults, the incredibly confusing linker errors, it is still my favorite programming language by far. You will hear a lot of bad press about C:&lt;/p&gt;
+&lt;p&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----&lt;/p&gt;
+&lt;p&gt;mQINBFvP6Y0BEADGqj6e62PvzgYNya9kzpAoUvJO/SaCJdmr06zHJcJYo2k8PntS
+5PSR7oju9EV0FnwTrKVA2BoKSpCXhZ5mVYGbKSp3aB/wbbxBWUo6GGLhFo03ZV/2
+pQP3jLAhLgdmIbqAIMzqP5ZGs2/bRA7gA9m7x8g9JKVxVYEq6Y2rmjK7WSs5b/lH
+TIo/RLSyVAmkdCB2xtLM2KlnjxmfTTSDBe28k7sl+DtRBqYnhW3ITyotEApTBP07
+XJfjBIV7STrxK0lvJJv74ZH4OQE4SFIfNsuj8mMsHdktRr72bykm6yFJIC0zzXuL
+WQ3AM/CG7R4Cr87eCZbac9TmqC5Mmn/RSqjjAhT4XVzeoDugzdeHGkD769urmH28
+tvUHo0GaHMTBD7sfgISZasB7g2EBt5SIe9uLQcRdaI2OXzFejvAa5hVFV+SJkRMJ
+TfLDK0dIgv6uabEx4/QNfoua37JjpSm5EfSEwBXG5b0vf2EJgpVHJj6FxtDwwGgK
+T2jMxGtN9Puckaw2nFLkXc/LtChopdGbYiOm69fenEsG6QefEHaRGTJ6v0WalYDS
+s/qMUVyPILrjZvVjhui8kvApqT0M2nOSF/oVwz4fjLQbUWvhlgAHKXT2Y8biLDgQ
+6SBEOzPrRnfq3aIaNikDnBQ6f2UVINOA184ucWZAUynRI/JKAPSbrcO82wARAQAB
+tD5Kb2V5IFBhYmFsaW5hcyAoaHR0cHM6Ly9hbHlwdGlrLm9yZykgPGpvZXlwYWJh
+bGluYXNAZ21haWwuY29tPokCVAQTAQgAPhYhBKm9uAmoEm0rgKwzKmTfTjdfQGa2
+BQJbz+mNAhsDBQkB4TOABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEGTfTjdf
+QGa2POcP/1GGXAqAXTYufxxp/E5IwgljCU2NTwAeP+EBNoGMNcSeuTvTCYn3jCaR …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Sat, 02 Jun 2018 08:17:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2018-06-02:/gpg-key.html</guid></item><item><title>abstractions will make your code sexy again</title><link>https://alyptik.org/abstractions-will-make-your-code-sexy-again.html</link><description>&lt;p&gt;Abstraction is everywhere these days. Functions are abstractions, types are abstractions, classes are abstractions, even programs and programming languages themselves are nothing but abstractions. Abstractions are really the whole foundation of computing not to mention most human achievements over the course of history, really. It is a great tool to …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Fri, 22 Dec 2017 18:48:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2017-12-22:/abstractions-will-make-your-code-sexy-again.html</guid></item><item><title>on simple code</title><link>https://alyptik.org/on-simple-code.html</link><description>&lt;p&gt;As I get older, I have started to notice how many of my childhood habits that I assumed had been useful and intelligent were in fact, horrible ones. All of these fancy words I had thought made me look smart, in actuality, often just made me seem like an egotistical …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Fri, 08 Dec 2017 19:13:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2017-12-08:/on-simple-code.html</guid></item><item><title>the magic of dispatch tables and dynamic arrays</title><link>https://alyptik.org/the-magic-of-dispatch-tables-and-dynamic-arrays.html</link><description>&lt;p&gt;I &lt;em&gt;love&lt;/em&gt; C. Quite simply, I find it an incredibly fun language to program in. Even through all the weird, little Heisenbugs, the segmentation faults, the incredibly confusing linker errors, it is still my favorite programming language by far. You will hear a lot of bad press about C:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“There …&lt;/p&gt;&lt;/blockquote&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Joey Pabalinas</dc:creator><pubDate>Wed, 29 Nov 2017 21:16:00 -1000</pubDate><guid isPermaLink="false">tag:alyptik.org,2017-11-29:/the-magic-of-dispatch-tables-and-dynamic-arrays.html</guid></item></channel></rss>
